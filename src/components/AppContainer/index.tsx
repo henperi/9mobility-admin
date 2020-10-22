@@ -11,7 +11,7 @@ import { useScreenSize } from '../../hooks/useScreenSize';
 import { ScreenSizes } from '../UiKit/Column/styles';
 import { logger } from '../../utils/logger';
 import { SideBar } from '../SideBar';
-import { TopBar } from '../TopBar';
+// import { TopBar } from '../TopBar';
 
 export const AppContainer: React.FC = ({ children }) => {
   const {
@@ -44,7 +44,9 @@ export const AppContainer: React.FC = ({ children }) => {
       <Styles.AppContainer>
         <BrowserRouter>
           <Row wrap={false}>
-            {!auth.isAuthenticated && <SideBar />}
+            {!auth.isAuthenticated && window.location.pathname !== '/login' ? (
+              <SideBar />
+            ) : null}
             <Column
               style={{
                 width:
@@ -55,7 +57,6 @@ export const AppContainer: React.FC = ({ children }) => {
                     : '100%',
               }}
             >
-              <TopBar />
               {children}
             </Column>
           </Row>

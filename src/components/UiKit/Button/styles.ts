@@ -3,6 +3,7 @@ import { backgroundColor, Colors } from '../../../themes/colors';
 import { IButtonProps } from '.';
 import { rem } from '../../../utils/rem';
 import { Styles as StackStyles } from '../Stack/style';
+// import { size } from 'lodash';
 
 const Button = styled.button.attrs((props: IButtonProps) => ({
   borderColor: props.borderColor || 'transparent',
@@ -60,6 +61,13 @@ const Button = styled.button.attrs((props: IButtonProps) => ({
       cursor: wait;
       opacity: 0.4;
     `}
+  ${({ size }) =>
+    size === 'small'
+      ? css`
+          min-height: ${rem(25)};
+          font-size: 12px;
+        `
+      : null}
 `;
 
 export const DropDownStack = styled(StackStyles.Stack)`

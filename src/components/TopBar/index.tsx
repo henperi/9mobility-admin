@@ -14,17 +14,13 @@ import { Colors } from '../../themes/colors';
 
 export interface ITopBar extends HtmlHTMLAttributes<HTMLDivElement> {
   setShowSidebar?: React.Dispatch<React.SetStateAction<boolean>>;
+  name?: string;
 }
 
 export const TopBar: React.FC<ITopBar> = (props) => {
-  const { setShowSidebar = () => null, ...rest } = props;
-  // const { dispatch } = useGlobalStore();
+  const { setShowSidebar = () => null, name = 'Dashboard', ...rest } = props;
   const history = useHistory();
   useInterceptor();
-
-  // const handleLogout = () => {
-  //   dispatch(removeAuthUser());
-  // };
 
   const { width } = useWindowSize();
 
@@ -38,7 +34,7 @@ export const TopBar: React.FC<ITopBar> = (props) => {
         )}
 
         <Text size={20} onClick={() => history.push('/')}>
-          Dashboard
+          {name}
         </Text>
         <Row
           style={{ width: '100%' }}
