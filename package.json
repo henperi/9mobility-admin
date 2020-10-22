@@ -31,7 +31,7 @@
     "yup": "^0.29.3"
   },
   "scripts": {
-    "start": "PORT=3006 react-scripts start",
+    "start": "cross-env PORT=3006 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -63,6 +63,7 @@
     "@typescript-eslint/parser": "^4.2.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-styled-components": "^1.11.1",
+    "cross-env": "^7.0.2",
     "eslint": "^7.9.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-airbnb-typescript": "^6.3.2",

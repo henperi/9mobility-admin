@@ -9,7 +9,6 @@ const SideBar = styled.div<{ showSidebar?: boolean }>`
   height: 100vh;
   width: fill-available;
   background-color: ${Colors.white};
-  padding: ${rem(32)} ${rem(16)};
   padding-left: 0;
   position: sticky;
   top: 0;
@@ -31,19 +30,23 @@ const SideBar = styled.div<{ showSidebar?: boolean }>`
 // Link
 
 const SideBarLink = styled(NavLink)<{ active?: boolean }>`
-  padding: ${rem(5)};
+  padding: ${rem(8)};
   padding-left: ${rem(25)};
-  margin-top: ${rem(10)};
+  margin-top: ${rem(6)};
   position: relative;
   display: flex;
   color: #b5bfbc;
-  font-size: ${rem(15)};
+  font-size: ${rem(14)};
   text-decoration: none;
   display: flex;
   align-items: center;
 
   svg {
     margin-right: ${rem(6)};
+    path {
+      stroke: ${Colors.white} !important;
+    }
+    color: ${Colors.white} !important;
   }
 
   &.active-sidebar-link {
@@ -52,19 +55,19 @@ const SideBarLink = styled(NavLink)<{ active?: boolean }>`
 
     svg {
       path {
-        stroke: ${Colors.darkGreen} !important;
+        stroke: ${Colors.yellowGreen} !important;
       }
-      color: ${Colors.darkGreen} !important;
+      color: ${Colors.yellowGreen} !important;
     }
 
-    &:before {
+    &:after {
       position: absolute;
       content: '';
       top: 0;
-      left: 0;
+      right: 0;
       width: ${rem(6)};
       height: 100%;
-      background-color: ${Colors.darkGreen};
+      background-color: ${Colors.yellowGreen};
     }
   }
 
@@ -72,16 +75,16 @@ const SideBarLink = styled(NavLink)<{ active?: boolean }>`
     active &&
     css`
       font-weight: 600;
-      color: ${Colors.darkGreen};
+      color: ${Colors.yellowGreen};
 
-      &:before {
+      &:after {
         position: absolute;
         content: '';
         top: 0;
         left: 0;
         width: ${rem(6)};
         height: 100%;
-        background-color: ${Colors.darkGreen};
+        background-color: ${Colors.yellowGreen};
       }
     `}
 `;

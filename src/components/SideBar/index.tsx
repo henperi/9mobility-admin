@@ -1,93 +1,53 @@
 import React, { HtmlHTMLAttributes } from 'react';
 import { Styles } from './style';
-import { ReactComponent as Logo } from '../../assets/images/9mobility-logo.svg';
-import { rem } from '../../utils/rem';
-import { Card } from '../UiKit/Card';
 import { Column } from '../UiKit/Column';
-import { Text } from '../UiKit/Text';
 import { Colors } from '../../themes/colors';
-import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
 import { SizedBox } from '../UiKit/SizedBox';
-import { Row } from '../UiKit/Row';
-import { Avatar } from '../UiKit/Avatar';
-import { useGlobalStore } from '../../store';
 
 import { ReactComponent as HomeIcon } from '../../assets/images/homeIcon.svg';
-import { ReactComponent as AirtimeIcon } from '../../assets/images/airtimeIcon.svg';
 import { ReactComponent as CallHistoryIcon } from '../../assets/images/callHistoryIcon.svg';
 import { ReactComponent as DataIcon } from '../../assets/images/dataIcon.svg';
 import { ReactComponent as DataUsage } from '../../assets/images/dataUsageIcon.svg';
 import { ReactComponent as TimeIcon } from '../../assets/images/timeIcon.svg';
 import { ReactComponent as PrepaidPlanIcon } from '../../assets/images/prepaidPlanIcon.svg';
-import { ReactComponent as PostPaidIcon } from '../../assets/images/postPaidIcon.svg';
-import { ReactComponent as RoamingIcon } from '../../assets/images/roamingIcon.svg';
 import { ReactComponent as SubscribedIcon } from '../../assets/images/subscribedIcon.svg';
-import { useFetch } from '../../hooks/useRequests';
-import { Spinner } from '../UiKit/Spinner';
+import { Card } from '../UiKit/Card';
+import { Avatar } from '../UiKit/Avatar';
+import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
+import { Row } from '../UiKit/Row';
+import { Text } from '../UiKit/Text';
 
-interface AirtimeDataResp {
-  result: {
-    mobileNumber: string;
-    airtimeModel: {
-      balance: string;
-      bonusBalance: string;
-      subscriberType: 'PREPAID' | 'POSTPAID' | 'HYBRID';
-      creditLimit: string;
-      creditUsage: string;
-    };
-    dataModel: {
-      balance: string;
-      bonusBalance: string;
-      isRollOver: boolean;
-      expiryDate: string;
-      bonusExpiryDate: string;
-    };
-  };
-}
 interface ISidebar extends HtmlHTMLAttributes<HTMLDivElement> {
   showSidebar?: boolean;
 }
 export const SideBar: React.FC<ISidebar> = (props) => {
-  const {
-    state: {
-      auth: { user },
-    },
-  } = useGlobalStore();
-
-  const { data, loading } = useFetch<AirtimeDataResp>(
-    `Mobility.Account/api/Balance/AirtimeAndData`,
-  );
-
-  const isHybrid = () => data?.result.airtimeModel.subscriberType === 'HYBRID';
-
-  const isPostpaid = () =>
-    data?.result.airtimeModel.subscriberType === 'POSTPAID';
-
-  const isPrepaid = () =>
-    data?.result.airtimeModel.subscriberType === 'PREPAID';
-
   return (
     <Styles.SideBar {...props}>
-      <Logo style={{ marginLeft: rem(20) }} />
-      <SizedBox height={30} />
-      <Column>
-        <Card color={convertHexToRGBA(Colors.yellowGreen, 0.3)}>
+      <Column
+        style={{
+          background: `linear-gradient(75.7deg, ${Colors.darkGreen} -50%, ${Colors.yellowGreen} 284.37%)`,
+          padding: '1rem',
+        }}
+      >
+        <Card color={convertHexToRGBA(Colors.darkGreen)}>
           <Row wrap={false}>
             <Avatar
               style={{ marginRight: '10px' }}
               image="https://www.pngitem.com/pimgs/m/581-5813504_avatar-dummy-png-transparent-png.png"
             />
             <Column>
-              <Text size={14}>
-                {user?.firstName} {user?.lastName}
+              <Text size={14} color={Colors.white} weight="400">
+                Firstname Lastname
               </Text>
-              <Text color={Colors.blackGrey} size={12}>
-                {user?.email}
+              <Text color={Colors.white} size={12}>
+                Admin
               </Text>
             </Column>
           </Row>
         </Card>
-        <SizedBox height={10} />
+      </Column>
+      <Column>
+        <SizedBox height={20} />
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/dashboard"
@@ -95,95 +55,96 @@ export const SideBar: React.FC<ISidebar> = (props) => {
           <HomeIcon />
           Dashboard
         </Styles.SideBarLink>
-        <SizedBox height={20} />
-
-        <Styles.SideBarLink
-          activeClassName="active-sidebar-link"
-          to="any"
-          onClick={(e) => e.preventDefault()}
-        >
-          <Text size={12} color={Colors.blackGrey} weight={600}>
-            Network & Subscriber services
-          </Text>
-        </Styles.SideBarLink>
-        <SizedBox height={5} />
 
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/customer"
         >
-          <AirtimeIcon />
+          <HomeIcon />
           Customer
         </Styles.SideBarLink>
-        <Styles.SideBarLink activeClassName="active-sidebar-link" to="/data">
+
+        <Styles.SideBarLink
+          activeClassName="active-sidebar-link"
+          to="/airtime-purchase"
+        >
           <DataIcon />
-          Data
-        </Styles.SideBarLink>
-        <Styles.SideBarLink activeClassName="active-sidebar-link" to="/call">
-          <CallHistoryIcon />
-          Call History
+          Airtime Purchase
         </Styles.SideBarLink>
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
-          to="/data-usage/history"
+          to="/data-purchase"
+        >
+          <DataIcon />
+          Data Purchase
+        </Styles.SideBarLink>
+        <Styles.SideBarLink
+          activeClassName="active-sidebar-link"
+          to="/airtime-transfer"
+        >
+          <CallHistoryIcon />
+          Airtime transfer
+        </Styles.SideBarLink>
+        <Styles.SideBarLink
+          activeClassName="active-sidebar-link"
+          to="/data-transfer"
         >
           <DataUsage />
-          Data Usage
+          Data Transfer
         </Styles.SideBarLink>
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
-          to="/transaction/history"
+          to="/payment-history"
         >
           <TimeIcon />
-          Transaction History
-        </Styles.SideBarLink>
-        {loading && (
-          <Styles.SideBarLink
-            activeClassName="active-sidebar-link"
-            to="..."
-            onClick={(e) => e.preventDefault()}
-          >
-            Getting your plan...
-            <Spinner size={20} />
-          </Styles.SideBarLink>
-        )}
-        {(isHybrid() || isPrepaid()) && (
-          <Styles.SideBarLink
-            activeClassName="active-sidebar-link"
-            to="/prepaid-plans"
-          >
-            <PrepaidPlanIcon />
-            Prepaid Plans
-          </Styles.SideBarLink>
-        )}
-        {isHybrid() || isPostpaid() ? (
-          <Styles.SideBarLink
-            activeClassName="active-sidebar-link"
-            to="/postpaid"
-          >
-            <PostPaidIcon />
-            Postpaid/Corporate
-          </Styles.SideBarLink>
-        ) : (
-          <Styles.SideBarLink
-            to="any"
-            onClick={(e) => e.preventDefault()}
-            style={{ color: `${Colors.grey}` }}
-          >
-            <PostPaidIcon />
-            Postpaid/Corporate
-          </Styles.SideBarLink>
-        )}
-        <Styles.SideBarLink activeClassName="active-sidebar-link" to="/roaming">
-          <RoamingIcon />
-          Roaming
+          Payment History
         </Styles.SideBarLink>
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
-          to="/subscribed-services"
+          to="/incomplete-registration"
+        >
+          <TimeIcon />
+          Incomplete registration
+        </Styles.SideBarLink>
+        <Styles.SideBarLink activeClassName="active-sidebar-link" to="/roaming">
+          <PrepaidPlanIcon />
+          Roaming
+        </Styles.SideBarLink>
+        <Styles.SideBarLink activeClassName="active-sidebar-link" to="/ads">
+          <SubscribedIcon />
+          Ads
+        </Styles.SideBarLink>
+        <Styles.SideBarLink
+          activeClassName="active-sidebar-link"
+          to="/prepaid-package"
         >
           <SubscribedIcon />
-          My Subscribed Services
+          Prepaid package
+        </Styles.SideBarLink>
+        <Styles.SideBarLink
+          activeClassName="active-sidebar-link"
+          to="/postpaid-package"
+        >
+          <SubscribedIcon />
+          Postpaid package
+        </Styles.SideBarLink>
+        <Styles.SideBarLink
+          activeClassName="active-sidebar-link"
+          to="/user-administration"
+        >
+          <SubscribedIcon />
+          User administration
+        </Styles.SideBarLink>
+        <Styles.SideBarLink activeClassName="active-sidebar-link" to="/audit">
+          <SubscribedIcon />
+          Audit
+        </Styles.SideBarLink>
+        <Styles.SideBarLink
+          activeClassName="active-sidebar-link"
+          to="/settings"
+        >
+          <SubscribedIcon />
+          Settings
         </Styles.SideBarLink>
       </Column>
     </Styles.SideBar>
