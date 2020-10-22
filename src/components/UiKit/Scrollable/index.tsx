@@ -1,6 +1,6 @@
 import React, { useRef, useState, useLayoutEffect } from 'react';
 
-import { ReactComponent as ArrowComponent } from '../../assets/images/arrowDown.svg';
+import { ReactComponent as ArrowComponent } from '../../../assets/images/arrowDown.svg';
 import { Styles } from './style';
 import { IFlex } from '../Row';
 import { Styles as StackStyles } from '../Stack/style';

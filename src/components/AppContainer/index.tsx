@@ -9,11 +9,16 @@ import { useGlobalStore } from '../../store';
 import { rem } from '../../utils/rem';
 import { useScreenSize } from '../../hooks/useScreenSize';
 import { ScreenSizes } from '../UiKit/Column/styles';
+import { logger } from '../../utils/logger';
+import { SideBar } from '../SideBar';
+import { TopBar } from '../TopBar';
 
 export const AppContainer: React.FC = ({ children }) => {
   const {
     state: { auth },
   } = useGlobalStore();
+
+  logger.log(auth);
 
   const { width } = useScreenSize();
   const isOnboardingRoute = window.location.pathname.includes('onboarding');
@@ -39,7 +44,7 @@ export const AppContainer: React.FC = ({ children }) => {
       <Styles.AppContainer>
         <BrowserRouter>
           <Row wrap={false}>
-            {auth.isAuthenticated && <div>Sidebar</div>}
+            {!auth.isAuthenticated && <SideBar />}
             <Column
               style={{
                 width:
@@ -50,7 +55,7 @@ export const AppContainer: React.FC = ({ children }) => {
                     : '100%',
               }}
             >
-              <div>TOP BAR</div>
+              <TopBar />
               {children}
             </Column>
           </Row>
