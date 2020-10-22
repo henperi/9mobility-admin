@@ -20,7 +20,7 @@ const TopBar = styled.div<ITopBar>`
   div {
     span,
     img {
-      margin-left: 20px;
+      /* margin-left: 20px; */
     }
 
     .mobile-dowloads {

@@ -6,12 +6,10 @@ import { Styles } from './style';
 import { Row } from '../UiKit/Row';
 import { Column } from '../UiKit/Column';
 import { useGlobalStore } from '../../store';
-import { rem } from '../../utils/rem';
 import { useScreenSize } from '../../hooks/useScreenSize';
 import { ScreenSizes } from '../UiKit/Column/styles';
 import { logger } from '../../utils/logger';
 import { SideBar } from '../SideBar';
-// import { TopBar } from '../TopBar';
 
 export const AppContainer: React.FC = ({ children }) => {
   const {
@@ -21,9 +19,9 @@ export const AppContainer: React.FC = ({ children }) => {
   logger.log(auth);
 
   const { width } = useScreenSize();
-  const isOnboardingRoute = window.location.pathname.includes('onboarding');
+  const isLoginRoute = window.location.pathname.includes('login');
 
-  const hasValidAccess = auth.isAuthenticated && auth.user?.email;
+  // const hasValidAccess = auth.isAuthenticated && auth.user?.email;
 
   const [showSidebar, setShowSidebar] = useState(false);
 
@@ -50,10 +48,8 @@ export const AppContainer: React.FC = ({ children }) => {
             <Column
               style={{
                 width:
-                  width >= ScreenSizes.lg &&
-                  hasValidAccess &&
-                  !isOnboardingRoute
-                    ? `calc(100% - ${rem(240)}`
+                  width >= ScreenSizes.lg && !isLoginRoute
+                    ? 'calc(100% - 240px)'
                     : '100%',
               }}
             >

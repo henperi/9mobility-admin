@@ -8,6 +8,8 @@ import { Column } from '../../components/UiKit/Column';
 import { SizedBox } from '../../components/UiKit/SizedBox';
 import { Row } from '../../components/UiKit/Row';
 import { TopBar } from '../../components/TopBar';
+import { Avatar } from '../../components/UiKit/Avatar';
+import { Button } from '../../components/UiKit/Button';
 
 export const DashboardPage = () => {
   return (
@@ -194,10 +196,76 @@ export const DashboardPage = () => {
         <SizedBox height={30} />
         <Row useAppMargin>
           <Column fullHeight useAppMargin xs={12} md={9}>
-            <Card fullWidth />
+            <Card fullWidth fullHeight />
           </Column>
           <Column fullHeight useAppMargin xs={12} md={3}>
-            <Card fullWidth fullHeight />
+            <Card fullWidth fullHeight>
+              <Text size={20}>Last 5 Users</Text>
+              <SizedBox height={10} />
+              <Row useAppMargin alignItems="center">
+                <Column useAppMargin xs={12} lg={2}>
+                  <Avatar style={{ marginRight: '10px' }} />
+                </Column>
+                <Column useAppMargin xs={12} lg={10}>
+                  <Text>Stephen Animashaun</Text>
+                  <Text size={12} variant="lighter">
+                    Registered on Aug 5, 2020 at 5:41pm
+                  </Text>
+                </Column>
+              </Row>
+              <SizedBox height={10} />
+              <Row useAppMargin alignItems="center">
+                <Column useAppMargin xs={12} lg={2}>
+                  <Avatar style={{ marginRight: '10px' }} />
+                </Column>
+                <Column useAppMargin xs={12} lg={10}>
+                  <Text>Stephen Animashaun</Text>
+                  <Text size={12} variant="lighter">
+                    Registered on Aug 5, 2020 at 5:41pm
+                  </Text>
+                </Column>
+              </Row>
+              <SizedBox height={10} />
+              <Row useAppMargin alignItems="center">
+                <Column useAppMargin xs={12} lg={2}>
+                  <Avatar style={{ marginRight: '10px' }} />
+                </Column>
+                <Column useAppMargin xs={12} lg={10}>
+                  <Text>Stephen Animashaun</Text>
+                  <Text size={12} variant="lighter">
+                    Registered on Aug 5, 2020 at 5:41pm
+                  </Text>
+                </Column>
+              </Row>
+              <SizedBox height={10} />
+              <Row useAppMargin alignItems="center">
+                <Column useAppMargin xs={12} lg={2}>
+                  <Avatar style={{ marginRight: '10px' }} />
+                </Column>
+                <Column useAppMargin xs={12} lg={10}>
+                  <Text>Stephen Animashaun</Text>
+                  <Text size={12} variant="lighter">
+                    Registered on Aug 5, 2020 at 5:41pm
+                  </Text>
+                </Column>
+              </Row>
+              <SizedBox height={10} />
+              <Row useAppMargin alignItems="center">
+                <Column useAppMargin xs={12} lg={2}>
+                  <Avatar style={{ marginRight: '10px' }} />
+                </Column>
+                <Column useAppMargin xs={12} lg={10}>
+                  <Text>Stephen Animashaun</Text>
+                  <Text size={12} variant="lighter">
+                    Registered on Aug 5, 2020 at 5:41pm
+                  </Text>
+                </Column>
+              </Row>
+              <SizedBox height={40} />
+              <Row justifyContent="center" alignItems="center">
+                <Button outline>View All</Button>
+              </Row>
+            </Card>
           </Column>
         </Row>
       </PageBody>
