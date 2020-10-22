@@ -16,6 +16,7 @@ const SideBar = styled.div<{ showSidebar?: boolean }>`
   z-index: 10;
   overflow-y: auto;
   max-width: 240px;
+  min-width: 240px;
   background: linear-gradient(145.03deg, #1c1d21 2.22%, #8181a5 147.97%);
 
   @media (max-width: ${ScreenSizes.lg - 0.1}px) {

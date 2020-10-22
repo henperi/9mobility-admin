@@ -33,14 +33,14 @@ export const TopBar: React.FC<ITopBar> = (props) => {
           />
         )}
 
-        <Text size={20} onClick={() => history.push('/')}>
-          {name}
-        </Text>
         <Row
           style={{ width: '100%' }}
           alignItems="center"
-          justifyContent="flex-end"
+          justifyContent="space-between"
         >
+          <Text size={20} onClick={() => history.push('/')}>
+            {name}
+          </Text>
           <Text color={Colors.black}>
             <BellIcon style={{ marginRight: '8px' }} onClick={() => null} />
           </Text>

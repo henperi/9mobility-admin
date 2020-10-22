@@ -66,10 +66,10 @@ export const SideBar: React.FC<ISidebar> = (props) => {
 
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
-          to="/airtime-purchase"
+          to="/airtime-recharge"
         >
           <DataIcon />
-          Airtime Purchase
+          Airtime Recharge
         </Styles.SideBarLink>
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
