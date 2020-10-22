@@ -15,7 +15,7 @@ const Input = styled.input.attrs({})`
   width: 100%;
   max-width: fill-available;
   /* max-height: 50px; */
-  min-height: 40px;
+  min-height: 45px;
   padding: 0 ${rem(10)};
 `;
 

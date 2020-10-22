@@ -218,7 +218,7 @@ export const TextField: React.FC<ITextField> = (props) => {
             </Text>
           </label>
         )}
-        <SizedBox height={5} />
+        {label && <SizedBox height={5} />}
         {renderChildren()}
         {error ? (
           <>

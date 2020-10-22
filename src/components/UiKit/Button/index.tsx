@@ -22,6 +22,7 @@ export interface IButtonProps
   borderColor?: string;
   border?: boolean;
   outline?: boolean;
+  size?: 'small' | 'normal';
 }
 
 export const Button: React.FC<IButtonProps> = (props) => {

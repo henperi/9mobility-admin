@@ -70,12 +70,13 @@ const Table = styled(RespTable)`
   }
 
   /** Custom Table Styling Starts Here */
-
-  border-spacing: 0;
+  border-spacing: 0 16px;
 
   tr {
-    &:nth-child(even) {
-      background-color: #f8f8f8;
+    &:nth-child(n + 1) {
+      border-radius: 8px;
+      background: rgba(245, 245, 250, 0.4);
+      outline: 1px solid rgba(0, 0, 0, 0.1);
     }
 
     th {
@@ -89,6 +90,13 @@ const Table = styled(RespTable)`
       padding: 10px 28px;
       font-weight: lighter;
       color: #022235;
+      margin-bottom: 20px;
+    }
+  }
+
+  thead {
+    tr {
+      outline: none !important;
     }
   }
 

@@ -108,9 +108,12 @@ export const SideBar: React.FC<ISidebar> = (props) => {
         </Styles.SideBarLink>
         <SizedBox height={5} />
 
-        <Styles.SideBarLink activeClassName="active-sidebar-link" to="/airtime">
+        <Styles.SideBarLink
+          activeClassName="active-sidebar-link"
+          to="/customer"
+        >
           <AirtimeIcon />
-          Airtime
+          Customer
         </Styles.SideBarLink>
         <Styles.SideBarLink activeClassName="active-sidebar-link" to="/data">
           <DataIcon />

@@ -10,7 +10,7 @@ import { Style } from './styles';
 interface ISimpleTableProps
   extends React.TableHTMLAttributes<HTMLTableElement> {
   columns?: string[];
-  data?: (string | number | Date)[][];
+  data?: (string | number | Date | React.FC | JSX.Element)[][];
 }
 
 export const SimpleTable: React.FC<ISimpleTableProps> = (props) => {
