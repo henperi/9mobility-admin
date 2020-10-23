@@ -17,7 +17,7 @@ export function App() {
 
   useEffect(() => {
     initialiseStore(dispatch);
-  }, [dispatch]);
+  }, []);
 
   return (
     <AppProvider state={state} dispatch={dispatch}>

@@ -121,13 +121,13 @@ export const SideBar: React.FC<ISidebar> = (props) => {
           <SubscribedIcon />
           Prepaid package
         </Styles.SideBarLink>
-        <Styles.SideBarLink
+        {/* <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/postpaid-package"
         >
           <SubscribedIcon />
           Postpaid package
-        </Styles.SideBarLink>
+        </Styles.SideBarLink> */}
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/user-administration"
