@@ -24,7 +24,7 @@ export const Settings = () => {
             <Text variant="lighter">Your personal details</Text>
             <SizedBox height={10} />
           </Column>
-          <Column xs={12} md={6}>
+          <Column xs={12} md={8} lg={6}>
             <Card style={{ padding: '2rem' }} fullWidth>
               <Row wrap alignItems="center">
                 <Avatar
@@ -62,7 +62,7 @@ export const Settings = () => {
             <Text variant="lighter">Update your password</Text>
             <SizedBox height={10} />
           </Column>
-          <Column xs={12} md={6}>
+          <Column xs={12} md={8} lg={6}>
             <Card style={{ padding: '2rem' }} fullWidth>
               <TextField
                 label="Old Password"

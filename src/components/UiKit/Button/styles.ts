@@ -17,7 +17,7 @@ const Button = styled.button.attrs((props: IButtonProps) => ({
       border: 1px solid #efefef;
     `};
 
-  /* padding: 20px 28px; */
+  padding: 0 28px;
   min-height: ${rem(45)};
   background-color: ${backgroundColor};
   color: ${({ variant }) => variant !== 'default' && Colors.white};
@@ -65,7 +65,7 @@ const Button = styled.button.attrs((props: IButtonProps) => ({
     size === 'small'
       ? css`
           min-height: ${rem(25)};
-          font-size: 12px;
+          font-size: 14px;
         `
       : null}
 `;

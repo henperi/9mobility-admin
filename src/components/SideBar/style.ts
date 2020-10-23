@@ -20,15 +20,16 @@ const SideBar = styled.div<{ showSidebar?: boolean }>`
   background: linear-gradient(145.03deg, #1c1d21 2.22%, #8181a5 147.97%);
 
   @media (max-width: ${ScreenSizes.lg - 0.1}px) {
-    /* display: none; */
     position: fixed;
     transform: ${({ showSidebar }) =>
       showSidebar ? 'translateX(0)' : `translateX(-${rem(240)})`};
     transition: transform 600ms ease-in-out;
+
+    // 96px is the height of the topbar
+    margin-top: 96px;
+    height: calc(100vh - 96px);
   }
 `;
-
-// Link
 
 const SideBarLink = styled(NavLink)<{ active?: boolean }>`
   padding: ${rem(8)};
