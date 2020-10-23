@@ -34,7 +34,8 @@
     "start": "cross-env PORT=3006 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy-surge": "npm run build && mv build/index.html build/200.html && surge build http://9mobility-admin.surge.sh/"
   },
   "eslintConfig": {
     "extends": "react-app"

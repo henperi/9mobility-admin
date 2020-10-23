@@ -21,8 +21,6 @@ export const AppContainer: React.FC = ({ children }) => {
   const { width } = useScreenSize();
   const isLoginRoute = window.location.pathname.includes('login');
 
-  // const hasValidAccess = auth.isAuthenticated && auth.user?.email;
-
   const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
@@ -42,9 +40,7 @@ export const AppContainer: React.FC = ({ children }) => {
       <Styles.AppContainer>
         <BrowserRouter>
           <Row wrap={false}>
-            {!auth.isAuthenticated && window.location.pathname !== '/login' ? (
-              <SideBar />
-            ) : null}
+            {window.location.pathname !== '/login' ? <SideBar /> : null}
             <Column
               style={{
                 width:
