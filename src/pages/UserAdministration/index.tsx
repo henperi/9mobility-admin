@@ -40,6 +40,7 @@ export const UserAdministration = () => {
         <Column>
           <Card style={{ padding: '1.5rem' }} fullWidth>
             <SimpleTable
+              scrollable
               columns={[
                 'S//N',
                 'Name',
@@ -53,10 +54,10 @@ export const UserAdministration = () => {
                 [
                   '1',
                   <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={2}>
+                    <Column useAppMargin xs={12} md={4} lg={3}>
                       <Avatar />
                     </Column>
-                    <Column useAppMargin xs={12} md={10}>
+                    <Column useAppMargin xs={12} md={8} lg={9}>
                       <Text>Stephen Animashaun</Text>
                     </Column>
                   </Row>,
@@ -83,10 +84,10 @@ export const UserAdministration = () => {
                 [
                   '1',
                   <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={2}>
+                    <Column useAppMargin xs={12} md={4} lg={3}>
                       <Avatar />
                     </Column>
-                    <Column useAppMargin xs={12} md={10}>
+                    <Column useAppMargin xs={12} md={8} lg={9}>
                       <Text>Stephen Animashaun</Text>
                     </Column>
                   </Row>,
@@ -113,11 +114,11 @@ export const UserAdministration = () => {
                 [
                   '1',
                   <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={2}>
+                    <Column useAppMargin xs={12} md={4} lg={3}>
                       <Avatar />
                     </Column>
-                    <Column useAppMargin xs={12} md={10}>
-                      <Text>Stephen Animashaun</Text>
+                    <Column useAppMargin xs={12} md={8} lg={9}>
+                      <Text>Stephen Animas</Text>
                     </Column>
                   </Row>,
                   <Text key={generateShortId()}>
@@ -143,10 +144,10 @@ export const UserAdministration = () => {
                 [
                   '1',
                   <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={2}>
+                    <Column useAppMargin xs={12} md={4} lg={3}>
                       <Avatar />
                     </Column>
-                    <Column useAppMargin xs={12} md={10}>
+                    <Column useAppMargin xs={12} md={8} lg={9}>
                       <Text>Stephen Animashaun</Text>
                     </Column>
                   </Row>,

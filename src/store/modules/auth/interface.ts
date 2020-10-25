@@ -1,12 +1,9 @@
 export interface AuthUser {
+  token: string;
   expiresIn: Date | string | number;
-  accesssToken: string;
   firstName: string;
   lastName: string;
   email: string;
-  hasWallet: boolean;
-  walletAccount: string;
   refreshToken: string;
   dob?: string;
-  // mobile?: string;
 }

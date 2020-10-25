@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import { FaWallet } from 'react-icons/fa';
 
+import { DateTime } from 'luxon';
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { Column } from '../../components/UiKit/Column';
@@ -10,8 +11,39 @@ import { TopBar } from '../../components/TopBar';
 import { Button } from '../../components/UiKit/Button';
 import { TextField } from '../../components/UiKit/TextField';
 import { SimpleTable } from '../../components/UiKit/Table';
+import { IAirtimeTransfer } from './interface';
+import { useFetch } from '../../hooks/useRequests';
 
 export const AirtimeTransfer = () => {
+  const [pageNumber] = useState(1);
+  const [pageSize] = useState(25);
+
+  const { data, loading } = useFetch<IAirtimeTransfer>(
+    `Mobility.AccountBackoffice/api/Airtime/GetTransfers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+  );
+
+  const [purchases, setPurchases] = useState<(string | number)[][]>();
+
+  useEffect(() => {
+    if (data?.result.results.length) {
+      const result = data.result.results.map((r: any, i: any) =>
+        Object.values({
+          'S/N': i + 1,
+          sourceMobile: r.sourceMobileNumber,
+          destination: r.recipientMobileNumber,
+          amount: r.amount,
+          status: r.transactionStatusName,
+          type: 'r.type',
+          date: DateTime.fromISO(r.createdDate, {
+            locale: 'fr',
+          }).toLocaleString(),
+        }),
+      );
+
+      setPurchases(result);
+    }
+  }, [data?.result.results]);
+
   return (
     <>
       <TopBar name="Airtime Transfer" />
@@ -29,7 +61,7 @@ export const AirtimeTransfer = () => {
               </Column>
             </Row>
           </Column>
-          <Column xs={12} md={4} lg={2} justifyContent="flex-end">
+          <Column useAppMargin xs={12} md={4} lg={2} justifyContent="flex-end">
             <Button fullWidth>Export CSV</Button>
           </Column>
         </Row>
@@ -37,6 +69,7 @@ export const AirtimeTransfer = () => {
         <Column>
           <Card style={{ padding: '1.5rem' }} fullWidth>
             <SimpleTable
+              scrollable
               columns={[
                 'S//N',
                 'Source MSSIDN',
@@ -46,98 +79,8 @@ export const AirtimeTransfer = () => {
                 'Transfer type',
                 'Transaction date',
               ]}
-              data={[
-                [
-                  '1',
-                  '0907373772',
-                  '0907373772',
-                  'NGN 20,000',
-                  'Pending',
-                  'Data',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  '0907373772',
-                  'NGN 20,000',
-                  'Pending',
-                  'Data',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  '0907373772',
-                  'NGN 20,000',
-                  'Pending',
-                  'Data',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  '0907373772',
-                  'NGN 20,000',
-                  'Pending',
-                  'Data',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  '0907373772',
-                  'NGN 20,000',
-                  'Pending',
-                  'Data',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  '0907373772',
-                  'NGN 20,000',
-                  'Pending',
-                  'Data',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  '0907373772',
-                  'NGN 20,000',
-                  'Pending',
-                  'Data',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  '0907373772',
-                  'NGN 20,000',
-                  'Pending',
-                  'Data',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  '0907373772',
-                  'NGN 20,000',
-                  'Pending',
-                  'Data',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  '0907373772',
-                  'NGN 20,000',
-                  'Pending',
-                  'Data',
-                  'Aug, 20th, 14:54pm',
-                ],
-              ]}
+              data={purchases}
+              loading={loading}
             />
           </Card>
         </Column>

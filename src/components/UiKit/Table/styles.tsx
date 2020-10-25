@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { Table as RespTable } from 'react-super-responsive-table';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { ScreenSizes } from '../Column/styles';
 
 // import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
-const Table = styled(RespTable)`
+const Table = styled(RespTable)<{ scrollable?: boolean }>`
   /* @import url('react-super-responsive-table/dist/SuperResponsiveTableStyle.css'); */
   /* inspired by: https://css-tricks.com/responsive-data-tables/ */
   &.responsiveTable {
@@ -71,6 +71,19 @@ const Table = styled(RespTable)`
 
   /** Custom Table Styling Starts Here */
   border-spacing: 0 16px;
+  ${({ scrollable }) =>
+    scrollable
+      ? css`
+          display: block;
+          overflow-x: scroll;
+          padding-left: 1px;
+
+          @media screen and (max-width: ${ScreenSizes.md}px) {
+            overflow-x: unset;
+            padding-left: unset;
+          }
+        `
+      : ''}
 
   tr {
     &:nth-child(n + 1) {

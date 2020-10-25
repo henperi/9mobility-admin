@@ -20,12 +20,12 @@ import { Checkbox } from '../../components/UiKit/CheckBox';
 
 import { ReactComponent as Logo } from '../../assets/images/9mobility-logo.svg';
 import { Row } from '../../components/UiKit/Row';
-// import logo from '../../assets/images/9mobile-logo-big.png';
+// import { setAuthUser } from '../../store/modules/auth/actions';
+import { setAuthHeader } from '../../services/htttpService';
 
 interface Response {
   result: {
-    trackingId: string;
-    expiresIn: Date;
+    token: string;
   };
   responseCode: number;
   message: string;
@@ -35,27 +35,33 @@ interface Error {
   message: string;
   responseCode: number;
 }
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+// eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3VyaWZvbGxAeWFob28uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOlsiMSIsIjA4MDM3OTMxMjM0Il0sImVtYWlsIjoic3VyaWZvbGxAeWFob28uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbW9iaWxlcGhvbmUiOiIwODAzNzkzMTIzNCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvdXNlcmRhdGEiOiJ7XCJVc2VySWRcIjoxLFwiVXNlclR5cGVcIjpcIkJhY2tPZmZpY2VVc2VyXCIsXCJNb2JpbGVOdW1iZXJcIjpcIjA4MDM3OTMxMjM0XCIsXCJXYWxsZXRBY2NvdW50Tm9cIjpudWxsLFwiQ3VzdG9tZXJOYW1lXCI6XCJTdXJhaiBGZWhpbnRvbGFcIixcIlVzZXJFbWFpbFwiOlwic3VyaWZvbGxAeWFob28uY29tXCIsXCJEZXZpY2VDb2RlXCI6bnVsbH0iLCJuYmYiOjE2MDM0NjY4NDQsImV4cCI6MTYwMzU3NDg0NCwiaXNzIjoiaHR0cDovL3d3dy5tb2JpbGl0eS5uZyIsImF1ZCI6Imh0dHA6Ly93d3cubW9iaWxpdHkubmcifQ
+// .LamsEFSirghj3vNTOxsIAH6xtDuNJ5nn_V_4W39D4lk
 
 export const LoginPage = () => {
-  const [verifyNumber] = usePost<Response>(
-    'Mobility.Onboarding/api/Verification/initiateverification',
+  const [login] = usePost<Response>(
+    'Mobility.OnboardingBackOffice/api/Registration/Login',
   );
+
+  const { dispatch, state } = useGlobalStore();
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>('');
 
   const history = useHistory();
 
-  const handleVerifyNumber = async (data: typeof formik.values) => {
+  const handleLogin = async (data: typeof formik.values) => {
     try {
       setLoading(true);
       setErrorMessage('');
-      const result = await verifyNumber(data);
+      const result = await login(data);
       setLoading(false);
 
-      history.push(
-        `/onboarding/verifyOTP?mobileNumber=${data.email}&trackingId=${result.data.result.trackingId}`,
-      );
+      history.push(`/dashboard`);
+
+      // TODO: should probably replace this with replace setAuthUser later, backend needs to change this
+      dispatch(setAuthHeader(result.data.result.token));
 
       logger.log(result.data);
     } catch (error) {
@@ -66,24 +72,22 @@ export const LoginPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      usernameOrEmail: '',
       password: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string()
+      usernameOrEmail: Yup.string()
         .email('Must be a valid email addresss')
         .required('This field is required'),
       password: Yup.string().required('This field is required'),
     }),
     onSubmit: (values) => {
-      handleVerifyNumber(values);
+      handleLogin(values);
     },
   });
 
-  const { state } = useGlobalStore();
-
   useEffect(() => {
-    if (state.auth.isAuthenticated && state.auth.user?.email) {
+    if (state.auth.isAuthenticated && state.auth.token) {
       history.push('/dashboard');
     }
   }, [history, state.auth]);
@@ -108,17 +112,20 @@ export const LoginPage = () => {
               <TextField
                 label="Email address"
                 placeholder="Enter your email address"
-                {...formik.getFieldProps('email')}
+                {...formik.getFieldProps('usernameOrEmail')}
                 type="email"
                 required
                 title="must be a valid email address"
-                error={getFieldError(formik.errors.email, formik.touched.email)}
+                error={getFieldError(
+                  formik.errors.usernameOrEmail,
+                  formik.touched.usernameOrEmail,
+                )}
               />
               <TextField
                 label="Password"
                 placeholder="Enter your password"
                 {...formik.getFieldProps('password')}
-                type="email"
+                type="password"
                 required
                 error={getFieldError(
                   formik.errors.password,
@@ -130,11 +137,11 @@ export const LoginPage = () => {
               <SizedBox height={30} />
               <Button
                 isLoading={loading}
-                // disabled={formik.touched && !formik.isValid}
+                disabled={formik.touched && !formik.isValid}
                 type="submit"
-                onClick={() => {
-                  window.location.href = '/dashboard';
-                }}
+                // onClick={() => {
+                //   window.location.href = '/dashboard';
+                // }}
                 fullWidth
               >
                 Sign In

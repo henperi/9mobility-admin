@@ -1,5 +1,5 @@
-import React from 'react';
-// import { FaWallet } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { DateTime } from 'luxon';
 
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
@@ -11,7 +11,38 @@ import { Button } from '../../components/UiKit/Button';
 import { TextField } from '../../components/UiKit/TextField';
 import { SimpleTable } from '../../components/UiKit/Table';
 
+import { IAirtimePurchase } from './interface';
+import { useFetch } from '../../hooks/useRequests';
+
 export const AirtimeRechargePage = () => {
+  const [pageNumber] = useState(1);
+  const [pageSize] = useState(20);
+
+  const { data, loading } = useFetch<IAirtimePurchase>(
+    `Mobility.AccountBackoffice/api/Airtime/GetPurchases?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+  );
+
+  const [purchases, setPurchases] = useState<(string | number)[][]>();
+
+  useEffect(() => {
+    if (data?.result.results.length) {
+      const result = data.result.results.map((r, i) =>
+        Object.values({
+          'S/N': i + 1,
+          mobile: r.mobileNumber,
+          channel: r.beneficiaryTypeName,
+          amount: r.amount,
+          status: r.transactionStatusName,
+          date: DateTime.fromISO(r.createdDate, {
+            locale: 'fr',
+          }).toLocaleString(),
+        }),
+      );
+
+      setPurchases(result);
+    }
+  }, [data?.result]);
+
   return (
     <>
       <TopBar name="Airtime Purchase" />
@@ -29,7 +60,7 @@ export const AirtimeRechargePage = () => {
               </Column>
             </Row>
           </Column>
-          <Column xs={12} md={4} lg={2} justifyContent="flex-end">
+          <Column useAppMargin xs={12} md={4} lg={2} justifyContent="flex-end">
             <Button fullWidth>Export CSV</Button>
           </Column>
         </Row>
@@ -45,96 +76,8 @@ export const AirtimeRechargePage = () => {
                 'Status',
                 'Transaction date',
               ]}
-              data={[
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-              ]}
+              data={purchases}
+              loading={loading}
             />
           </Card>
         </Column>
