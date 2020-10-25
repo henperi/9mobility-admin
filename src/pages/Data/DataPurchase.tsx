@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import { FaWallet } from 'react-icons/fa';
 
+import { DateTime } from 'luxon';
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { Column } from '../../components/UiKit/Column';
@@ -10,8 +11,38 @@ import { TopBar } from '../../components/TopBar';
 import { Button } from '../../components/UiKit/Button';
 import { TextField } from '../../components/UiKit/TextField';
 import { SimpleTable } from '../../components/UiKit/Table';
+import { useFetch } from '../../hooks/useRequests';
+import { IDataPurchase } from './interface';
 
 export const DataPurchase = () => {
+  const [pageNumber] = useState(1);
+  const [pageSize] = useState(20);
+
+  const { data, loading } = useFetch<IDataPurchase>(
+    `Mobility.AccountBackoffice/api/Data/GetPurchase?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+  );
+
+  const [dataPurchase, setDataPurchase] = useState<(string | number)[][]>();
+
+  useEffect(() => {
+    if (data?.result.results.length) {
+      const result = data.result.results.map((r, i) =>
+        Object.values({
+          'S/N': i + 1,
+          accountId: r.mobileNumber,
+          channel: r.beneficiaryTypeName,
+          amount: r.amount,
+          status: r.transactionStatusName,
+          purchaseType: 'r.purchaseType',
+          date: DateTime.fromISO(r.createdDate, {
+            locale: 'fr',
+          }).toLocaleString(),
+        }),
+      );
+
+      setDataPurchase(result);
+    }
+  }, [data?.result]);
   return (
     <>
       <TopBar name="Data Purchase" />
@@ -37,6 +68,8 @@ export const DataPurchase = () => {
         <Column>
           <Card style={{ padding: '1.5rem' }} fullWidth>
             <SimpleTable
+              scrollable
+              loading={loading}
               columns={[
                 'S//N',
                 'Account ID',
@@ -46,53 +79,7 @@ export const DataPurchase = () => {
                 'Purchase Type',
                 'Transaction date',
               ]}
-              data={[
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  '30GB @ NGN 20,000',
-                  'Pending',
-                  'Data Bundle',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  '30GB @ NGN 20,000',
-                  'Pending',
-                  'Customised',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  '30GB @ NGN 20,000',
-                  'Pending',
-                  'Customised',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  '30GB @ NGN 20,000',
-                  'Pending',
-                  'Data Bundle',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  'Debit card',
-                  '30GB @ NGN 20,000',
-                  'Pending',
-                  'Data Bundle',
-                  'Aug, 20th, 14:54pm',
-                ],
-              ]}
+              data={dataPurchase}
             />
           </Card>
         </Column>

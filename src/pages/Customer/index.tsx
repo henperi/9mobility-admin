@@ -40,6 +40,7 @@ export const CustomerPage = () => {
         <Column>
           <Card style={{ padding: '1.5rem' }} fullWidth>
             <SimpleTable
+              scrollable
               columns={[
                 'S//N',
                 'Name',

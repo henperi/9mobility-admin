@@ -29,6 +29,7 @@ const Card = styled.div.attrs({})<ICardProps>`
   z-index: 1;
   display: flex;
   height: ${({ fullHeight }) => (fullHeight ? '100%' : 'fit-content')};
+  flex-direction: column;
 
   ${({ onClick }) =>
     onClick &&

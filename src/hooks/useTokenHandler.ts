@@ -1,9 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-
-// import { usePost } from './useRequests';
-// import { useGlobalStore } from '../store';
-// import { OnboardingAuthResponse } from '../pages/OnboardingPage/ConfirmOTP';
-// import { setAuthUser, removeAuthUser } from '../store/modules/auth/actions';
 import { initialState } from '../store/modules';
 import { useCountdown } from './useCountdown';
 import { logger } from '../utils/logger';

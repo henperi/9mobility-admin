@@ -4,6 +4,7 @@ import React from 'react';
 // @ts-ignore
 import { Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import { generateShortId } from '../../../utils/generateShortId';
+import { Spinner } from '../Spinner';
 import { Text } from '../Text';
 import { Style } from './styles';
 
@@ -11,10 +12,20 @@ interface ISimpleTableProps
   extends React.TableHTMLAttributes<HTMLTableElement> {
   columns?: string[];
   data?: (string | number | Date | React.FC | JSX.Element)[][];
+  scrollable?: boolean;
+  loading?: boolean;
 }
 
 export const SimpleTable: React.FC<ISimpleTableProps> = (props) => {
-  const { columns, data, ...rest } = props;
+  const { columns, data, loading, ...rest } = props;
+
+  if (loading) {
+    return (
+      <div style={{ minHeight: '150px' }}>
+        <Spinner isFixed />
+      </div>
+    );
+  }
 
   return (
     <Style.Table {...rest}>
