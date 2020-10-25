@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import { FaWallet } from 'react-icons/fa';
 
+import { DateTime } from 'luxon';
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { Column } from '../../components/UiKit/Column';
@@ -12,8 +13,40 @@ import { TextField } from '../../components/UiKit/TextField';
 import { SimpleTable } from '../../components/UiKit/Table';
 import { generateShortId } from '../../utils/generateShortId';
 import { Colors } from '../../themes/colors';
+import { IAds } from './interface';
+import { useFetch } from '../../hooks/useRequests';
 
 export const Ads = () => {
+  const [pageNumber] = useState(1);
+  const [pageSize] = useState(25);
+
+  const { data, loading } = useFetch<IAds>(
+    `Mobility.AccountBackoffice/api/Ads/GetAds?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+  );
+
+  const [ads, setAds] = useState<
+    (string | number | React.FC | JSX.Element)[][]
+  >();
+
+  useEffect(() => {
+    if (data?.result.results.length) {
+      const result = data.result.results.map((r, i) =>
+        Object.values({
+          image: (
+            <Card key={generateShortId()} color={Colors.lightBlue} fullWidth />
+          ),
+          title: r.name,
+          pageDescription: r.description,
+          pageId: r.pageId,
+          lastUpdated: DateTime.fromMillis(Date.now(), {
+            locale: 'fr',
+          }).toLocaleString(),
+        }),
+      );
+
+      setAds(result);
+    }
+  }, [data?.result.results]);
   return (
     <>
       <TopBar name="Ads" />
@@ -39,6 +72,8 @@ export const Ads = () => {
         <Column>
           <Card style={{ padding: '1.5rem' }} fullWidth>
             <SimpleTable
+              // scrollable
+              loading={loading}
               columns={[
                 'Image',
                 'Add title',
@@ -46,19 +81,7 @@ export const Ads = () => {
                 'Page ID',
                 'Last Updated',
               ]}
-              data={[
-                [
-                  <Card
-                    key={generateShortId()}
-                    color={Colors.lightBlue}
-                    fullWidth
-                  />,
-                  'Title of this add',
-                  'Airtime Page',
-                  '1222EFEG',
-                  'Aug, 20th, 14:54pm',
-                ],
-              ]}
+              data={ads}
             />
           </Card>
         </Column>

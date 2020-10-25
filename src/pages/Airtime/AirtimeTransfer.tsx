@@ -26,7 +26,7 @@ export const AirtimeTransfer = () => {
 
   useEffect(() => {
     if (data?.result.results.length) {
-      const result = data.result.results.map((r: any, i: any) =>
+      const result = data.result.results.map((r, i) =>
         Object.values({
           'S/N': i + 1,
           sourceMobile: r.sourceMobileNumber,

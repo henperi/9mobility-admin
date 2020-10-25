@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import { FaWallet } from 'react-icons/fa';
 
+import { DateTime } from 'luxon';
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { Text } from '../../components/UiKit/Text';
@@ -13,8 +14,65 @@ import { TextField } from '../../components/UiKit/TextField';
 import { SimpleTable } from '../../components/UiKit/Table';
 import { Avatar } from '../../components/UiKit/Avatar';
 import { generateShortId } from '../../utils/generateShortId';
+import { useFetch } from '../../hooks/useRequests';
+import { IAudit } from './interface';
 
 export const Audit = () => {
+  const [pageNumber] = useState(1);
+  const [pageSize] = useState(25);
+
+  const { data, loading } = useFetch<IAudit>(
+    `Mobility.OnboardingBackOffice/api/Registration/GetUsers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+  );
+
+  const [audit, setAudit] = useState<
+    (string | number | React.FC | JSX.Element)[][]
+  >();
+
+  useEffect(() => {
+    if (data?.result.results.length) {
+      const result = data.result.results.map((r, i) =>
+        Object.values({
+          'S/N': i + 1,
+          date: DateTime.fromMillis(Date.now(), {
+            locale: 'fr',
+          }).toLocaleString(),
+          user: (
+            <Row useAppMargin key={generateShortId()} alignItems="center">
+              <Column useAppMargin xs={12} md={4} lg={3}>
+                <Avatar image={r.photoUrl} />
+              </Column>
+              <Column useAppMargin xs={12} md={8}>
+                <Text>
+                  {r.firstName} {r.lastName}
+                </Text>
+              </Column>
+            </Row>
+          ),
+          action: (
+            <Text key={generateShortId()}>Updated a banner 8 hours ago</Text>
+          ),
+          status: (
+            <Text
+              style={{
+                background: 'rgba(0, 168, 17, 0.1)',
+                padding: '0.5rem',
+              }}
+              key={generateShortId()}
+              size={12}
+              weight="bold"
+            >
+              Success
+            </Text>
+          ),
+          IP: '102.305.218.005',
+        }),
+      );
+
+      setAudit(result);
+    }
+  }, [data?.result.results]);
+
   return (
     <>
       <TopBar name="Audit" />
@@ -40,6 +98,7 @@ export const Audit = () => {
         <Column>
           <Card style={{ padding: '1.5rem' }} fullWidth>
             <SimpleTable
+              loading={loading}
               columns={[
                 'S//N',
                 'Date',
@@ -48,143 +107,7 @@ export const Audit = () => {
                 'Status',
                 'IP Address',
               ]}
-              data={[
-                [
-                  '1',
-                  'Aug, 20th, 14:54pm',
-                  <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={2}>
-                      <Avatar />
-                    </Column>
-                    <Column useAppMargin xs={12} md={10}>
-                      <Text>Stephen Animashaun</Text>
-                    </Column>
-                  </Row>,
-                  <Text key={generateShortId()}>
-                    Updated a banner 8 hours ago
-                  </Text>,
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Success
-                  </Text>,
-                  '102.305.218.005',
-                ],
-                [
-                  '1',
-                  'Aug, 20th, 14:54pm',
-                  <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={2}>
-                      <Avatar />
-                    </Column>
-                    <Column useAppMargin xs={12} md={10}>
-                      <Text>Stephen Animashaun</Text>
-                    </Column>
-                  </Row>,
-                  <Text key={generateShortId()}>
-                    Updated a banner 8 hours ago
-                  </Text>,
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Success
-                  </Text>,
-                  '102.305.218.005',
-                ],
-                [
-                  '1',
-                  'Aug, 20th, 14:54pm',
-                  <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={2}>
-                      <Avatar />
-                    </Column>
-                    <Column useAppMargin xs={12} md={10}>
-                      <Text>Stephen Animashaun</Text>
-                    </Column>
-                  </Row>,
-                  <Text key={generateShortId()}>
-                    Updated a banner 8 hours ago
-                  </Text>,
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Success
-                  </Text>,
-                  '102.305.218.005',
-                ],
-                [
-                  '1',
-                  'Aug, 20th, 14:54pm',
-                  <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={2}>
-                      <Avatar />
-                    </Column>
-                    <Column useAppMargin xs={12} md={10}>
-                      <Text>Stephen Animashaun</Text>
-                    </Column>
-                  </Row>,
-                  <Text key={generateShortId()}>
-                    Updated a banner 8 hours ago
-                  </Text>,
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Success
-                  </Text>,
-                  '102.305.218.005',
-                ],
-                [
-                  '1',
-                  'Aug, 20th, 14:54pm',
-                  <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={2}>
-                      <Avatar />
-                    </Column>
-                    <Column useAppMargin xs={12} md={10}>
-                      <Text>Stephen Animashaun</Text>
-                    </Column>
-                  </Row>,
-                  <Text key={generateShortId()}>
-                    Updated a banner 8 hours ago
-                  </Text>,
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Success
-                  </Text>,
-                  '102.305.218.005',
-                ],
-              ]}
+              data={audit}
             />
           </Card>
         </Column>
