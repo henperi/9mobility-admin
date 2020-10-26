@@ -1,5 +1,4 @@
-import React from 'react';
-// import { FaWallet } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
 
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
@@ -10,8 +9,43 @@ import { TopBar } from '../../components/TopBar';
 import { Button } from '../../components/UiKit/Button';
 import { TextField } from '../../components/UiKit/TextField';
 import { SimpleTable } from '../../components/UiKit/Table';
+import { IPaymentHistory } from './interface';
+import { useFetch } from '../../hooks/useRequests';
 
 export const PaymentHistory = () => {
+  const [pageNumber] = useState(1);
+  const [pageSize] = useState(20);
+
+  const dates = {
+    startDate: '10/08/2020',
+    endDate: '10/10/2020',
+  };
+
+  const { data, loading } = useFetch<IPaymentHistory>(
+    `Mobility.AccountBackoffice/api/TransactionHistories/GetTransactionHistory?startDate=${dates.startDate}&endDate=${dates.endDate}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
+  );
+
+  const [paymentHistory, setPaymentHistory] = useState<
+    (string | number | React.FC | JSX.Element)[][]
+  >();
+
+  useEffect(() => {
+    if (data?.result.results.length) {
+      const result = data.result.results.map((r, i) =>
+        Object.values({
+          'S/N': i + 1,
+          type: r.transactionTypeName,
+          accountId: r.userId,
+          channel: 'r.channel',
+          amount: r.transactionAmount,
+          status: 'r.status',
+          date: `${r.dateCreated} ${r.timeCreated}`,
+        }),
+      );
+
+      setPaymentHistory(result);
+    }
+  }, [data?.result.results]);
   return (
     <>
       <TopBar name="Payment History" />
@@ -46,80 +80,8 @@ export const PaymentHistory = () => {
                 'Status',
                 'Transaction date',
               ]}
-              data={[
-                [
-                  '1',
-                  'Cable TV',
-                  '0907373772',
-                  'Debit Card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  'Cable TV',
-                  '0907373772',
-                  'Debit Card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  'Cable TV',
-                  '0907373772',
-                  'Debit Card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  'Cable TV',
-                  '0907373772',
-                  'Debit Card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  'Cable TV',
-                  '0907373772',
-                  'Debit Card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  'Cable TV',
-                  '0907373772',
-                  'Debit Card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  'Cable TV',
-                  '0907373772',
-                  'Debit Card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  'Cable TV',
-                  '0907373772',
-                  'Debit Card',
-                  'NGN 20,000',
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-              ]}
+              data={paymentHistory}
+              loading={loading}
             />
           </Card>
         </Column>

@@ -14,14 +14,12 @@ import { usePost } from '../../hooks/useRequests';
 import { getFieldError } from '../../utils/formikHelper';
 import { logger } from '../../utils/logger';
 import { ErrorBox } from '../../components/UiKit/ErrorBox';
-// import { SetScreen } from '.';
 import { useGlobalStore } from '../../store';
 import { Checkbox } from '../../components/UiKit/CheckBox';
 
 import { ReactComponent as Logo } from '../../assets/images/9mobility-logo.svg';
 import { Row } from '../../components/UiKit/Row';
-// import { setAuthUser } from '../../store/modules/auth/actions';
-import { setAuthHeader } from '../../services/htttpService';
+import { setAuthUserToken } from '../../store/modules/auth/actions';
 
 interface Response {
   result: {
@@ -57,13 +55,13 @@ export const LoginPage = () => {
       setErrorMessage('');
       const result = await login(data);
       setLoading(false);
+      logger.log(result);
 
-      history.push(`/dashboard`);
+      // history.push(`/dashboard`);
 
       // TODO: should probably replace this with replace setAuthUser later, backend needs to change this
-      dispatch(setAuthHeader(result.data.result.token));
-
-      logger.log(result.data);
+      // logger.log(result.data.result);
+      dispatch(setAuthUserToken(result.data.result.token));
     } catch (error) {
       setLoading(false);
       setErrorMessage((error as Error).message);
@@ -76,9 +74,7 @@ export const LoginPage = () => {
       password: '',
     },
     validationSchema: Yup.object({
-      usernameOrEmail: Yup.string()
-        .email('Must be a valid email addresss')
-        .required('This field is required'),
+      usernameOrEmail: Yup.string().required('This field is required'),
       password: Yup.string().required('This field is required'),
     }),
     onSubmit: (values) => {
@@ -113,7 +109,7 @@ export const LoginPage = () => {
                 label="Email address"
                 placeholder="Enter your email address"
                 {...formik.getFieldProps('usernameOrEmail')}
-                type="email"
+                type="text"
                 required
                 title="must be a valid email address"
                 error={getFieldError(

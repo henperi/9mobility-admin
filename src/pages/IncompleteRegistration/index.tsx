@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import { FaWallet } from 'react-icons/fa';
 
+import { DateTime } from 'luxon';
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { Column } from '../../components/UiKit/Column';
@@ -12,8 +13,51 @@ import { TextField } from '../../components/UiKit/TextField';
 import { SimpleTable } from '../../components/UiKit/Table';
 import { Text } from '../../components/UiKit/Text';
 import { generateShortId } from '../../utils/generateShortId';
+import { IRegNotcomplete } from './interface';
+import { useFetch } from '../../hooks/useRequests';
 
 export const IncompleteRegistration = () => {
+  const [pageNumber] = useState(1);
+  const [pageSize] = useState(20);
+
+  const { data, loading } = useFetch<IRegNotcomplete>(
+    `Mobility.OnboardingBackOffice/GetUsersButInCompleteRegistration?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+  );
+
+  const [incompleteReg, setIncompleteReg] = useState<
+    (string | number | React.FC | JSX.Element)[][]
+  >();
+
+  useEffect(() => {
+    if (data?.result.results.length) {
+      const result = data.result.results.map((r, i) =>
+        Object.values({
+          'S/N': i + 1,
+          MSSIDN: r.mobileNumber,
+          otp: (
+            <Text
+              style={{
+                background: 'rgba(0, 168, 17, 0.1)',
+                padding: '0.5rem 2rem',
+              }}
+              key={generateShortId()}
+              size={12}
+              weight="bold"
+            >
+              Sent
+            </Text>
+          ),
+          Status: 'Pending',
+          date: DateTime.fromMillis(Date.now(), {
+            locale: 'fr',
+          }).toLocaleString(),
+        }),
+      );
+
+      setIncompleteReg(result);
+    }
+  }, [data?.result.results]);
+
   return (
     <>
       <TopBar name="Incomplete Registration (23,0000)" />
@@ -40,110 +84,8 @@ export const IncompleteRegistration = () => {
           <Card style={{ padding: '1.5rem' }} fullWidth>
             <SimpleTable
               columns={['S//N', 'MSSIDN', 'OTP', 'Status', 'Date Registered']}
-              data={[
-                [
-                  '1',
-                  '0907373772',
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem 2rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Sent
-                  </Text>,
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem 2rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Sent
-                  </Text>,
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem 2rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Sent
-                  </Text>,
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem 2rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Sent
-                  </Text>,
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem 2rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Sent
-                  </Text>,
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-                [
-                  '1',
-                  '0907373772',
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem 2rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Sent
-                  </Text>,
-                  'Pending',
-                  'Aug, 20th, 14:54pm',
-                ],
-              ]}
+              data={incompleteReg}
+              loading={loading}
             />
           </Card>
         </Column>
