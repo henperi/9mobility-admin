@@ -82,6 +82,10 @@ const Table = styled(RespTable)<{ scrollable?: boolean }>`
             overflow-x: unset;
             padding-left: unset;
           }
+
+          @media screen and (min-width: 1400px) {
+            display: table;
+          }
         `
       : ''}
 

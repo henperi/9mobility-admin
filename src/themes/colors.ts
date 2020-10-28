@@ -16,7 +16,9 @@ export const Colors = {
 
 export const backgroundColor = theme.variants('mode', 'variant', {
   default: { light: Colors.white },
-  primary: { light: Colors.darkGreen },
+  primary: {
+    light: 'linear-gradient(92.8deg, #006848 -48.47%, #b4c404 191.78%)',
+  },
   secondary: { light: Colors.yellowGreen },
   tertiary: { light: Colors.lightGreen },
   neutral: { light: Colors.grey },

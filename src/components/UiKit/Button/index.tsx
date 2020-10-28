@@ -22,6 +22,7 @@ export interface IButtonProps
   borderColor?: string;
   border?: boolean;
   outline?: boolean;
+  link?: boolean;
   size?: 'small' | 'normal';
 }
 

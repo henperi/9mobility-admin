@@ -19,15 +19,18 @@ const Button = styled.button.attrs((props: IButtonProps) => ({
 
   padding: 0 28px;
   min-height: ${rem(45)};
-  background-color: ${backgroundColor};
+  background: ${backgroundColor};
   color: ${({ variant }) => variant !== 'default' && Colors.white};
   font-weight: 500;
+
+  /* background: linear-gradient(92.8deg, #006848 -48.47%, #b4c404 191.78%); */
+  border-radius: 4px;
 
   transition: all 300ms ease-in-out;
   /* margin-right: 5px; */
   width: ${({ fullWidth }) => (fullWidth ? '100%' : 'fit-content')};
   cursor: pointer;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   font-family: inherit;
 
   ${({ outline }) =>
@@ -36,6 +39,15 @@ const Button = styled.button.attrs((props: IButtonProps) => ({
       background-color: unset;
       border: 1px solid ${backgroundColor};
       color: ${backgroundColor};
+    `}
+
+  ${({ link, variant }) =>
+    link &&
+    css`
+      background: unset;
+      border: unset;
+      color: ${variant === 'primary' && Colors.darkGreen};}
+      padding: 0;
     `}
 
   ${({ elevated }) =>

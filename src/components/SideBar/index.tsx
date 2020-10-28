@@ -61,7 +61,7 @@ export const SideBar: React.FC<ISidebar> = (props) => {
           to="/customer"
         >
           <HomeIcon />
-          Customer
+          Customers
         </Styles.SideBarLink>
 
         <Styles.SideBarLink
