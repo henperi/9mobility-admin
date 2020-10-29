@@ -35,13 +35,13 @@ const Table = styled(RespTable)<{ scrollable?: boolean }>`
     &.responsiveTable thead tr {
       position: absolute;
       top: -9999px;
+      font-weight: 700;
       left: -9999px;
       border-bottom: 2px solid #333;
     }
 
     &.responsiveTable tbody tr {
       border: 1px solid #000;
-      font-weight: 700;
       padding: 0.25em;
     }
 
@@ -99,14 +99,12 @@ const Table = styled(RespTable)<{ scrollable?: boolean }>`
 
     th {
       padding: 10px 28px;
-      font-weight: lighter;
       color: #627382;
       text-align: left;
     }
 
     td {
       padding: 10px 28px;
-      font-weight: 400;
       color: #022235;
       margin-bottom: 20px;
     }

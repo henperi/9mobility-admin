@@ -1,6 +1,7 @@
 import React from 'react';
 // import { FaWallet } from 'react-icons/fa';
 
+import { useRouteMatch } from 'react-router-dom';
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { Text } from '../../components/UiKit/Text';
@@ -8,10 +9,14 @@ import { Column } from '../../components/UiKit/Column';
 import { SizedBox } from '../../components/UiKit/SizedBox';
 import { Row } from '../../components/UiKit/Row';
 import { TopBar } from '../../components/TopBar';
-import { TableNav } from '../../components/TableNav';
+import { TableNav } from './TableNav';
 import { Avatar } from '../../components/UiKit/Avatar';
+import { logger } from '../../utils/logger';
 
 export const CustomerDetails: React.FC = ({ children }) => {
+  const match = useRouteMatch();
+
+  logger.log(match);
   return (
     <>
       <TopBar name="Users" />

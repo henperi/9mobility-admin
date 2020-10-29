@@ -1,10 +1,5 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { rem } from '../../utils/rem';
-import { Colors } from '../../themes/colors';
-import { ScreenSizes } from '../UiKit/Column/styles';
-// import { ScreenSizes } from '../../Column/styles';
-
 
 const TableNavLink = styled(NavLink)<{ active?: boolean }>`
   padding: 13px 0px;
@@ -12,7 +7,7 @@ const TableNavLink = styled(NavLink)<{ active?: boolean }>`
   text-decoration: none;
   font-weight: 400;
   font-size: 14px;
-  color: #8181A5;
+  color: #8181a5;
   border-bottom: 3px solid rgba(129, 129, 165, 0);
   transition: 0.6s;
   &.active-table-nav-link {
@@ -23,5 +18,5 @@ const TableNavLink = styled(NavLink)<{ active?: boolean }>`
 `;
 
 export const Styles = {
-  TableNavLink
+  TableNavLink,
 };
