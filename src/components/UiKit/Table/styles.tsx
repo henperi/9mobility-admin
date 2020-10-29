@@ -41,6 +41,7 @@ const Table = styled(RespTable)<{ scrollable?: boolean }>`
 
     &.responsiveTable tbody tr {
       border: 1px solid #000;
+      font-weight: 700;
       padding: 0.25em;
     }
 
@@ -105,7 +106,7 @@ const Table = styled(RespTable)<{ scrollable?: boolean }>`
 
     td {
       padding: 10px 28px;
-      font-weight: lighter;
+      font-weight: 400;
       color: #022235;
       margin-bottom: 20px;
     }

@@ -5,6 +5,12 @@ import { AirtimeRechargePage } from '../pages/Airtime/AirtimeRecharge';
 import { AirtimeTransfer } from '../pages/Airtime/AirtimeTransfer';
 import { Audit } from '../pages/Audit';
 import { CustomerPage } from '../pages/Customer';
+import { CustomerDetails } from '../pages/Customer/CustomerDetails';
+import { CustomerPaymentHistory } from '../pages/Customer/Sections/CustomerPaymentHistory';
+import { CustomerAirtimeRecharge } from '../pages/Customer/Sections/CustomerAirtimeRecharge';
+import { CustomerDataTransfer } from '../pages/Customer/Sections/CustomerDataTransfer';
+import { CustomerDataUsage } from '../pages/Customer/Sections/CustomerDataUsage';
+import { CustomerAirtimeTransfer } from '../pages/Customer/Sections/CustomerAirtimeTransfer';
 import { DashboardPage } from '../pages/Dashboard';
 import { DataPurchase } from '../pages/Data/DataPurchase';
 import { DataTransfer } from '../pages/Data/DataTransfer';
@@ -24,6 +30,37 @@ export const Routes = () => {
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/dashboard" component={DashboardPage} />
       <Route exact path="/customer" component={CustomerPage} />
+      <Route path="/customer/:id">
+        <CustomerDetails>
+          <Switch>
+            <Route
+              exact
+              path="/customer/:id/payment-history"
+              component={CustomerPaymentHistory}
+            />
+            <Route
+              exact
+              path="/customer/:id/airtime-recharge"
+              component={CustomerAirtimeRecharge}
+            />
+            <Route
+              exact
+              path="/customer/:id/data-transfer"
+              component={CustomerDataTransfer}
+            />
+            <Route
+              exact
+              path="/customer/:id/airtime-data-transfer"
+              component={CustomerAirtimeTransfer}
+            />
+            <Route
+              exact
+              path="/customer/:id/data-usage"
+              component={CustomerDataUsage}
+            />
+          </Switch>
+        </CustomerDetails>
+      </Route>
       <Route exact path="/airtime-recharge" component={AirtimeRechargePage} />
       <Route exact path="/airtime-transfer" component={AirtimeTransfer} />
       <Route exact path="/data-purchase" component={DataPurchase} />
