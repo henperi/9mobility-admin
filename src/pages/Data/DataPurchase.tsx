@@ -13,10 +13,12 @@ import { TextField } from '../../components/UiKit/TextField';
 import { SimpleTable } from '../../components/UiKit/Table';
 import { useFetch } from '../../hooks/useRequests';
 import { IDataPurchase } from './interface';
+import { Pagination } from '../../components/UiKit/Pagination';
+import { paginationLimits } from '../../utils/paginationLimits';
 
 export const DataPurchase = () => {
-  const [pageNumber] = useState(1);
-  const [pageSize] = useState(20);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
   const { data, loading } = useFetch<IDataPurchase>(
     `Mobility.AccountBackoffice/api/Data/GetPurchase?pageNumber=${pageNumber}&pageSize=${pageSize}`,
@@ -81,6 +83,39 @@ export const DataPurchase = () => {
               ]}
               data={dataPurchase}
             />
+
+            <SizedBox height={20} />
+
+            {data?.result.results && (
+              <Row useAppMargin justifyContent="space-between">
+                <Column xs={4} md={2}>
+                  <TextField
+                    leftIcon="Show:"
+                    placeholder={`${pageSize}`}
+                    dropDown
+                    dropDownOptions={paginationLimits}
+                    onChange={(e) => setPageSize(Number(e.target.value))}
+                  />
+                </Column>
+                <Column
+                  xs={12}
+                  md={8}
+                  fullHeight
+                  alignItems="center"
+                  justifyContent="flex-end"
+                >
+                  <Pagination
+                    breakLabel="..."
+                    pageCount={data.result.totalNumberOfPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={(e) => setPageNumber(e.selected + 1)}
+                    containerClassName="pagination"
+                    activeClassName="active"
+                  />
+                </Column>
+              </Row>
+            )}
           </Card>
         </Column>
       </PageBody>

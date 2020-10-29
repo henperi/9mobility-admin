@@ -19,14 +19,6 @@ interface ISimpleTableProps
 export const SimpleTable: React.FC<ISimpleTableProps> = (props) => {
   const { columns, data, loading, ...rest } = props;
 
-  if (loading) {
-    return (
-      <div style={{ minHeight: '150px' }}>
-        <Spinner isFixed />
-      </div>
-    );
-  }
-
   return (
     <Style.Table {...rest}>
       <Thead>
@@ -40,17 +32,23 @@ export const SimpleTable: React.FC<ISimpleTableProps> = (props) => {
           ))}
         </Tr>
       </Thead>
-      <Tbody>
-        {data?.map((row) => (
-          <Tr key={generateShortId()}>
-            {row.map((item) => (
-              <Td key={generateShortId()}>
-                <Text variant="lighter">{item}</Text>
-              </Td>
-            ))}
-          </Tr>
-        ))}
-      </Tbody>
+      {loading ? (
+        <div style={{ minHeight: '150px' }}>
+          <Spinner isFixed />
+        </div>
+      ) : (
+        <Tbody>
+          {data?.map((row) => (
+            <Tr key={generateShortId()}>
+              {row.map((item) => (
+                <Td key={generateShortId()}>
+                  <Text variant="lighter">{item}</Text>
+                </Td>
+              ))}
+            </Tr>
+          ))}
+        </Tbody>
+      )}
     </Style.Table>
   );
 };

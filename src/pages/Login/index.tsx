@@ -39,7 +39,7 @@ interface Error {
 
 export const LoginPage = () => {
   const [login] = usePost<Response>(
-    'Mobility.OnboardingBackOffice/api/Registration/Login',
+    'Mobility.OnboardingBackOffice/api/Admins/Login',
   );
 
   const { dispatch, state } = useGlobalStore();

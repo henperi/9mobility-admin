@@ -21,7 +21,7 @@ export const IncompleteRegistration = () => {
   const [pageSize] = useState(20);
 
   const { data, loading } = useFetch<IRegNotcomplete>(
-    `Mobility.OnboardingBackOffice/GetUsersButInCompleteRegistration?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+    `Mobility.OnboardingBackOffice/api/Users/GetUsersButInCompleteRegistration?pageNumber=${pageNumber}&pageSize=${pageSize}`,
   );
 
   const [incompleteReg, setIncompleteReg] = useState<

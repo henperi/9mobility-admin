@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { FaWallet } from 'react-icons/fa';
+// import styled from 'styled-components';
 
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
@@ -17,13 +17,33 @@ import { ICustomers } from './interface';
 import { useFetch } from '../../hooks/useRequests';
 import { Colors } from '../../themes/colors';
 import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
+import { Pagination } from '../../components/UiKit/Pagination';
+import { paginationLimits } from '../../utils/paginationLimits';
+
+// import { ReactComponent as ArrowComponent } from '../../assets/images/arrowDown.svg';
+
+// const Arrow = styled(ArrowComponent)<{
+//   angle?: number;
+// }>`
+//   background-color: ${Colors.white};
+//   border-radius: 4px;
+//   // padding: 5px;
+//   cursor: pointer;
+//   box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+//   margin-right: 10px;
+//   transform: ${({ angle }) => `rotate(${angle || 90}deg)`};
+
+//   * {
+//     color: ${Colors.blackGrey};
+//   }
+// `;
 
 export const CustomerPage = () => {
-  const [pageNumber] = useState(1);
-  const [pageSize] = useState(20);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
   const { data, loading } = useFetch<ICustomers>(
-    `Mobility.OnboardingBackOffice/GetUsers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+    `Mobility.OnboardingBackOffice/api/Users/GetUsers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
   );
 
   const [customers, setCustomers] = useState<
@@ -31,7 +51,7 @@ export const CustomerPage = () => {
   >();
 
   useEffect(() => {
-    if (data?.result.results.length) {
+    if (data?.result.results) {
       const result = data.result.results.map((r, i) =>
         Object.values({
           'S/N': `${i + 1}.`,
@@ -117,6 +137,38 @@ export const CustomerPage = () => {
               data={customers}
               loading={loading}
             />
+            <SizedBox height={20} />
+
+            {data?.result.results && (
+              <Row useAppMargin justifyContent="space-between">
+                <Column xs={4} md={2}>
+                  <TextField
+                    leftIcon="Show:"
+                    placeholder={`${pageSize}`}
+                    dropDown
+                    dropDownOptions={paginationLimits}
+                    onChange={(e) => setPageSize(Number(e.target.value))}
+                  />
+                </Column>
+                <Column
+                  xs={12}
+                  md={8}
+                  fullHeight
+                  alignItems="center"
+                  justifyContent="flex-end"
+                >
+                  <Pagination
+                    breakLabel="..."
+                    pageCount={data.result.totalNumberOfPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={(e) => setPageNumber(e.selected + 1)}
+                    containerClassName="pagination"
+                    activeClassName="active"
+                  />
+                </Column>
+              </Row>
+            )}
           </Card>
         </Column>
       </PageBody>

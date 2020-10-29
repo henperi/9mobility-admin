@@ -33,7 +33,7 @@ export interface ITextField
   containerStyle?: React.CSSProperties;
   dropDown?: boolean;
   dropDownOptions?: {
-    label: string;
+    label: string | number;
     value: string | number;
   }[];
 }
@@ -59,12 +59,13 @@ export const TextField: React.FC<ITextField> = (props) => {
   } = props;
 
   const [showDropDown, setshowDropDown] = useState(false);
-  const [value, setValue] = useState<{ label: string; value: string | number }>(
-    {
-      label: '',
-      value: '',
-    },
-  );
+  const [value, setValue] = useState<{
+    label: string | number;
+    value: string | number;
+  }>({
+    label: '',
+    value: '',
+  });
 
   const [coords, setCoords] = useState<{
     left?: number;

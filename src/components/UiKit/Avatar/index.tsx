@@ -2,7 +2,7 @@ import React, { HtmlHTMLAttributes } from 'react';
 import { Styles } from './style';
 
 interface IAvatar extends HtmlHTMLAttributes<HTMLDivElement> {
-  image?: string;
+  image?: string | null;
   name?: string;
 }
 export const Avatar: React.FC<IAvatar> = ({ image, name, ...props }) => {

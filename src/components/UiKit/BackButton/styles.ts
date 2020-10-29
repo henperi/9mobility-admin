@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { ReactComponent as ArrowComponent } from '../../assets/images/arrowDown.svg';
+import { ReactComponent as ArrowComponent } from '../../../assets/images/arrowDown.svg';
 import { Colors } from '../../../themes/colors';
 
 const Arrow = styled(ArrowComponent)`

@@ -20,6 +20,7 @@
     "react-context-devtool": "^2.0.0",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
+    "react-paginate": "^6.5.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-super-responsive-table": "^5.1.2",
@@ -55,6 +56,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.161",
     "@types/luxon": "^1.25.0",
+    "@types/react-paginate": "^6.2.1",
     "@types/react-router-dom": "^5.1.5",
     "@types/shortid": "0.0.29",
     "@types/styled-components": "^5.1.2",

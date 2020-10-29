@@ -55,8 +55,10 @@ export function useFetch<T>(url: string, params?: IParam) {
   } | null>(null);
 
   const refetch = useCallback(
-    (fetchParams = params) =>
-      httpService
+    (fetchParams = params) => {
+      setLoading(true);
+
+      return httpService
         .get(url + concatParams(fetchParams))
         .then((result: AxiosResponse<T>) => {
           setLoading(false);
@@ -66,7 +68,8 @@ export function useFetch<T>(url: string, params?: IParam) {
           const errorRes = handleAxiosError(err);
           setError(errorRes);
           setLoading(false);
-        }),
+        });
+    },
     [params, url],
   );
 
