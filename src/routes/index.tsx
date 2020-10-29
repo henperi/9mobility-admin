@@ -33,6 +33,11 @@ export const Routes = () => {
       <Route path="/customer/:id">
         <CustomerDetails>
           <Switch>
+            <Redirect
+              exact
+              from="/customer/:id"
+              to="/customer/:id/payment-history"
+            />
             <Route
               exact
               path="/customer/:id/payment-history"

@@ -104,7 +104,7 @@ export const CustomerDetails: React.FC = ({ children }) => {
                     </Text>
                   </Column>
                   <Column xs={12} lg={4}>
-                    <Text size={14}>Facebook</Text>
+                    <Text size={14}>00438947564</Text>
                   </Column>
                 </Row>
                 <SizedBox height={18} />
@@ -119,10 +119,10 @@ export const CustomerDetails: React.FC = ({ children }) => {
                     </Text>
                   </Column>
                   <Column xs={12} lg={4}>
-                    <Text size={14}>Facebook</Text>
-                    <Text size={14}>Facebook</Text>
-                    <Text size={14}>Facebook</Text>
-                    <Text size={14}>Facebook</Text>
+                    <Text size={14}>08064753028</Text>
+                    <Text size={14}>08064753028</Text>
+                    <Text size={14}>08064753028</Text>
+                    <Text size={14}>08064753028</Text>
                   </Column>
                 </Row>
               </Column>
