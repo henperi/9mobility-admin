@@ -1,17 +1,17 @@
 import React, { HtmlHTMLAttributes } from 'react';
-// import { useHistory } from 'react-router-dom';
 import { Styles } from './style';
 
 import { ReactComponent as BellIcon } from '../../assets/images/bell.svg';
 import { Row } from '../UiKit/Row';
-import { useGlobalStore } from '../../store';
 import { Text } from '../UiKit/Text';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { ScreenSizes } from '../UiKit/Column/styles';
 import { Colors } from '../../themes/colors';
-import { toggleSidebar } from '../../store/modules/init/actions';
+
 import { removeAuthUser } from '../../store/modules/auth/actions';
-// import { logger } from '../../utils/logger';
+import { toggleSidebar } from '../../store/modules/sidebar/actions';
+import { useSidebarContext } from '../../store/sidebarStore';
+
 
 export interface ITopBar extends HtmlHTMLAttributes<HTMLDivElement> {
   setShowSidebar?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,7 +21,7 @@ export interface ITopBar extends HtmlHTMLAttributes<HTMLDivElement> {
 export const TopBar: React.FC<ITopBar> = (props) => {
   const { name = 'Dashboard', ...rest } = props;
 
-  const { dispatch } = useGlobalStore();
+  const { dispatch, state } = useSidebarContext();
   const { width } = useWindowSize();
 
   return (

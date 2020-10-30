@@ -11,13 +11,13 @@ export const initApp = () => ({
   type: types.INIT_APP,
 });
 
-/**
- * @description Method to toggle the Sidebar
- * @returns reducer action type and payload
- */
-export const toggleSidebar = () => ({
-  type: types.TOGGLE_SIDEBAR,
-});
+// /**
+//  * @description Method to toggle the Sidebar
+//  * @returns reducer action type and payload
+//  */
+// export const toggleSidebar = () => ({
+//   type: types.TOGGLE_SIDEBAR,
+// });
 
 /**
  * @description method to set the status of network error

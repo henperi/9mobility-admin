@@ -105,6 +105,7 @@ export const Audit = () => {
                 'User',
                 'Action',
                 'Status',
+                'Time',
                 'IP Address',
               ]}
               data={audit}

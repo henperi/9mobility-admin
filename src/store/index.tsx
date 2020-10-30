@@ -26,3 +26,4 @@ const AppProvider: React.FC<IStateDispatch> = ({
 const useGlobalStore = () => React.useContext(AppContext);
 
 export { AppProvider, useGlobalStore };
+
