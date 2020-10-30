@@ -35,7 +35,7 @@ export const DataTransfer = () => {
           destination: r.recipientMobileNumber,
           amount: r.amount,
           status: r.transactionStatusName,
-          type: 'r.type',
+          type: 'Data',
           date: DateTime.fromISO(r.createdDate, {
             locale: 'fr',
           }).toLocaleString(),
