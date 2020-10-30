@@ -24,7 +24,7 @@ export const UserAdministration = () => {
   const [pageSize, setPageSize] = useState(25);
 
   const { data, loading } = useFetch<IUser>(
-    `Mobility.OnboardingBackOffice/api/Users/GetUsers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+    `Mobility.OnboardingBackOffice/api/Admins/GetUsers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
   );
 
   const [users, setUsers] = useState<(string | number | JSX.Element)[][]>();
@@ -38,10 +38,10 @@ export const UserAdministration = () => {
           'S/N': `${i + 1}.`,
           Name: `${r.firstName} ${r.lastName}`,
           email: r.email,
-          wallet: (
+          lastLogin: (
             <Text
               style={{
-                background: r.isWalletEnabled
+                background: r.isActive
                   ? 'rgba(0, 168, 17, 0.1)'
                   : convertHexToRGBA('#A80000', 0.1),
                 padding: '0.5rem',
@@ -49,13 +49,13 @@ export const UserAdministration = () => {
               key={generateShortId()}
               size={12}
               weight="bold"
-              color={r.isWalletEnabled ? Colors.darkGreen : '#6A0000'}
+              color={r.isActive ? Colors.darkGreen : '#6A0000'}
             >
-              {r.isWalletEnabled ? 'Enabled' : 'Disabled'}
+              {r.isActive ? 'Enabled' : 'Disabled'}
             </Text>
           ),
           acctID: r.mobileNumber,
-          type: r.registeredThrough,
+          type: r.mobileNumber,
           action: (
             <Button link color={Colors.darkGreen} key={generateShortId()}>
               View
@@ -107,8 +107,8 @@ export const UserAdministration = () => {
                 'S//N',
                 'Name',
                 'Email',
-                'Wallet',
-                'Account ID',
+                'Last Login',
+                'Status',
                 'Role',
                 'Action',
               ]}
@@ -116,39 +116,39 @@ export const UserAdministration = () => {
               data={users}
               onRowClick={onRowClick}
             />
+            <Column>
+              {data?.result.results && (
+                <Row useAppMargin justifyContent="space-between">
+                  <Column xs={4} md={2}>
+                    <TextField
+                      leftIcon="Show:"
+                      placeholder={`${pageSize}`}
+                      dropDown
+                      dropDownOptions={paginationLimits}
+                      onChange={(e) => setPageSize(Number(e.target.value))}
+                    />
+                  </Column>
+                  <Column
+                    xs={12}
+                    md={8}
+                    fullHeight
+                    alignItems="center"
+                    justifyContent="flex-end"
+                  >
+                    <Pagination
+                      breakLabel="..."
+                      pageCount={data.result.totalNumberOfPages}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={5}
+                      onPageChange={(e) => setPageNumber(e.selected + 1)}
+                      containerClassName="pagination"
+                      activeClassName="active"
+                    />
+                  </Column>
+                </Row>
+              )}
+            </Column>
           </Card>
-        </Column>
-        <Column>
-          {data?.result.results && (
-            <Row useAppMargin justifyContent="space-between">
-              <Column xs={4} md={2}>
-                <TextField
-                  leftIcon="Show:"
-                  placeholder={`${pageSize}`}
-                  dropDown
-                  dropDownOptions={paginationLimits}
-                  onChange={(e) => setPageSize(Number(e.target.value))}
-                />
-              </Column>
-              <Column
-                xs={12}
-                md={8}
-                fullHeight
-                alignItems="center"
-                justifyContent="flex-end"
-              >
-                <Pagination
-                  breakLabel="..."
-                  pageCount={data.result.totalNumberOfPages}
-                  marginPagesDisplayed={2}
-                  pageRangeDisplayed={5}
-                  onPageChange={(e) => setPageNumber(e.selected + 1)}
-                  containerClassName="pagination"
-                  activeClassName="active"
-                />
-              </Column>
-            </Row>
-          )}
         </Column>
       </PageBody>
     </>
