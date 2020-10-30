@@ -15,7 +15,6 @@ import { IUser } from './interface';
 import { useFetch } from '../../hooks/useRequests';
 import { paginationLimits } from '../../utils/paginationLimits';
 import { Text } from '../../components/UiKit/Text';
-import { Avatar } from '../../components/UiKit/Avatar';
 import { generateShortId } from '../../utils/generateShortId';
 import { Colors } from '../../themes/colors';
 import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
@@ -25,7 +24,7 @@ export const UserAdministration = () => {
   const [pageSize, setPageSize] = useState(25);
 
   const { data, loading } = useFetch<IUser>(
-    `Mobility.AccountBackoffice/api/Airtime/GetTransfers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+    `Mobility.OnboardingBackOffice/api/Users/GetUsers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
   );
 
   const [users, setUsers] = useState<(string | number | JSX.Element)[][]>();
@@ -37,20 +36,8 @@ export const UserAdministration = () => {
       const result = data.result.results.map((r, i) =>
         Object.values({
           'S/N': `${i + 1}.`,
-          Name: (
-            <Row useAppMargin key={generateShortId()} alignItems="center">
-              <Column useAppMargin xs={12} md={2}>
-                <Avatar />
-              </Column>
-              <Column useAppMargin xs={12} md={10}>
-                <Text color={Colors.darkGreen}>
-                  {r.firstName} {r.lastName}
-                </Text>
-                <Text>{r.email}</Text>
-              </Column>
-            </Row>
-          ),
-          mobile: r.mobileNumber,
+          Name: `${r.firstName} ${r.lastName}`,
+          email: r.email,
           wallet: (
             <Text
               style={{
@@ -70,15 +57,7 @@ export const UserAdministration = () => {
           acctID: r.mobileNumber,
           type: r.registeredThrough,
           action: (
-            <Button
-              link
-              color={Colors.darkGreen}
-              key={generateShortId()}
-              onClick={(e) => {
-                history.push(`/customer/${r.id}`);
-                e.stopPropagation();
-              }}
-            >
+            <Button link color={Colors.darkGreen} key={generateShortId()}>
               View
             </Button>
           ),
@@ -128,8 +107,8 @@ export const UserAdministration = () => {
                 'S//N',
                 'Name',
                 'Email',
-                'Last Login',
-                'Status',
+                'Wallet',
+                'Account ID',
                 'Role',
                 'Action',
               ]}
