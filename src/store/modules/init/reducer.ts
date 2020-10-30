@@ -3,7 +3,7 @@ import types from './types';
 export const appInitialState = {
   isReady: false,
   noNetwork: false,
-  showSidebar: false,
+  // showSidebar: false,
 };
 
 interface Action {
@@ -21,11 +21,11 @@ export const appReducer = (state = appInitialState, action: Action) => {
         isReady: true,
       };
 
-    case types.TOGGLE_SIDEBAR:
-      return {
-        ...state,
-        showSidebar: !state.showSidebar,
-      };
+    // case types.TOGGLE_SIDEBAR:
+    //   return {
+    //     ...state,
+    //     showSidebar: !state.showSidebar,
+    //   };
 
     case types.SET_NETWORK_ERROR:
       return {
