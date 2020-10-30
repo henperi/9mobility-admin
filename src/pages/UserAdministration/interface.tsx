@@ -16,17 +16,27 @@ export interface IUser {
         mobileNumber: string;
         lastName: string;
         firstName: string;
-        dateCreated: string;
-        isWalletEnabled: true;
-        registeredThrough: string;
-        imageUrl: string;
+        dateOfBirth: string;
+        photoUrl: string;
+        roleId: number;
+        backOfficeUserRoleDetailModels: [
+          {
+            userId1: number;
+            roleId: number;
+            id: number;
+            roleName: string;
+            userName: string;
+            isActive: boolean;
+          },
+        ];
+        isActive: boolean;
       },
     ];
   };
 }
 
 export interface ISingleUser {
-  responseCode: number;
+  responseCode: 0;
   message: string;
   result: {
     username: string;
@@ -36,17 +46,17 @@ export interface ISingleUser {
     firstName: string;
     dateOfBirth: string;
     photoUrl: string;
-    roleId: number;
+    roleId: 0;
     backOfficeUserRoleDetailModels: [
       {
-        userId1: number;
-        roleId: number;
-        id: number;
+        userId1: 0;
+        roleId: 0;
+        id: 0;
         roleName: string;
         userName: string;
-        isActive: true;
+        isActive: boolean;
       },
     ];
-    isActive: true;
+    isActive: boolean;
   };
 }
