@@ -15,6 +15,7 @@ import { generateShortId } from '../../utils/generateShortId';
 import { Colors } from '../../themes/colors';
 import { IAds } from './interface';
 import { useFetch } from '../../hooks/useRequests';
+import { exportToExcel } from '../../utils/exportToExcel';
 
 export const Ads = () => {
   const [pageNumber] = useState(1);
@@ -65,7 +66,17 @@ export const Ads = () => {
             </Row>
           </Column>
           <Column xs={12} md={4} lg={2} justifyContent="flex-end">
-            <Button fullWidth>Export CSV</Button>
+            <Button
+              fullWidth
+              onClick={() =>
+                exportToExcel(
+                  `Mobility.AccountBackoffice/api/Ads/GetAds?pageNumber=${pageNumber}&pageSize=${pageSize}&exportToExcel=true`,
+                  'Ads',
+                )
+              }
+            >
+              Export CSV
+            </Button>
           </Column>
         </Row>
         <SizedBox height={24} />

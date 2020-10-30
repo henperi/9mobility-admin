@@ -13,6 +13,7 @@ import { IPaymentHistory } from './interface';
 import { useFetch } from '../../hooks/useRequests';
 import { Pagination } from '../../components/UiKit/Pagination';
 import { paginationLimits } from '../../utils/paginationLimits';
+import { exportToExcel } from '../../utils/exportToExcel';
 
 export const PaymentHistory = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -66,7 +67,17 @@ export const PaymentHistory = () => {
             </Row>
           </Column>
           <Column xs={12} md={4} lg={2} justifyContent="flex-end">
-            <Button fullWidth>Export CSV</Button>
+            <Button
+              fullWidth
+              onClick={() =>
+                exportToExcel(
+                  `Mobility.AccountBackoffice/api/TransactionHistories/GetTransactionHistory?startDate=${dates.startDate}&exportToExcel=true`,
+                  'PaymentHistory',
+                )
+              }
+            >
+              Export CSV
+            </Button>
           </Column>
         </Row>
         <SizedBox height={24} />

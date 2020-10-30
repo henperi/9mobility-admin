@@ -15,6 +15,7 @@ import { Text } from '../../components/UiKit/Text';
 import { generateShortId } from '../../utils/generateShortId';
 import { IRegNotcomplete } from './interface';
 import { useFetch } from '../../hooks/useRequests';
+import { exportToExcel } from '../../utils/exportToExcel';
 
 export const IncompleteRegistration = () => {
   const [pageNumber] = useState(1);
@@ -76,7 +77,17 @@ export const IncompleteRegistration = () => {
             </Row>
           </Column>
           <Column xs={12} md={4} lg={2} justifyContent="flex-end">
-            <Button fullWidth>Export CSV</Button>
+            <Button
+              fullWidth
+              onClick={() =>
+                exportToExcel(
+                  `Mobility.OnboardingBackOffice/api/Users/GetUsersButInCompleteRegistration?pageNumber=${pageNumber}&exportToExcel=true`,
+                  'IncompleteRegistration',
+                )
+              }
+            >
+              Export CSV
+            </Button>
           </Column>
         </Row>
         <SizedBox height={24} />
