@@ -15,6 +15,7 @@ import { IAirtimeTransfer } from './interface';
 import { useFetch } from '../../hooks/useRequests';
 import { Pagination } from '../../components/UiKit/Pagination';
 import { paginationLimits } from '../../utils/paginationLimits';
+import { exportToExcel } from '../../utils/exportToExcel';
 
 export const AirtimeTransfer = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -64,7 +65,17 @@ export const AirtimeTransfer = () => {
             </Row>
           </Column>
           <Column useAppMargin xs={12} md={4} lg={2} justifyContent="flex-end">
-            <Button fullWidth>Export CSV</Button>
+            <Button
+              onClick={() =>
+                exportToExcel(
+                  `Mobility.AccountBackoffice/api/Airtime/GetTransfers?pageNumber=${pageNumber}&pageSize=${pageSize}&exportToExcel=true`,
+                  'AirtimeTransfer',
+                )
+              }
+              fullWidth
+            >
+              Export CSV
+            </Button>
           </Column>
         </Row>
         <SizedBox height={24} />

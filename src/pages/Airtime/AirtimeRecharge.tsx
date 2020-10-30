@@ -15,14 +15,14 @@ import { IAirtimePurchase } from './interface';
 import { useFetch } from '../../hooks/useRequests';
 import { Pagination } from '../../components/UiKit/Pagination';
 import { paginationLimits } from '../../utils/paginationLimits';
+import { exportToExcel } from '../../utils/exportToExcel';
 
 export const AirtimeRechargePage = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(20);
+  const url = `Mobility.AccountBackoffice/api/Airtime/GetPurchases?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
-  const { data, loading } = useFetch<IAirtimePurchase>(
-    `Mobility.AccountBackoffice/api/Airtime/GetPurchases?pageNumber=${pageNumber}&pageSize=${pageSize}`,
-  );
+  const { data, loading } = useFetch<IAirtimePurchase>(`${url}`);
 
   const [purchases, setPurchases] = useState<(string | number)[][]>();
 
@@ -63,7 +63,14 @@ export const AirtimeRechargePage = () => {
             </Row>
           </Column>
           <Column useAppMargin xs={12} md={4} lg={2} justifyContent="flex-end">
-            <Button fullWidth>Export CSV</Button>
+            <Button
+              onClick={() =>
+                exportToExcel(`${url}&exportToExcel=true`, 'AirtimeRecharge')
+              }
+              fullWidth
+            >
+              Export CSV
+            </Button>
           </Column>
         </Row>
         <SizedBox height={24} />

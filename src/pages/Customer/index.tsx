@@ -20,6 +20,7 @@ import { Colors } from '../../themes/colors';
 import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
 import { Pagination } from '../../components/UiKit/Pagination';
 import { paginationLimits } from '../../utils/paginationLimits';
+import { exportToExcel } from '../../utils/exportToExcel';
 
 // import { ReactComponent as ArrowComponent } from '../../assets/images/arrowDown.svg';
 
@@ -42,10 +43,9 @@ import { paginationLimits } from '../../utils/paginationLimits';
 export const CustomerPage = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(20);
+  const url = `Mobility.OnboardingBackOffice/api/Users/GetUsers?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
-  const { data, loading } = useFetch<ICustomers>(
-    `Mobility.OnboardingBackOffice/api/Users/GetUsers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
-  );
+  const { data, loading } = useFetch<ICustomers>(`${url}`);
 
   const [customers, setCustomers] = useState<
     (string | number | JSX.Element)[][]
@@ -136,7 +136,14 @@ export const CustomerPage = () => {
             </Row>
           </Column>
           <Column useAppMargin xs={12} md={4} lg={2} justifyContent="flex-end">
-            <Button fullWidth>Export CSV</Button>
+            <Button
+              onClick={() =>
+                exportToExcel(`${url}&exportToExcel=true`, 'AirtimeRecharge')
+              }
+              fullWidth
+            >
+              Export CSV
+            </Button>
           </Column>
         </Row>
         <SizedBox height={24} />
