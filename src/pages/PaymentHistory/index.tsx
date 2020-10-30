@@ -49,6 +49,7 @@ export const PaymentHistory = () => {
       setPaymentHistory(result);
     }
   }, [data?.result.results]);
+
   return (
     <>
       <TopBar name="Payment History" />

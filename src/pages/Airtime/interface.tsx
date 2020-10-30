@@ -22,6 +22,7 @@ export interface IAirtimePurchase {
       beneficiaryTypeName: string;
       reference: string;
       responseMessage: string;
+      channel: string;
     }[];
   };
 }

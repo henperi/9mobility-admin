@@ -14,6 +14,8 @@ import { Button } from '../../components/UiKit/Button';
 import { useFetch } from '../../hooks/useRequests';
 import { ICustomers } from '../Customer/interface';
 import { Spinner } from '../../components/UiKit/Spinner';
+import { useGlobalStore } from '../../store';
+import { logger } from '../../utils/logger';
 
 export const DashboardPage = () => {
   const [pageNumber] = useState(1);
@@ -22,6 +24,9 @@ export const DashboardPage = () => {
   const { data, loading } = useFetch<ICustomers>(
     `Mobility.OnboardingBackOffice/api/Users/GetUsers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
   );
+
+  const { state } = useGlobalStore();
+  logger.log(state);
 
   const {
     data: dailyTotalSignup,

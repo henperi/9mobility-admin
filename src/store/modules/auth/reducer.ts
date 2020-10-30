@@ -4,11 +4,11 @@ import { AuthUser } from './interface';
 export const authInitialState: {
   isAuthenticated: boolean;
   user: AuthUser | null;
-  token: string | null;
+  // token: string | null;
 } = {
   isAuthenticated: false,
   user: null,
-  token: null,
+  // token: null,
 };
 
 export const authReducer = (
@@ -26,12 +26,12 @@ export const authReducer = (
         },
       };
 
-    case types.SET_AUTH_TOKEN:
-      return {
-        ...state,
-        isAuthenticated: true,
-        token: action.payload.token,
-      };
+    // case types.SET_AUTH_TOKEN:
+    //   return {
+    //     ...state,
+    //     isAuthenticated: true,
+    //     token: action.payload.token,
+    //   };
 
     case types.REMOVE_AUTH_USER:
       return {

@@ -32,7 +32,7 @@ export const AirtimeRechargePage = () => {
         Object.values({
           'S/N': i + 1,
           mobile: r.mobileNumber,
-          channel: r.beneficiaryTypeName,
+          channel: r?.channel || '',
           amount: r.amount,
           status: r.transactionStatusName,
           date: DateTime.fromISO(r.createdDate, {

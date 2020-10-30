@@ -22,6 +22,7 @@ import { Roaming } from '../pages/Roaming';
 import { Settings } from '../pages/Settings';
 import { UserAdministration } from '../pages/UserAdministration';
 import { UserDetails } from '../pages/UserAdministration/UserDetails';
+import { ProtectedRoute } from '../components/ProtectedRoute';
 
 export const Routes = () => {
   return (
@@ -29,9 +30,9 @@ export const Routes = () => {
       <Route exact path="/" render={() => <Redirect to="/login" />} />
 
       <Route exact path="/login" component={LoginPage} />
-      <Route exact path="/dashboard" component={DashboardPage} />
-      <Route exact path="/customer" component={CustomerPage} />
-      <Route path="/customer/:id">
+      <ProtectedRoute exact path="/dashboard" component={DashboardPage} />
+      <ProtectedRoute exact path="/customer" component={CustomerPage} />
+      <ProtectedRoute path="/customer/:id">
         <CustomerDetails>
           <Switch>
             <Redirect
@@ -39,52 +40,72 @@ export const Routes = () => {
               from="/customer/:id"
               to="/customer/:id/payment-history"
             />
-            <Route
+            <ProtectedRoute
               exact
               path="/customer/:id/payment-history"
               component={CustomerPaymentHistory}
             />
-            <Route
+            <ProtectedRoute
               exact
               path="/customer/:id/airtime-recharge"
               component={CustomerAirtimeRecharge}
             />
-            <Route
+            <ProtectedRoute
               exact
               path="/customer/:id/data-transfer"
               component={CustomerDataTransfer}
             />
-            <Route
+            <ProtectedRoute
               exact
               path="/customer/:id/airtime-data-transfer"
               component={CustomerAirtimeTransfer}
             />
-            <Route
+            <ProtectedRoute
               exact
               path="/customer/:id/data-usage"
               component={CustomerDataUsage}
             />
           </Switch>
         </CustomerDetails>
-      </Route>
+      </ProtectedRoute>
 
-      <Route exact path="/user/:id" component={UserDetails} />
-      <Route exact path="/airtime-recharge" component={AirtimeRechargePage} />
-      <Route exact path="/airtime-transfer" component={AirtimeTransfer} />
-      <Route exact path="/data-purchase" component={DataPurchase} />
-      <Route exact path="/data-transfer" component={DataTransfer} />
-      <Route exact path="/payment-history" component={PaymentHistory} />
-      <Route
+      <ProtectedRoute exact path="/user/:id" component={UserDetails} />
+      <ProtectedRoute
+        exact
+        path="/airtime-recharge"
+        component={AirtimeRechargePage}
+      />
+      <ProtectedRoute
+        exact
+        path="/airtime-transfer"
+        component={AirtimeTransfer}
+      />
+      <ProtectedRoute exact path="/data-purchase" component={DataPurchase} />
+      <ProtectedRoute exact path="/data-transfer" component={DataTransfer} />
+      <ProtectedRoute
+        exact
+        path="/payment-history"
+        component={PaymentHistory}
+      />
+      <ProtectedRoute
         exact
         path="/incomplete-registration"
         component={IncompleteRegistration}
       />
-      <Route exact path="/roaming" component={Roaming} />
-      <Route exact path="/ads" component={Ads} />
-      <Route exact path="/prepaid-package" component={PrepaidPackage} />
-      <Route exact path="/user-administration" component={UserAdministration} />
-      <Route exact path="/audit" component={Audit} />
-      <Route exact path="/settings" component={Settings} />
+      <ProtectedRoute exact path="/roaming" component={Roaming} />
+      <ProtectedRoute exact path="/ads" component={Ads} />
+      <ProtectedRoute
+        exact
+        path="/prepaid-package"
+        component={PrepaidPackage}
+      />
+      <ProtectedRoute
+        exact
+        path="/user-administration"
+        component={UserAdministration}
+      />
+      <ProtectedRoute exact path="/audit" component={Audit} />
+      <ProtectedRoute exact path="/settings" component={Settings} />
     </Switch>
   );
 };

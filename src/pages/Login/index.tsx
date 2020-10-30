@@ -19,11 +19,18 @@ import { Checkbox } from '../../components/UiKit/CheckBox';
 
 import { ReactComponent as Logo } from '../../assets/images/9mobility-logo.svg';
 import { Row } from '../../components/UiKit/Row';
-import { setAuthUserToken } from '../../store/modules/auth/actions';
+import {
+  setAuthUser,
+  // setAuthUserToken,
+} from '../../store/modules/auth/actions';
 
 interface Response {
   result: {
     token: string;
+    roleName: string;
+    name: string;
+    photoUrl: string;
+    email: string;
   };
   responseCode: number;
   message: string;
@@ -57,12 +64,13 @@ export const LoginPage = () => {
       setLoading(false);
       logger.log(result);
 
-      // history.push(`/dashboard`);
-
       // TODO: should probably replace this with replace setAuthUser later, backend needs to change this
       // logger.log(result.data.result);
-      dispatch(setAuthUserToken(result.data.result.token));
+      // dispatch(setAuthUserToken(result.data.result.token));
+      dispatch(setAuthUser(result.data.result));
+      history.push(`/dashboard`);
     } catch (error) {
+      // console.log(error);
       setLoading(false);
       setErrorMessage((error as Error).message);
     }
@@ -83,10 +91,10 @@ export const LoginPage = () => {
   });
 
   useEffect(() => {
-    if (state.auth.isAuthenticated && state.auth.token) {
+    if (state.auth.user?.token) {
       history.push('/dashboard');
     }
-  }, [history, state.auth]);
+  }, [history, state.auth.user?.token]);
 
   return (
     <PageBody style={{ minHeight: '100vh' }} dark centeralize>

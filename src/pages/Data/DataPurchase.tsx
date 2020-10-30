@@ -33,10 +33,10 @@ export const DataPurchase = () => {
         Object.values({
           'S/N': i + 1,
           accountId: r.mobileNumber,
-          channel: r.beneficiaryTypeName,
+          channel: r?.channel || '',
           amount: r.amount,
           status: r.transactionStatusName,
-          purchaseType: 'r.purchaseType',
+          purchaseType: '',
           date: DateTime.fromISO(r.createdDate, {
             locale: 'fr',
           }).toLocaleString(),
