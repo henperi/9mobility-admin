@@ -18,7 +18,9 @@ export interface IPaymentHistory {
       transactionSource: number;
       transactionTypeName: string;
       transactionSourceName: string;
-      userId: 67;
+      userId: number;
+      mobileNumber: number;
+      status: string;
     }[];
   };
 }

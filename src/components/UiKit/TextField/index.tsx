@@ -70,18 +70,27 @@ export const TextField: React.FC<ITextField> = (props) => {
   const [coords, setCoords] = useState<{
     left?: number;
     top?: number;
+    bottom?: number;
     width?: string;
   }>({});
 
-  const ref = useRef<HTMLElement | null | undefined>();
+  const ref = useRef<HTMLDivElement>(null);
 
   const toggleDropDown = () => {
     const rect = ref.current?.getBoundingClientRect();
+    const height = 200 + 5;
+
+    const isAtBottom = (rect?.y || 0) + height > window.innerHeight;
+    const subtractHeight = (rect?.height || 0) + height;
 
     if (rect) {
       setCoords({
         left: rect.x,
-        top: rect.y + rect.height + window.scrollY,
+        top:
+          rect.y +
+          rect.height +
+          window.scrollY -
+          (isAtBottom ? subtractHeight : 0),
         width: `${rect.width}px`,
       });
     }
@@ -148,7 +157,7 @@ export const TextField: React.FC<ITextField> = (props) => {
           disabled={!!inputProps.disabled}
           style={style}
           dropDown={dropDown}
-          ref={ref as React.RefObject<HTMLDivElement>}
+          ref={ref}
         >
           {leftIcon && <div className="inputIcon">{leftIcon}</div>}
           <Styles.Input
@@ -171,6 +180,7 @@ export const TextField: React.FC<ITextField> = (props) => {
                 width: '100%',
                 left: coords?.left,
                 top: coords?.top,
+                bottom: coords?.bottom,
               }}
             >
               <DropDownContainer>

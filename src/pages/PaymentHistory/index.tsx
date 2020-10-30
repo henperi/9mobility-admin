@@ -11,10 +11,12 @@ import { TextField } from '../../components/UiKit/TextField';
 import { SimpleTable } from '../../components/UiKit/Table';
 import { IPaymentHistory } from './interface';
 import { useFetch } from '../../hooks/useRequests';
+import { Pagination } from '../../components/UiKit/Pagination';
+import { paginationLimits } from '../../utils/paginationLimits';
 
 export const PaymentHistory = () => {
-  const [pageNumber] = useState(1);
-  const [pageSize] = useState(20);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const dates = {
     startDate: '10/08/2020',
@@ -35,10 +37,10 @@ export const PaymentHistory = () => {
         Object.values({
           'S/N': i + 1,
           type: r.transactionTypeName,
-          accountId: r.userId,
-          channel: 'r.channel',
+          accountId: r.mobileNumber,
+          channel: 'Empty',
           amount: r.transactionAmount,
-          status: 'r.status',
+          status: r.status,
           date: `${r.dateCreated} ${r.timeCreated}`,
         }),
       );
@@ -73,7 +75,7 @@ export const PaymentHistory = () => {
             <SimpleTable
               columns={[
                 'S//N',
-                'Transaction Tyoe',
+                'Transaction Type',
                 'Account ID',
                 'Channel',
                 'Amount',
@@ -83,6 +85,41 @@ export const PaymentHistory = () => {
               data={paymentHistory}
               loading={loading}
             />
+            {data?.result.results?.length === 0 &&
+              'No payment history at the moment'}
+
+            <SizedBox height={20} />
+
+            {data && data.result.results.length > 0 && (
+              <Row useAppMargin justifyContent="space-between">
+                <Column xs={4} md={2}>
+                  <TextField
+                    leftIcon="Show:"
+                    placeholder={`${pageSize}`}
+                    dropDown
+                    dropDownOptions={paginationLimits}
+                    onChange={(e) => setPageSize(Number(e.target.value))}
+                  />
+                </Column>
+                <Column
+                  xs={12}
+                  md={8}
+                  fullHeight
+                  alignItems="center"
+                  justifyContent="flex-end"
+                >
+                  <Pagination
+                    breakLabel="..."
+                    pageCount={data.result.totalNumberOfPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={(e) => setPageNumber(e.selected + 1)}
+                    containerClassName="pagination"
+                    activeClassName="active"
+                  />
+                </Column>
+              </Row>
+            )}
           </Card>
         </Column>
       </PageBody>
