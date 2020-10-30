@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Ads } from '../pages/Ads';
+import { AdsDetails } from '../pages/Ads/AdsDetails';
+import { NewAds } from '../pages/Ads/NewAds';
 import { AirtimeRechargePage } from '../pages/Airtime/AirtimeRecharge';
 import { AirtimeTransfer } from '../pages/Airtime/AirtimeTransfer';
 import { Audit } from '../pages/Audit';
@@ -81,6 +83,8 @@ export const Routes = () => {
       />
       <Route exact path="/roaming" component={Roaming} />
       <Route exact path="/ads" component={Ads} />
+      <Route exact path="/ads/details" component={AdsDetails} />
+      <Route exact path="/ads/new-ad" component={NewAds} />
       <Route exact path="/prepaid-package" component={PrepaidPackage} />
       <Route exact path="/user-administration" component={UserAdministration} />
       <Route exact path="/audit" component={Audit} />
