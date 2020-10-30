@@ -1,16 +1,24 @@
 import React, { HtmlHTMLAttributes } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Styles } from './style';
 import { Column } from '../UiKit/Column';
 import { Colors } from '../../themes/colors';
 import { SizedBox } from '../UiKit/SizedBox';
 
-import { ReactComponent as HomeIcon } from '../../assets/images/homeIcon.svg';
-import { ReactComponent as CallHistoryIcon } from '../../assets/images/callHistoryIcon.svg';
-import { ReactComponent as DataIcon } from '../../assets/images/dataIcon.svg';
-import { ReactComponent as DataUsage } from '../../assets/images/dataUsageIcon.svg';
-import { ReactComponent as TimeIcon } from '../../assets/images/timeIcon.svg';
-import { ReactComponent as PrepaidPlanIcon } from '../../assets/images/prepaidPlanIcon.svg';
-import { ReactComponent as SubscribedIcon } from '../../assets/images/subscribedIcon.svg';
+import { ReactComponent as DashboardIcon } from '../../assets/images/Menu/dashboard-icon.svg';
+import { ReactComponent as UserIcon } from '../../assets/images/Menu/user-alt-solid.svg';
+import { ReactComponent as AirtimeRechargeIcon } from '../../assets/images/Menu/airtime-rechage-icon.svg';
+import { ReactComponent as DataPurchaseIcon } from '../../assets/images/Menu/data-purchase-icons.svg';
+import { ReactComponent as WifiIcon } from '../../assets/images/Menu/wifi-icon.svg';
+import { ReactComponent as AirtimeTransferIcon } from '../../assets/images/Menu/airtime-transfer-icon.svg';
+import { ReactComponent as CreditCardIcon } from '../../assets/images/Menu/credit-card-icon.svg';
+import { ReactComponent as IncompleteRegIcon } from '../../assets/images/Menu/incomplete-reg-icon.svg';
+import { ReactComponent as GlobeIcon } from '../../assets/images/Menu/globe-icon.svg';
+import { ReactComponent as AdsIcon } from '../../assets/images/Menu/ads-icon.svg';
+import { ReactComponent as UserCogIcon } from '../../assets/images/Menu/user-cog-icon.svg';
+import { ReactComponent as AuditIcon } from '../../assets/images/Menu/audit-icon.svg';
+import { ReactComponent as PrepaidPackageIcon } from '../../assets/images/Menu/prepaid-package-icon.svg';
+import { ReactComponent as SettingsIcon } from '../../assets/images/Menu/settings-icon.svg';
 import { Card } from '../UiKit/Card';
 import { Avatar } from '../UiKit/Avatar';
 import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
@@ -21,6 +29,8 @@ interface ISidebar extends HtmlHTMLAttributes<HTMLDivElement> {
   showSidebar?: boolean;
 }
 export const SideBar: React.FC<ISidebar> = (props) => {
+  const history = useHistory();
+
   return (
     <Styles.SideBar {...props}>
       <Column
@@ -52,7 +62,7 @@ export const SideBar: React.FC<ISidebar> = (props) => {
           activeClassName="active-sidebar-link"
           to="/dashboard"
         >
-          <HomeIcon />
+          <DashboardIcon />
           Dashboard
         </Styles.SideBarLink>
 
@@ -60,7 +70,7 @@ export const SideBar: React.FC<ISidebar> = (props) => {
           activeClassName="active-sidebar-link"
           to="/customer"
         >
-          <HomeIcon />
+          <UserIcon />
           Customers
         </Styles.SideBarLink>
 
@@ -68,57 +78,57 @@ export const SideBar: React.FC<ISidebar> = (props) => {
           activeClassName="active-sidebar-link"
           to="/airtime-recharge"
         >
-          <DataIcon />
+          <AirtimeRechargeIcon />
           Airtime Recharge
         </Styles.SideBarLink>
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/data-purchase"
         >
-          <DataIcon />
+          <DataPurchaseIcon />
           Data Purchase
         </Styles.SideBarLink>
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/airtime-transfer"
         >
-          <CallHistoryIcon />
+          <AirtimeTransferIcon />
           Airtime transfer
         </Styles.SideBarLink>
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/data-transfer"
         >
-          <DataUsage />
+          <WifiIcon />
           Data Transfer
         </Styles.SideBarLink>
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/payment-history"
         >
-          <TimeIcon />
+          <CreditCardIcon />
           Payment History
         </Styles.SideBarLink>
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/incomplete-registration"
         >
-          <TimeIcon />
+          <IncompleteRegIcon />
           Incomplete registration
         </Styles.SideBarLink>
         <Styles.SideBarLink activeClassName="active-sidebar-link" to="/roaming">
-          <PrepaidPlanIcon />
+          <GlobeIcon />
           Roaming
         </Styles.SideBarLink>
         <Styles.SideBarLink activeClassName="active-sidebar-link" to="/ads">
-          <SubscribedIcon />
+          <AdsIcon />
           Ads
         </Styles.SideBarLink>
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/prepaid-package"
         >
-          <SubscribedIcon />
+          <PrepaidPackageIcon />
           Prepaid package
         </Styles.SideBarLink>
         {/* <Styles.SideBarLink
@@ -132,18 +142,18 @@ export const SideBar: React.FC<ISidebar> = (props) => {
           activeClassName="active-sidebar-link"
           to="/user-administration"
         >
-          <SubscribedIcon />
+          <UserCogIcon />
           User administration
         </Styles.SideBarLink>
         <Styles.SideBarLink activeClassName="active-sidebar-link" to="/audit">
-          <SubscribedIcon />
+          <AuditIcon />
           Audit
         </Styles.SideBarLink>
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/settings"
         >
-          <SubscribedIcon />
+          <SettingsIcon />
           Settings
         </Styles.SideBarLink>
       </Column>
