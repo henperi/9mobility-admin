@@ -26,7 +26,6 @@ export const DashboardPage = () => {
   );
 
   const { state } = useGlobalStore();
-  logger.log(state);
 
   const {
     data: dailyTotalSignup,
@@ -34,6 +33,28 @@ export const DashboardPage = () => {
   } = useFetch<{ total: number }>(
     `Mobility.OnboardingBackOffice/api/Users/GetDailyTotalSignUpToday`,
   );
+
+  const { data: userReport, loading: loadingUserReport } = useFetch<{
+    responseCode: number;
+    message: string;
+    result: {
+      perMonth: number;
+      perWeek: number;
+      perDay: number;
+    };
+  }>(`Mobility.OnboardingBackOffice/api/Users/GetSignedUpUserReport`);
+
+  const { data: signupSource, loading: loadingSignupSource } = useFetch<{
+    result: {
+      form: number;
+      facebook: number;
+      google: number;
+      nil: number;
+      total: number;
+    };
+    responseCode: number;
+    message: 'Successfully Saved';
+  }>(`Mobility.OnboardingBackOffice/api/Users/GetSignedUpSourceReport`);
 
   return (
     <>
@@ -48,7 +69,7 @@ export const DashboardPage = () => {
                     Total active user
                   </Text>
                   <Text size={20} style={{ marginTop: '5px' }}>
-                    1,345
+                    {loadingSignupSource ? '-' : signupSource?.result?.total}
                   </Text>
                 </Column>
                 <Column
@@ -75,7 +96,7 @@ export const DashboardPage = () => {
                     Logged In User daily
                   </Text>
                   <Text size={20} style={{ marginTop: '5px' }}>
-                    1,345
+                    {loadingUserReport ? '-' : userReport?.result.perDay}
                   </Text>
                 </Column>
                 <Column
@@ -102,7 +123,7 @@ export const DashboardPage = () => {
                     Logged In user weekly
                   </Text>
                   <Text size={20} style={{ marginTop: '5px' }}>
-                    1,345
+                    {loadingUserReport ? '-' : userReport?.result.perWeek}
                   </Text>
                 </Column>
                 <Column
@@ -129,7 +150,7 @@ export const DashboardPage = () => {
                     Logged In user monthly
                   </Text>
                   <Text size={20} style={{ marginTop: '5px' }}>
-                    1,345
+                    {loadingUserReport ? '-' : userReport?.result.perMonth}
                   </Text>
                 </Column>
                 <Column
@@ -183,7 +204,10 @@ export const DashboardPage = () => {
                     Total signups daily (Social)
                   </Text>
                   <Text size={20} style={{ marginTop: '5px' }}>
-                    1,345
+                    {loadingSignupSource
+                      ? '-'
+                      : signupSource?.result?.facebook! +
+                        signupSource?.result?.form!}
                   </Text>
                 </Column>
                 <Column
@@ -210,7 +234,7 @@ export const DashboardPage = () => {
                     Total signups daily (Form)
                   </Text>
                   <Text size={20} style={{ marginTop: '5px' }}>
-                    1,345
+                    {loadingSignupSource ? '-' : signupSource?.result?.form}
                   </Text>
                 </Column>
                 <Column
