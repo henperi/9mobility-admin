@@ -1,5 +1,4 @@
-import React from 'react';
-// import { FaWallet } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
 
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
@@ -10,8 +9,60 @@ import { TopBar } from '../../components/TopBar';
 import { Button } from '../../components/UiKit/Button';
 import { TextField } from '../../components/UiKit/TextField';
 import { SimpleTable } from '../../components/UiKit/Table';
+import { useFetch } from '../../hooks/useRequests';
+import { IRoaming } from './interface';
+import { paginationLimits } from '../../utils/paginationLimits';
+import { Pagination } from '../../components/UiKit/Pagination';
+import { exportToExcel } from '../../utils/exportToExcel';
 
 export const Roaming = () => {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+
+  const { data, loading } = useFetch<IRoaming>(
+    `Mobility.AccountBackoffice/api/RoamingRates/Get?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+  );
+
+  const [roamingRates, setRoamingRates] = useState<
+    (string | number | React.FC | JSX.Element)[][]
+  >();
+
+  useEffect(() => {
+    if (data?.result?.results?.length) {
+      const result = data.result?.results.map((r, i) =>
+        Object.values({
+          serialNumber: r.id,
+          country: r.country,
+          ISO: '',
+          operator: r.operator,
+          callRateToNigeria: r.callRateToNigeria,
+          callRateWithinLocation: r.callRateWithinLocation,
+          textingNigeria: '',
+          smsRate: r.smsRate,
+          receivingRateNigeria: '',
+          receivingCallRate: r.receivingCallRate,
+          charge: '',
+          package: '',
+        }),
+      );
+
+      // 'S//N',
+      // 'Country',
+      // 'ISO',
+      // 'Roaming Ntw. Name',
+      // 'Calling Nigeria',
+      // 'Calling Local No.',
+      // 'Texting Nigeria',
+      // 'Texting Local No.',
+      // 'Receive Nigeria call',
+      // 'Receive Local call',
+      // 'Charge',
+      // 'Package',
+
+      setRoamingRates(result);
+    }
+  }, [data?.result?.results]);
+
   return (
     <>
       <TopBar name="Roaming" />
@@ -30,7 +81,17 @@ export const Roaming = () => {
             </Row>
           </Column>
           <Column xs={12} md={4} lg={2} justifyContent="flex-end">
-            <Button fullWidth>Export CSV</Button>
+            <Button
+              fullWidth
+              onClick={() =>
+                exportToExcel(
+                  `Mobility.AccountBackoffice/api/Ads/GetAds?pageNumber=${pageNumber}&pageSize=${pageSize}&exportToExcel=true`,
+                  'RoamingRates',
+                )
+              }
+            >
+              Export CSV
+            </Button>
           </Column>
         </Row>
         <SizedBox height={24} />
@@ -51,79 +112,41 @@ export const Roaming = () => {
                 'Charge',
                 'Package',
               ]}
-              data={[
-                [
-                  '1',
-                  'Algeria',
-                  'AG',
-                  'Telcel',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  '2.10 kb',
-                  '11',
-                ],
-                [
-                  '1',
-                  'Algeria',
-                  'AG',
-                  'Telcel',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  '2.10 kb',
-                  '11',
-                ],
-                [
-                  '1',
-                  'Algeria',
-                  'AG',
-                  'Telcel',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  '2.10 kb',
-                  '11',
-                ],
-                [
-                  '1',
-                  'Algeria',
-                  'AG',
-                  'Telcel',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  '2.10 kb',
-                  '11',
-                ],
-                [
-                  '1',
-                  'Algeria',
-                  'AG',
-                  'Telcel',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  'NGN 20.00',
-                  '2.10 kb',
-                  '11',
-                ],
-              ]}
+              data={roamingRates}
+              loading={loading}
             />
+            <SizedBox height={20} />
+
+            {data?.result.results && (
+              <Row useAppMargin justifyContent="space-between">
+                <Column xs={4} md={2}>
+                  <TextField
+                    leftIcon="Show:"
+                    placeholder={`${pageSize}`}
+                    dropDown
+                    dropDownOptions={paginationLimits}
+                    onChange={(e) => setPageSize(Number(e.target.value))}
+                  />
+                </Column>
+                <Column
+                  xs={12}
+                  md={8}
+                  fullHeight
+                  alignItems="center"
+                  justifyContent="flex-end"
+                >
+                  <Pagination
+                    breakLabel="..."
+                    pageCount={data.result.totalNumberOfPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={(e) => setPageNumber(e.selected + 1)}
+                    containerClassName="pagination"
+                    activeClassName="active"
+                  />
+                </Column>
+              </Row>
+            )}
           </Card>
         </Column>
       </PageBody>
