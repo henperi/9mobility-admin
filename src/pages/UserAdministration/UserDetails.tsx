@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 // import { FaWallet } from 'react-icons/fa';
 
+import { useRouteMatch } from 'react-router-dom';
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { Text } from '../../components/UiKit/Text';
@@ -8,7 +9,6 @@ import { Column } from '../../components/UiKit/Column';
 import { SizedBox } from '../../components/UiKit/SizedBox';
 import { Row } from '../../components/UiKit/Row';
 import { TopBar } from '../../components/TopBar';
-import { paginationLimits } from '../../utils/paginationLimits';
 
 import { SimpleTable } from '../../components/UiKit/Table';
 import { generateShortId } from '../../utils/generateShortId';
@@ -19,17 +19,15 @@ import { ReactComponent as UserImg } from '../../assets/images/users-admin-user.
 import { ToggleSwitch } from '../../components/UiKit/ToggleSwitch';
 import { Button } from '../../components/UiKit/Button';
 import { useFetch } from '../../hooks/useRequests';
-import { IUser } from './interface';
-import { TextField } from '../../components/UiKit/TextField';
-import { Pagination } from '../../components/UiKit/Pagination';
+import { ISingleUser } from './interface';
 
 export const UserDetails = () => {
   const [blockUser, setBlockUser] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(25);
 
-  const { data, loading } = useFetch<IUser>(
-    `Mobility.AccountBackoffice/api/Airtime/GetTransfers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+  const { id } = useRouteMatch().params as any;
+
+  const { data, loading } = useFetch<ISingleUser>(
+    `Mobility.OnboardingBackOffice/api/Admins/GetUser?id=${id}`,
   );
 
   const [activities, setActivities] = useState<
@@ -37,19 +35,19 @@ export const UserDetails = () => {
   >();
 
   useEffect(() => {
-    if (data?.result.results) {
-      const result = data.result.results.map((r, i) =>
+    if (data?.result) {
+      const result = data?.result?.backOfficeUserRoleDetailModels.map((r, i) =>
         Object.values({
-          Date: (
+          Role: (
             <Row useAppMargin key={generateShortId()} alignItems="center">
               <Column useAppMargin xs={12} md={8} lg={9}>
                 <Text color={convertHexToRGBA(Colors.blackGrey, 0.4)}>
-                  Aug 11, 2020
+                  {r.roleName}
                 </Text>
               </Column>
             </Row>
           ),
-          Activity: <Text key={generateShortId()}>Login</Text>,
+          Username: <Text key={generateShortId()}>{r.userName}</Text>,
           Status: (
             <Button
               key={generateShortId()}
@@ -60,23 +58,15 @@ export const UserDetails = () => {
                 background: `${convertHexToRGBA(Colors.yellowGreen, 0.15)}`,
               }}
             >
-              <Text weight={600}>Success</Text>
+              <Text weight={600}>{r.isActive}</Text>
             </Button>
-          ),
-          Time: (
-            <Text
-              color={convertHexToRGBA(Colors.blackGrey, 0.4)}
-              key={generateShortId()}
-            >
-              14:54pm
-            </Text>
           ),
         }),
       );
 
       setActivities(result);
     }
-  }, [data?.result.results]);
+  }, [data?.result]);
 
   return (
     <>
@@ -90,8 +80,10 @@ export const UserDetails = () => {
                   <UserImg />
                 </Column>
                 <Column xs={12} md={10}>
-                  <Text>Samuel Doe</Text>
-                  <Text color={Colors.blackGrey}>samueldoe23@gmail.com</Text>
+                  <Text>
+                    {data?.result?.firstName}&nbsp;{data?.result?.lastName}
+                  </Text>
+                  <Text color={Colors.blackGrey}>{data?.result?.email}</Text>
                   <SizedBox height={20} />
                   <Text color={Colors.blackGrey}>
                     Last login: Aug 19, 2019. 18:45Pm
@@ -106,42 +98,16 @@ export const UserDetails = () => {
               <Card style={{ padding: '1.5rem' }} fullWidth>
                 <SimpleTable
                   scrollable
-                  columns={['Date', 'Activity', 'Status', 'Time']}
+                  columns={['Role', 'Username', 'Status']}
                   loading={loading}
                   data={activities}
                 />
-                <Column>
-                  {data?.result.results && (
-                    <Row useAppMargin justifyContent="space-between">
-                      <Column xs={4} md={2}>
-                        <TextField
-                          leftIcon="Show:"
-                          placeholder={`${pageSize}`}
-                          dropDown
-                          dropDownOptions={paginationLimits}
-                          onChange={(e) => setPageSize(Number(e.target.value))}
-                        />
-                      </Column>
-                      <Column
-                        xs={12}
-                        md={8}
-                        fullHeight
-                        alignItems="center"
-                        justifyContent="flex-end"
-                      >
-                        <Pagination
-                          breakLabel="..."
-                          pageCount={data.result.totalNumberOfPages}
-                          marginPagesDisplayed={2}
-                          pageRangeDisplayed={5}
-                          onPageChange={(e) => setPageNumber(e.selected + 1)}
-                          containerClassName="pagination"
-                          activeClassName="active"
-                        />
-                      </Column>
-                    </Row>
-                  )}
-                </Column>
+                {data?.result?.backOfficeUserRoleDetailModels?.length ===
+                  undefined && (
+                  <Text color={`${convertHexToRGBA(Colors.blackGrey, 0.7)}`}>
+                    No roles for this user at the moment
+                  </Text>
+                )}
               </Card>
             </Column>
           </Column>
@@ -159,9 +125,13 @@ export const UserDetails = () => {
                 </Row>
                 <SizedBox height={20} />
                 <Column>
-                  <Text>Samuel Doe</Text>
-                  <Text color={Colors.blackGrey}>samueldoe23@gmail.com</Text>
-                  <Text color={Colors.blackGrey}>+2348032658965</Text>
+                  <Text>
+                    {data?.result?.firstName}&nbsp;{data?.result?.lastName}
+                  </Text>
+                  <Text color={Colors.blackGrey}>{data?.result?.email}</Text>
+                  <Text color={Colors.blackGrey}>
+                    {data?.result?.mobileNumber}
+                  </Text>
                 </Column>
               </Column>
               <SizedBox height={5} />
