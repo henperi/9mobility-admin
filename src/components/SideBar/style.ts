@@ -44,11 +44,11 @@ const SideBarLink = styled(NavLink)<{ active?: boolean }>`
   align-items: center;
 
   svg {
-    margin-right: ${rem(6)};
+    margin-right: ${rem(15)};
     path {
-      stroke: ${Colors.white} !important;
+      stroke: #b5bfbc !important;
     }
-    color: ${Colors.white} !important;
+    color: #b5bfbc !important;
   }
 
   &.active-sidebar-link {
