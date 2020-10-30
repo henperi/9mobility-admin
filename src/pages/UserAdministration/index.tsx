@@ -1,9 +1,8 @@
-import React from 'react';
-// import { FaWallet } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
 
+import { useHistory } from 'react-router-dom';
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
-import { Text } from '../../components/UiKit/Text';
 import { Column } from '../../components/UiKit/Column';
 import { SizedBox } from '../../components/UiKit/SizedBox';
 import { Row } from '../../components/UiKit/Row';
@@ -11,10 +10,93 @@ import { TopBar } from '../../components/TopBar';
 import { Button } from '../../components/UiKit/Button';
 import { TextField } from '../../components/UiKit/TextField';
 import { SimpleTable } from '../../components/UiKit/Table';
+import { Pagination } from '../../components/UiKit/Pagination';
+import { IUser } from './interface';
+import { useFetch } from '../../hooks/useRequests';
+import { paginationLimits } from '../../utils/paginationLimits';
+import { Text } from '../../components/UiKit/Text';
 import { Avatar } from '../../components/UiKit/Avatar';
 import { generateShortId } from '../../utils/generateShortId';
+import { Colors } from '../../themes/colors';
+import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
 
 export const UserAdministration = () => {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+
+  const { data, loading } = useFetch<IUser>(
+    `Mobility.AccountBackoffice/api/Airtime/GetTransfers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+  );
+
+  const [users, setUsers] = useState<(string | number | JSX.Element)[][]>();
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (data?.result.results) {
+      const result = data.result.results.map((r, i) =>
+        Object.values({
+          'S/N': `${i + 1}.`,
+          Name: (
+            <Row useAppMargin key={generateShortId()} alignItems="center">
+              <Column useAppMargin xs={12} md={2}>
+                <Avatar />
+              </Column>
+              <Column useAppMargin xs={12} md={10}>
+                <Text color={Colors.darkGreen}>
+                  {r.firstName} {r.lastName}
+                </Text>
+                <Text>{r.email}</Text>
+              </Column>
+            </Row>
+          ),
+          mobile: r.mobileNumber,
+          wallet: (
+            <Text
+              style={{
+                background: r.isWalletEnabled
+                  ? 'rgba(0, 168, 17, 0.1)'
+                  : convertHexToRGBA('#A80000', 0.1),
+                padding: '0.5rem',
+              }}
+              key={generateShortId()}
+              size={12}
+              weight="bold"
+              color={r.isWalletEnabled ? Colors.darkGreen : '#6A0000'}
+            >
+              {r.isWalletEnabled ? 'Enabled' : 'Disabled'}
+            </Text>
+          ),
+          acctID: r.mobileNumber,
+          type: r.registeredThrough,
+          action: (
+            <Button
+              link
+              color={Colors.darkGreen}
+              key={generateShortId()}
+              onClick={(e) => {
+                history.push(`/customer/${r.id}`);
+                e.stopPropagation();
+              }}
+            >
+              View
+            </Button>
+          ),
+        }),
+      );
+
+      setUsers(result);
+
+      const methods = data.result.results.map((r, i) => () =>
+        history.push(`user/${r.id}`),
+      );
+
+      setOnRowClick(methods);
+    }
+  }, [data?.result.results, history]);
+
+  const [onRowClick, setOnRowClick] = useState<(() => void)[] | (() => void)>();
+
   return (
     <>
       <TopBar name="User Administration" />
@@ -37,6 +119,7 @@ export const UserAdministration = () => {
           </Column>
         </Row>
         <SizedBox height={24} />
+
         <Column>
           <Card style={{ padding: '1.5rem' }} fullWidth>
             <SimpleTable
@@ -50,130 +133,43 @@ export const UserAdministration = () => {
                 'Role',
                 'Action',
               ]}
-              data={[
-                [
-                  '1',
-                  <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={4} lg={3}>
-                      <Avatar />
-                    </Column>
-                    <Column useAppMargin xs={12} md={8} lg={9}>
-                      <Text>Stephen Animashaun</Text>
-                    </Column>
-                  </Row>,
-                  <Text key={generateShortId()}>
-                    Stephenanimasaun@gmail.com
-                  </Text>,
-                  <Text key={generateShortId()}>25 Hours ago</Text>,
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Active
-                  </Text>,
-                  'Super admin',
-                  <Button size="small" outline key={generateShortId()}>
-                    View
-                  </Button>,
-                ],
-                [
-                  '1',
-                  <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={4} lg={3}>
-                      <Avatar />
-                    </Column>
-                    <Column useAppMargin xs={12} md={8} lg={9}>
-                      <Text>Stephen Animashaun</Text>
-                    </Column>
-                  </Row>,
-                  <Text key={generateShortId()}>
-                    Stephenanimasaun@gmail.com
-                  </Text>,
-                  <Text key={generateShortId()}>25 Hours ago</Text>,
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Active
-                  </Text>,
-                  'Super admin',
-                  <Button size="small" outline key={generateShortId()}>
-                    View
-                  </Button>,
-                ],
-                [
-                  '1',
-                  <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={4} lg={3}>
-                      <Avatar />
-                    </Column>
-                    <Column useAppMargin xs={12} md={8} lg={9}>
-                      <Text>Stephen Animas</Text>
-                    </Column>
-                  </Row>,
-                  <Text key={generateShortId()}>
-                    Stephenanimasaun@gmail.com
-                  </Text>,
-                  <Text key={generateShortId()}>25 Hours ago</Text>,
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Active
-                  </Text>,
-                  'Super admin',
-                  <Button size="small" outline key={generateShortId()}>
-                    View
-                  </Button>,
-                ],
-                [
-                  '1',
-                  <Row useAppMargin key={generateShortId()} alignItems="center">
-                    <Column useAppMargin xs={12} md={4} lg={3}>
-                      <Avatar />
-                    </Column>
-                    <Column useAppMargin xs={12} md={8} lg={9}>
-                      <Text>Stephen Animashaun</Text>
-                    </Column>
-                  </Row>,
-                  <Text key={generateShortId()}>
-                    Stephenanimasaun@gmail.com
-                  </Text>,
-                  <Text key={generateShortId()}>25 Hours ago</Text>,
-                  <Text
-                    style={{
-                      background: 'rgba(0, 168, 17, 0.1)',
-                      padding: '0.5rem',
-                    }}
-                    key={generateShortId()}
-                    size={12}
-                    weight="bold"
-                  >
-                    Active
-                  </Text>,
-                  'Super admin',
-                  <Button size="small" outline key={generateShortId()}>
-                    View
-                  </Button>,
-                ],
-              ]}
+              loading={loading}
+              data={users}
+              onRowClick={onRowClick}
             />
           </Card>
+        </Column>
+        <Column>
+          {data?.result.results && (
+            <Row useAppMargin justifyContent="space-between">
+              <Column xs={4} md={2}>
+                <TextField
+                  leftIcon="Show:"
+                  placeholder={`${pageSize}`}
+                  dropDown
+                  dropDownOptions={paginationLimits}
+                  onChange={(e) => setPageSize(Number(e.target.value))}
+                />
+              </Column>
+              <Column
+                xs={12}
+                md={8}
+                fullHeight
+                alignItems="center"
+                justifyContent="flex-end"
+              >
+                <Pagination
+                  breakLabel="..."
+                  pageCount={data.result.totalNumberOfPages}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={(e) => setPageNumber(e.selected + 1)}
+                  containerClassName="pagination"
+                  activeClassName="active"
+                />
+              </Column>
+            </Row>
+          )}
         </Column>
       </PageBody>
     </>

@@ -21,6 +21,7 @@ import { PrepaidPackage } from '../pages/PrepaidPackage';
 import { Roaming } from '../pages/Roaming';
 import { Settings } from '../pages/Settings';
 import { UserAdministration } from '../pages/UserAdministration';
+import { UserDetails } from '../pages/UserAdministration/UserDetails';
 
 export const Routes = () => {
   return (
@@ -66,6 +67,8 @@ export const Routes = () => {
           </Switch>
         </CustomerDetails>
       </Route>
+
+      <Route exact path="/user/:id" component={UserDetails} />
       <Route exact path="/airtime-recharge" component={AirtimeRechargePage} />
       <Route exact path="/airtime-transfer" component={AirtimeTransfer} />
       <Route exact path="/data-purchase" component={DataPurchase} />
