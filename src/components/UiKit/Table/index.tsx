@@ -14,10 +14,28 @@ interface ISimpleTableProps
   data?: (string | number | Date | React.FC | JSX.Element)[][];
   scrollable?: boolean;
   loading?: boolean;
+  onRowClick?: (() => void)[] | (() => void);
 }
 
 export const SimpleTable: React.FC<ISimpleTableProps> = (props) => {
-  const { columns, data, loading, ...rest } = props;
+  const {
+    columns,
+    data,
+    loading,
+    onRowClick = () => null,
+    onClick,
+    ...rest
+  } = props;
+
+  const handleRowClick = (i: number) => {
+    if (typeof onRowClick === 'object') {
+      onRowClick[i] && onRowClick[i]();
+    }
+
+    if (typeof onRowClick === 'function') {
+      onRowClick();
+    }
+  };
 
   return (
     <Style.Table {...rest}>
@@ -25,7 +43,7 @@ export const SimpleTable: React.FC<ISimpleTableProps> = (props) => {
         <Tr>
           {columns?.map((name) => (
             <Th key={generateShortId()}>
-              <Text size={12} variant="lighter" weight={100}>
+              <Text variant="lighter" weight={700} size={14}>
                 {name}
               </Text>
             </Th>
@@ -38,11 +56,13 @@ export const SimpleTable: React.FC<ISimpleTableProps> = (props) => {
         </div>
       ) : (
         <Tbody>
-          {data?.map((row) => (
-            <Tr key={generateShortId()}>
+          {data?.map((row, i) => (
+            <Tr key={generateShortId()} onClick={() => handleRowClick(i)}>
               {row.map((item) => (
                 <Td key={generateShortId()}>
-                  <Text variant="lighter">{item}</Text>
+                  <Text variant="lighter" weight={400} size={14}>
+                    {item}
+                  </Text>
                 </Td>
               ))}
             </Tr>

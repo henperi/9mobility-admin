@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 // import styled from 'styled-components';
 
+import { useHistory } from 'react-router-dom';
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { Text } from '../../components/UiKit/Text';
@@ -50,6 +51,10 @@ export const CustomerPage = () => {
     (string | number | JSX.Element)[][]
   >();
 
+  const [onRowClick, setOnRowClick] = useState<(() => void)[] | (() => void)>();
+
+  const history = useHistory();
+
   useEffect(() => {
     if (data?.result.results) {
       const result = data.result.results.map((r, i) =>
@@ -88,7 +93,15 @@ export const CustomerPage = () => {
           acctID: r.mobileNumber,
           type: r.registeredThrough,
           action: (
-            <Button link color={Colors.darkGreen} key={generateShortId()}>
+            <Button
+              link
+              color={Colors.darkGreen}
+              key={generateShortId()}
+              onClick={(e) => {
+                history.push(`/customer/${r.id}`);
+                e.stopPropagation();
+              }}
+            >
               View
             </Button>
           ),
@@ -96,8 +109,14 @@ export const CustomerPage = () => {
       );
 
       setCustomers(result);
+
+      const methods = data.result.results.map((r, i) => () =>
+        history.push(`customer/${r.id}`),
+      );
+
+      setOnRowClick(methods);
     }
-  }, [data?.result]);
+  }, [data?.result.results, history]);
 
   return (
     <>
@@ -136,6 +155,7 @@ export const CustomerPage = () => {
               ]}
               data={customers}
               loading={loading}
+              onRowClick={onRowClick}
             />
             <SizedBox height={20} />
 
