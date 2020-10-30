@@ -71,7 +71,7 @@ export const AirtimeRechargePage = () => {
           <Card style={{ padding: '1.5rem' }} fullWidth>
             <SimpleTable
               columns={[
-                'S//N',
+                'S/N',
                 'Account ID',
                 'Channel',
                 'Amount',

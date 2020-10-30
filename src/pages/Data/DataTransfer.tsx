@@ -21,7 +21,7 @@ export const DataTransfer = () => {
   const [pageSize, setPageSize] = useState(20);
 
   const { data, loading } = useFetch<IDataTransfer>(
-    `Mobility.AccountBackoffice/api/Airtime/GetTransfers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+    `Mobility.AccountBackoffice/api/Data/GetTransfers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
   );
 
   const [dataTransfer, setDataTransfer] = useState<(string | number)[][]>();
