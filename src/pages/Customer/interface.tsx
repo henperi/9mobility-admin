@@ -1,3 +1,20 @@
+export interface ICustomer {
+  id: number;
+  mobileNumber: string;
+  username: string;
+  email: string;
+  lastName: string;
+  firstName: string;
+  dateCreated: string;
+  isWalletEnabled: boolean;
+  registeredThrough: string;
+  imageUrl: null | string;
+  userSims: {
+    isActive: boolean;
+    mobileNumber: string;
+    networkName: string;
+  }[];
+}
 export interface ICustomers {
   result: {
     pageNumber: number;
@@ -8,17 +25,6 @@ export interface ICustomers {
     prevPageUrl: string | null;
     responseCode: number;
     message: string;
-    results: {
-      id: number;
-      mobileNumber: string;
-      username: string;
-      email: string;
-      lastName: string;
-      firstName: string;
-      dateCreated: string;
-      isWalletEnabled: boolean;
-      registeredThrough: string;
-      imageUrl: null | string;
-    }[];
+    results: ICustomer[];
   };
 }
