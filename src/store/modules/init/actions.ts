@@ -1,6 +1,7 @@
 /* eslint-disable import/no-cycle */
 import types from './types';
-import { setAuthUserToken } from '../auth/actions';
+import { setAuthUser } from '../auth/actions';
+import { AuthUser } from '../auth/interface';
 
 /**
  * @description Method to start the app
@@ -32,14 +33,14 @@ export const setNetworkError = (status: boolean) => ({
 
 export const initialiseStore = (dispatch: React.Dispatch<any>) => {
   const authUser = localStorage.getItem('authUser');
-  const authToken = localStorage.getItem('token');
+  // const authToken = localStorage.getItem('authToken');
 
   dispatch(initApp());
-  if (authToken) {
-    dispatch(setAuthUserToken(authToken));
-  }
+  // if (authToken) {
+  //   dispatch(setAuthUserToken(authToken));
+  // }
 
   if (authUser) {
-    // dispatch(setAuthUser(JSON.parse(authUser) as AuthUser));
+    dispatch(setAuthUser(JSON.parse(authUser) as AuthUser));
   }
 };

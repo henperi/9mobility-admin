@@ -45,6 +45,7 @@ export const setAuthUser = (authUser: AuthUser) => {
 export const removeAuthUser = () => {
   removeAuthHeader();
   localStorage.removeItem('authUser');
+  localStorage.removeItem('token');
 
   return {
     type: types.REMOVE_AUTH_USER,

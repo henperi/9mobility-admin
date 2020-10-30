@@ -22,6 +22,7 @@ export interface IDataPurchase {
       offeringId: string;
       reference: string;
       responseMessage: string;
+      channel?: string;
     }[];
   };
 }

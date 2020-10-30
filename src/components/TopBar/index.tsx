@@ -10,6 +10,7 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 import { ScreenSizes } from '../UiKit/Column/styles';
 import { Colors } from '../../themes/colors';
 import { toggleSidebar } from '../../store/modules/init/actions';
+import { removeAuthUser } from '../../store/modules/auth/actions';
 // import { logger } from '../../utils/logger';
 
 export interface ITopBar extends HtmlHTMLAttributes<HTMLDivElement> {
@@ -37,7 +38,10 @@ export const TopBar: React.FC<ITopBar> = (props) => {
         >
           <Text size={20}>{name}</Text>
           <Text color={Colors.black}>
-            <BellIcon style={{ marginRight: '8px' }} onClick={() => null} />
+            <BellIcon
+              style={{ marginRight: '8px' }}
+              onClick={() => dispatch(removeAuthUser())}
+            />
           </Text>
         </Row>
       </>

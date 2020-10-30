@@ -1,5 +1,5 @@
 import React, { HtmlHTMLAttributes } from 'react';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { Styles } from './style';
 import { Column } from '../UiKit/Column';
 import { Colors } from '../../themes/colors';
@@ -14,7 +14,7 @@ import { ReactComponent as AirtimeTransferIcon } from '../../assets/images/Menu/
 import { ReactComponent as CreditCardIcon } from '../../assets/images/Menu/credit-card-icon.svg';
 import { ReactComponent as IncompleteRegIcon } from '../../assets/images/Menu/incomplete-reg-icon.svg';
 import { ReactComponent as GlobeIcon } from '../../assets/images/Menu/globe-icon.svg';
-import { ReactComponent as AdsIcon } from '../../assets/images/Menu/ads-icon.svg';
+// import { ReactComponent as AdsIcon } from '../../assets/images/Menu/ads-icon.svg';
 import { ReactComponent as UserCogIcon } from '../../assets/images/Menu/user-cog-icon.svg';
 import { ReactComponent as AuditIcon } from '../../assets/images/Menu/audit-icon.svg';
 import { ReactComponent as PrepaidPackageIcon } from '../../assets/images/Menu/prepaid-package-icon.svg';
@@ -29,8 +29,6 @@ interface ISidebar extends HtmlHTMLAttributes<HTMLDivElement> {
   showSidebar?: boolean;
 }
 export const SideBar: React.FC<ISidebar> = (props) => {
-  const history = useHistory();
-
   return (
     <Styles.SideBar {...props}>
       <Column
@@ -120,10 +118,10 @@ export const SideBar: React.FC<ISidebar> = (props) => {
           <GlobeIcon />
           Roaming
         </Styles.SideBarLink>
-        <Styles.SideBarLink activeClassName="active-sidebar-link" to="/ads">
+        {/* <Styles.SideBarLink activeClassName="active-sidebar-link" to="/ads">
           <AdsIcon />
           Ads
-        </Styles.SideBarLink>
+        </Styles.SideBarLink> */}
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/prepaid-package"

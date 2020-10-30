@@ -14,38 +14,25 @@ import { SideBar } from '../SideBar';
 
 export const AppContainer: React.FC = ({ children }) => {
   const {
-    state: { app },
-    // dispatch,
+    state: { app, auth },
   } = useGlobalStore();
 
   const { width } = useScreenSize();
-  const isLoginRoute = window.location.pathname.includes('login');
-
-  // useEffect(() => {
-  //   const closeSidebar = () => {
-  //     if (app.showSidebar) {
-  //       dispatch(toggleSidebar());
-  //     }
-  //   };
-
-  //   window.addEventListener('click', closeSidebar);
-
-  //   return () => window.removeEventListener('click', closeSidebar);
-  // }, [app.showSidebar, dispatch]);
+  // const isLoginRoute = window.location.pathname.includes('login');
 
   return (
     <ThemeProvider theme={{ mode: 'light' }}>
       <Styles.AppContainer>
         <BrowserRouter>
           <Row wrap={false}>
-            {window.location.pathname !== '/login' ? (
+            {auth.user?.token ? (
               <SideBar showSidebar={app.showSidebar} />
             ) : null}
             <Column
               style={{
                 transition: 'transform 600ms ease-in-out',
                 width:
-                  width >= ScreenSizes.lg && !isLoginRoute
+                  width >= ScreenSizes.lg && auth.user?.token
                     ? 'calc(100% - 240px)'
                     : '100%',
               }}
