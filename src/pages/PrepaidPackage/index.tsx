@@ -16,6 +16,7 @@ import { Colors } from '../../themes/colors';
 import { Text } from '../../components/UiKit/Text';
 import { useFetch } from '../../hooks/useRequests';
 import { IPrepaidPackage } from './interface';
+import { exportToExcel } from '../../utils/exportToExcel';
 
 export const PrepaidPackage = () => {
   const [pageNumber] = useState(1);
@@ -72,7 +73,17 @@ export const PrepaidPackage = () => {
             </Row>
           </Column>
           <Column xs={12} md={4} lg={2} justifyContent="flex-end">
-            <Button fullWidth>Export CSV</Button>
+            <Button
+              fullWidth
+              onClick={() =>
+                exportToExcel(
+                  `Mobility.AccountBackoffice/api/PrepaidPlans/Get?pageNumber=${pageNumber}&exportToExcel=true`,
+                  'PrepaidPackage',
+                )
+              }
+            >
+              Export CSV
+            </Button>
           </Column>
         </Row>
         <SizedBox height={24} />

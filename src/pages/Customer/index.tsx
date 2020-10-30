@@ -138,7 +138,7 @@ export const CustomerPage = () => {
           <Column useAppMargin xs={12} md={4} lg={2} justifyContent="flex-end">
             <Button
               onClick={() =>
-                exportToExcel(`${url}&exportToExcel=true`, 'AirtimeRecharge')
+                exportToExcel(`${url}&exportToExcel=true`, 'Customers')
               }
               fullWidth
             >
