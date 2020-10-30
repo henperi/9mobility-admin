@@ -143,10 +143,10 @@ export const SideBar: React.FC<ISidebar> = (props) => {
           <UserCogIcon />
           User administration
         </Styles.SideBarLink>
-        <Styles.SideBarLink activeClassName="active-sidebar-link" to="/audit">
+        {/* <Styles.SideBarLink activeClassName="active-sidebar-link" to="/audit">
           <AuditIcon />
           Audit
-        </Styles.SideBarLink>
+        </Styles.SideBarLink> */}
         <Styles.SideBarLink
           activeClassName="active-sidebar-link"
           to="/settings"
