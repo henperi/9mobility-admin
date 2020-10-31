@@ -16,7 +16,7 @@ import { ReactComponent as IncompleteRegIcon } from '../../assets/images/Menu/in
 import { ReactComponent as GlobeIcon } from '../../assets/images/Menu/globe-icon.svg';
 // import { ReactComponent as AdsIcon } from '../../assets/images/Menu/ads-icon.svg';
 import { ReactComponent as UserCogIcon } from '../../assets/images/Menu/user-cog-icon.svg';
-import { ReactComponent as AuditIcon } from '../../assets/images/Menu/audit-icon.svg';
+// import { ReactComponent as AuditIcon } from '../../assets/images/Menu/audit-icon.svg';
 import { ReactComponent as PrepaidPackageIcon } from '../../assets/images/Menu/prepaid-package-icon.svg';
 import { ReactComponent as SettingsIcon } from '../../assets/images/Menu/settings-icon.svg';
 import { Card } from '../UiKit/Card';
@@ -24,11 +24,16 @@ import { Avatar } from '../UiKit/Avatar';
 import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
 import { Row } from '../UiKit/Row';
 import { Text } from '../UiKit/Text';
+import { useGlobalStore } from '../../store';
 
 interface ISidebar extends HtmlHTMLAttributes<HTMLDivElement> {
   showSidebar?: boolean;
 }
 export const SideBar: React.FC<ISidebar> = (props) => {
+  const {
+    state: { auth },
+  } = useGlobalStore();
+
   return (
     <Styles.SideBar {...props}>
       <Column
@@ -37,18 +42,20 @@ export const SideBar: React.FC<ISidebar> = (props) => {
           padding: '1rem',
         }}
       >
-        <Card color={convertHexToRGBA(Colors.darkGreen)}>
+        <Card fullWidth color={convertHexToRGBA(Colors.darkGreen)}>
           <Row wrap={false}>
             <Avatar
               style={{ marginRight: '10px' }}
-              image="https://www.pngitem.com/pimgs/m/581-5813504_avatar-dummy-png-transparent-png.png"
+              image={
+                auth.user?.photoUrl === 'string' ? '' : auth.user?.photoUrl
+              }
             />
             <Column>
               <Text size={14} color={Colors.white} weight="400">
-                Firstname Lastname
+                {auth.user?.name}
               </Text>
               <Text color={Colors.white} size={12}>
-                Admin
+                {auth.user?.roleName}
               </Text>
             </Column>
           </Row>

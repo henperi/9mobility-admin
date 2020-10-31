@@ -21,6 +21,7 @@ export interface IPaymentHistory {
       userId: number;
       mobileNumber: number;
       status: string;
+      channel?: string;
     }[];
   };
 }
