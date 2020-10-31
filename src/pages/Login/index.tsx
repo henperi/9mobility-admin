@@ -26,6 +26,7 @@ import {
 
 interface Response {
   result: {
+    userId: number;
     token: string;
     roleName: string;
     name: string;
