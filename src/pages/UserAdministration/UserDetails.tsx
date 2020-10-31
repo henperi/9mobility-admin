@@ -113,17 +113,10 @@ export const UserDetails = () => {
                   loading={loginLoading}
                   data={activities}
                 />
-                {data?.result?.backOfficeUserRoleDetailModels?.length ===
-                  undefined &&
-                  !loginLoading && (
-                    <Text color={`${convertHexToRGBA(Colors.blackGrey, 0.7)}`}>
-                      No roles for this user at the moment
-                    </Text>
-                  )}
               </Column>
 
               <Column xs={12}>
-                {loginData?.result.results && (
+                {loginData?.result.results.length ? (
                   <Row useAppMargin justifyContent="space-between">
                     <Column xs={4} md={3}>
                       <TextField
@@ -152,6 +145,12 @@ export const UserDetails = () => {
                       />
                     </Column>
                   </Row>
+                ) : (
+                  !loginLoading && (
+                    <Text color={`${convertHexToRGBA(Colors.blackGrey, 0.7)}`}>
+                      No login activities for this user at the moment
+                    </Text>
+                  )
                 )}
               </Column>
             </Card>
