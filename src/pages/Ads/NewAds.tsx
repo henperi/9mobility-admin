@@ -3,7 +3,9 @@ import React from 'react';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { SizedBox } from '../../components/UiKit/SizedBox';
 import { TextField } from '../../components/UiKit/TextField';
+import { TopBar } from '../../components/TopBar';
 import { Row } from '../../components/UiKit/Row';
+import { Button } from '../../components/UiKit/Button';
 import { Text } from '../../components/UiKit/Text';
 import { Card } from '../../components/UiKit/Card';
 import { Column } from '../../components/UiKit/Column';
@@ -13,6 +15,33 @@ import { ReactComponent as ImageUpload } from '../../assets/images/upload-image-
 export const NewAds = () => {
   return (
     <>
+      <TopBar name="Ads" />
+      <Row
+        style={{ width: '100%', padding: '21px', backgroundColor: '#FFFFFF' }}
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Column xs={4} lg={4}>
+          <Text>New Advert</Text>
+        </Column>
+        <Column
+          // style={{ display: 'flex' }}
+          justifyContent="flex-end"
+          xs={7}
+          lg={7}
+        >
+          <Row>
+            <Button
+              style={{
+                backgroundColor:
+                  'linear-gradient(92.8deg, #006848 -48.47%, #B4C404 191.78%)',
+              }}
+            >
+              Post Advert
+            </Button>
+          </Row>
+        </Column>
+      </Row>
       <PageBody>
         <Row>
           <Column style={{ marginRight: '24px' }} xs={12} lg={6}>

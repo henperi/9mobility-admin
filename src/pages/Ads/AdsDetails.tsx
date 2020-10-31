@@ -3,6 +3,8 @@ import React from 'react';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { SizedBox } from '../../components/UiKit/SizedBox';
 import { Row } from '../../components/UiKit/Row';
+import { Button } from '../../components/UiKit/Button/index';
+import { TopBar } from '../../components/TopBar';
 import { Text } from '../../components/UiKit/Text';
 import { Card } from '../../components/UiKit/Card';
 import { Column } from '../../components/UiKit/Column';
@@ -11,6 +13,56 @@ import { ReactComponent as AdPhone } from '../../assets/images/ad-phone.svg';
 export const AdsDetails = () => {
   return (
     <>
+      <TopBar name="Ads" />
+      <Row
+        style={{ width: '100%', padding: '21px', backgroundColor: '#FFFFFF' }}
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Column xs={4} lg={4}>
+          <Text>Airtel Ad 1</Text>
+        </Column>
+        <Column
+          // style={{ display: 'flex' }}
+          justifyContent="flex-end"
+          xs={7}
+          lg={7}
+        >
+          <Row>
+            <Button
+              style={{
+                backgroundColor:
+                  'linear-gradient(92.8deg, #006848 -48.47%, #B4C404 191.78%)',
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="default"
+              border
+              style={{
+                borderColor: '#1C1D21',
+                borderRadius: '4px',
+                borderWidth: '1px',
+                margin: '0px 10px',
+              }}
+            >
+              Pause Ad
+            </Button>
+            <Button
+              variant="default"
+              border
+              style={{
+                borderColor: '#1C1D21',
+                borderRadius: '4px',
+                borderWidth: '1px',
+              }}
+            >
+              Delete Ad
+            </Button>
+          </Row>
+        </Column>
+      </Row>
       <PageBody>
         <Row justifyContent="space-between">
           <Column xs={12} lg={8}>
