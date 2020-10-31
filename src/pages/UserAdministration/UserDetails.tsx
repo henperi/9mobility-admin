@@ -106,53 +106,50 @@ export const UserDetails = () => {
             <SizedBox height={20} />
 
             <Card style={{ padding: '1.5rem' }} fullWidth>
-              <Column xs={12}>
-                <SimpleTable
-                  scrollable
-                  columns={['Date', 'Activity', 'Status', 'Time']}
-                  loading={loginLoading}
-                  data={activities}
-                />
-              </Column>
+              <SimpleTable
+                scrollable
+                columns={['Date', 'Activity', 'Status', 'Time']}
+                loading={loginLoading}
+                data={activities}
+                style={{ display: 'inline-table' }}
+              />
 
-              <Column xs={12}>
-                {loginData?.result.results.length ? (
-                  <Row useAppMargin justifyContent="space-between">
-                    <Column xs={4} md={3}>
-                      <TextField
-                        leftIcon="Show:"
-                        placeholder={`${pageSize}`}
-                        dropDown
-                        dropDownOptions={paginationLimits}
-                        onChange={(e) => setPageSize(Number(e.target.value))}
-                      />
-                    </Column>
-                    <Column
-                      xs={12}
-                      md={9}
-                      fullHeight
-                      alignItems="center"
-                      justifyContent="flex-end"
-                    >
-                      <Pagination
-                        breakLabel="..."
-                        pageCount={loginData?.result?.totalNumberOfPages}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={(e) => setPageNumber(e.selected + 1)}
-                        containerClassName="pagination"
-                        activeClassName="active"
-                      />
-                    </Column>
-                  </Row>
-                ) : (
-                  !loginLoading && (
-                    <Text color={`${convertHexToRGBA(Colors.blackGrey, 0.7)}`}>
-                      No login activities for this user at the moment
-                    </Text>
-                  )
-                )}
-              </Column>
+              {loginData?.result.results.length ? (
+                <Row useAppMargin justifyContent="space-between">
+                  <Column xs={12} lg={3}>
+                    <TextField
+                      leftIcon="Show:"
+                      placeholder={`${pageSize}`}
+                      dropDown
+                      dropDownOptions={paginationLimits}
+                      onChange={(e) => setPageSize(Number(e.target.value))}
+                    />
+                  </Column>
+                  <Column
+                    xs={12}
+                    lg={9}
+                    fullHeight
+                    alignItems="center"
+                    justifyContent="flex-end"
+                  >
+                    <Pagination
+                      breakLabel="..."
+                      pageCount={loginData?.result?.totalNumberOfPages}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={5}
+                      onPageChange={(e) => setPageNumber(e.selected + 1)}
+                      containerClassName="pagination"
+                      activeClassName="active"
+                    />
+                  </Column>
+                </Row>
+              ) : (
+                !loginLoading && (
+                  <Text color={`${convertHexToRGBA(Colors.blackGrey, 0.7)}`}>
+                    No login activities for this user at the moment
+                  </Text>
+                )
+              )}
             </Card>
           </Column>
           <Column xs={12} md={4} lg={7} style={{ flex: '1' }}>
