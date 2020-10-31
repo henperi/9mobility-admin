@@ -19,15 +19,25 @@ import { ReactComponent as UserImg } from '../../assets/images/users-admin-user.
 import { ToggleSwitch } from '../../components/UiKit/ToggleSwitch';
 import { Button } from '../../components/UiKit/Button';
 import { useFetch } from '../../hooks/useRequests';
-import { ISingleUser } from './interface';
+import { ISingleUser, IUserLogins } from './interface';
+import { Pagination } from '../../components/UiKit/Pagination';
+import { TextField } from '../../components/UiKit/TextField';
+import { paginationLimits } from '../../utils/paginationLimits';
+import { ReactComponent as PasswordResetIcon } from '../../assets/images/password-reset-icon.svg';
 
 export const UserDetails = () => {
   const [blockUser, setBlockUser] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
 
   const { id } = useRouteMatch().params as any;
 
-  const { data, loading } = useFetch<ISingleUser>(
+  const { data } = useFetch<ISingleUser>(
     `Mobility.OnboardingBackOffice/api/Admins/GetUser?id=${id}`,
+  );
+
+  const { data: loginData, loading: loginLoading } = useFetch<IUserLogins>(
+    `Mobility.OnboardingBackOffice/api/Admins/GetBackOfficeUserLogins?userId=${id}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
   );
 
   const [activities, setActivities] = useState<
@@ -35,19 +45,19 @@ export const UserDetails = () => {
   >();
 
   useEffect(() => {
-    if (data?.result) {
-      const result = data?.result?.backOfficeUserRoleDetailModels.map((r, i) =>
+    if (loginData?.result) {
+      const result = loginData?.result?.results.map((r, i) =>
         Object.values({
-          Role: (
+          Date: (
             <Row useAppMargin key={generateShortId()} alignItems="center">
               <Column useAppMargin xs={12} md={8} lg={9}>
                 <Text color={convertHexToRGBA(Colors.blackGrey, 0.4)}>
-                  {r.roleName}
+                  {r.date}
                 </Text>
               </Column>
             </Row>
           ),
-          Username: <Text key={generateShortId()}>{r.userName}</Text>,
+          Activity: <Text key={generateShortId()}>{r.activity}</Text>,
           Status: (
             <Button
               key={generateShortId()}
@@ -58,22 +68,23 @@ export const UserDetails = () => {
                 background: `${convertHexToRGBA(Colors.yellowGreen, 0.15)}`,
               }}
             >
-              <Text weight={600}>{r.isActive}</Text>
+              <Text weight={600}>{r.status}</Text>
             </Button>
           ),
+          Time: r.time,
         }),
       );
 
       setActivities(result);
     }
-  }, [data?.result]);
+  }, [loginData?.result]);
 
   return (
     <>
       <TopBar name="User Details" />
       <PageBody>
         <Row childGap={10}>
-          <Column xs={12} md={8}>
+          <Column lg={8} md={12}>
             <Card fullWidth style={{ padding: '3%' }}>
               <Row>
                 <Column xs={12} md={2}>
@@ -94,22 +105,56 @@ export const UserDetails = () => {
 
             <SizedBox height={20} />
 
-            <Column>
-              <Card style={{ padding: '1.5rem' }} fullWidth>
+            <Card style={{ padding: '1.5rem' }} fullWidth>
+              <Column xs={12}>
                 <SimpleTable
                   scrollable
-                  columns={['Role', 'Username', 'Status']}
-                  loading={loading}
+                  columns={['Date', 'Activity', 'Status', 'Time']}
+                  loading={loginLoading}
                   data={activities}
                 />
                 {data?.result?.backOfficeUserRoleDetailModels?.length ===
-                  undefined && (
-                  <Text color={`${convertHexToRGBA(Colors.blackGrey, 0.7)}`}>
-                    No roles for this user at the moment
-                  </Text>
+                  undefined &&
+                  !loginLoading && (
+                    <Text color={`${convertHexToRGBA(Colors.blackGrey, 0.7)}`}>
+                      No roles for this user at the moment
+                    </Text>
+                  )}
+              </Column>
+
+              <Column xs={12}>
+                {loginData?.result.results && (
+                  <Row useAppMargin justifyContent="space-between">
+                    <Column xs={4} md={3}>
+                      <TextField
+                        leftIcon="Show:"
+                        placeholder={`${pageSize}`}
+                        dropDown
+                        dropDownOptions={paginationLimits}
+                        onChange={(e) => setPageSize(Number(e.target.value))}
+                      />
+                    </Column>
+                    <Column
+                      xs={12}
+                      md={9}
+                      fullHeight
+                      alignItems="center"
+                      justifyContent="flex-end"
+                    >
+                      <Pagination
+                        breakLabel="..."
+                        pageCount={loginData?.result?.totalNumberOfPages}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={(e) => setPageNumber(e.selected + 1)}
+                        containerClassName="pagination"
+                        activeClassName="active"
+                      />
+                    </Column>
+                  </Row>
                 )}
-              </Card>
-            </Column>
+              </Column>
+            </Card>
           </Column>
           <Column xs={12} md={4} lg={7} style={{ flex: '1' }}>
             <Card fullWidth>
@@ -141,7 +186,22 @@ export const UserDetails = () => {
                   padding: rem(15),
                 }}
               >
-                <Text> Reset Password</Text>
+                <Row alignItems="center">
+                  <Card
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: rem(10),
+                      borderRadius: rem(10),
+                      background: convertHexToRGBA(Colors.lightBlue, 0.1),
+                    }}
+                  >
+                    <PasswordResetIcon />
+                  </Card>
+                  <SizedBox width={30} />
+                  <Text> Reset Password</Text>
+                </Row>
               </Column>
               <SizedBox height={5} />
               <Column
