@@ -36,7 +36,7 @@ export interface IUser {
 }
 
 export interface ISingleUser {
-  responseCode: 0;
+  responseCode: number;
   message: string;
   result: {
     username: string;
@@ -46,17 +46,40 @@ export interface ISingleUser {
     firstName: string;
     dateOfBirth: string;
     photoUrl: string;
-    roleId: 0;
+    roleId: number;
     backOfficeUserRoleDetailModels: [
       {
-        userId1: 0;
-        roleId: 0;
-        id: 0;
+        userId1: number;
+        roleId: number;
+        id: number;
         roleName: string;
         userName: string;
         isActive: boolean;
       },
     ];
     isActive: boolean;
+  };
+}
+
+export interface IUserLogins {
+  responseCode: number;
+  message: string;
+  result: {
+    pageNumber: number;
+    pageSize: number;
+    totalNumberOfPages: number;
+    totalNumberOfRecords: number;
+    nextPageUrl: string;
+    prevPageUrl: string;
+    results: [
+      {
+        activity: string;
+        status: string;
+        id: number;
+        dateCreated: string;
+        date: string;
+        time: string;
+      },
+    ];
   };
 }
