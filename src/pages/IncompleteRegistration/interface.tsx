@@ -9,13 +9,10 @@ export interface IRegNotcomplete {
     responseCode: number;
     message: string;
     results: {
-      id: number;
-      dateCreated: string;
-      username: string;
-      email: string;
       mobileNumber: string;
-      lastName: string;
-      firstName: string;
+      dateRegistered: string;
+      otp: string;
+      status: string;
     }[];
   };
 }

@@ -16,10 +16,14 @@ import { generateShortId } from '../../utils/generateShortId';
 import { IRegNotcomplete } from './interface';
 import { useFetch } from '../../hooks/useRequests';
 import { exportToExcel } from '../../utils/exportToExcel';
+import { Pagination } from '../../components/UiKit/Pagination';
+import { paginationLimits } from '../../utils/paginationLimits';
+import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
+import { Colors } from '../../themes/colors';
 
 export const IncompleteRegistration = () => {
-  const [pageNumber] = useState(1);
-  const [pageSize] = useState(20);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const { data, loading } = useFetch<IRegNotcomplete>(
     `Mobility.OnboardingBackOffice/api/Users/GetUsersButInCompleteRegistration?pageNumber=${pageNumber}&pageSize=${pageSize}`,
@@ -38,20 +42,22 @@ export const IncompleteRegistration = () => {
           otp: (
             <Text
               style={{
-                background: 'rgba(0, 168, 17, 0.1)',
+                background: r.otp
+                  ? 'rgba(0, 168, 17, 0.1)'
+                  : convertHexToRGBA(Colors.error, 0.4),
                 padding: '0.5rem 2rem',
               }}
               key={generateShortId()}
               size={12}
               weight="bold"
             >
-              Sent
+              {r.otp ? 'Sent' : 'Not Sent'}
             </Text>
           ),
-          Status: 'Pending',
-          date: DateTime.fromMillis(Date.now(), {
-            locale: 'fr',
-          }).toLocaleString(),
+          Status: r.status,
+          date: DateTime.fromISO(r.dateRegistered, {
+            locale: 'ng',
+          }).toLocaleString(DateTime.DATETIME_MED),
         }),
       );
 
@@ -61,7 +67,11 @@ export const IncompleteRegistration = () => {
 
   return (
     <>
-      <TopBar name="Incomplete Registration (23,0000)" />
+      <TopBar
+        name={`Incomplete User Registration ${
+          data?.result.totalNumberOfRecords || '-'
+        }`}
+      />
       <PageBody>
         <Row useAppMargin justifyContent="space-between">
           <Column fullHeight useAppMargin xs={12} md={6}>
@@ -98,6 +108,42 @@ export const IncompleteRegistration = () => {
               data={incompleteReg}
               loading={loading}
             />
+
+            {data?.result.results?.length === 0 &&
+              'No payment history at the moment'}
+
+            <SizedBox height={20} />
+
+            {data && data.result.results.length > 0 && (
+              <Row useAppMargin justifyContent="space-between">
+                <Column xs={4} md={2}>
+                  <TextField
+                    leftIcon="Show:"
+                    placeholder={`${pageSize}`}
+                    dropDown
+                    dropDownOptions={paginationLimits}
+                    onChange={(e) => setPageSize(Number(e.target.value))}
+                  />
+                </Column>
+                <Column
+                  xs={12}
+                  md={8}
+                  fullHeight
+                  alignItems="center"
+                  justifyContent="flex-end"
+                >
+                  <Pagination
+                    breakLabel="..."
+                    pageCount={data.result.totalNumberOfPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={(e) => setPageNumber(e.selected + 1)}
+                    containerClassName="pagination"
+                    activeClassName="active"
+                  />
+                </Column>
+              </Row>
+            )}
           </Card>
         </Column>
       </PageBody>

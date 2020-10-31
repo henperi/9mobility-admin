@@ -39,10 +39,15 @@ export const PaymentHistory = () => {
           'S/N': i + 1,
           type: r.transactionTypeName,
           accountId: r.mobileNumber,
-          channel: 'Empty',
+          channel: r?.channel || '',
           amount: r.transactionAmount,
           status: r.status,
-          date: `${r.dateCreated} ${r.timeCreated}`,
+          date: (
+            <div>
+              {r.dateCreated}{' '}
+              <span style={{ whiteSpace: 'nowrap' }}>{r.timeCreated}</span>
+            </div>
+          ),
         }),
       );
 
@@ -96,6 +101,7 @@ export const PaymentHistory = () => {
               ]}
               data={paymentHistory}
               loading={loading}
+              scrollable
             />
             {data?.result.results?.length === 0 &&
               'No payment history at the moment'}

@@ -8,7 +8,7 @@ const Avatar = styled.div`
   min-height: ${rem(32)};
   min-width: ${rem(32)};
   border-radius: 50%;
-  background-color: ${Colors.lightGreen};
+  background-color: ${Colors.grey};
   overflow: hidden;
 
   img {

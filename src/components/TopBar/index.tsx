@@ -8,10 +8,10 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 import { ScreenSizes } from '../UiKit/Column/styles';
 import { Colors } from '../../themes/colors';
 
-import { removeAuthUser } from '../../store/modules/auth/actions';
+// import { removeAuthUser } from '../../store/modules/auth/actions';
 import { toggleSidebar } from '../../store/modules/sidebar/actions';
 import { useSidebarContext } from '../../store/sidebarStore';
-
+import { Column } from '../UiKit/Column';
 
 export interface ITopBar extends HtmlHTMLAttributes<HTMLDivElement> {
   setShowSidebar?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,7 +21,7 @@ export interface ITopBar extends HtmlHTMLAttributes<HTMLDivElement> {
 export const TopBar: React.FC<ITopBar> = (props) => {
   const { name = 'Dashboard', ...rest } = props;
 
-  const { dispatch, state } = useSidebarContext();
+  const { dispatch } = useSidebarContext();
   const { width } = useWindowSize();
 
   return (
@@ -36,11 +36,13 @@ export const TopBar: React.FC<ITopBar> = (props) => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Text size={20}>{name}</Text>
+          <Column xs={10}>
+            <Text size={20}>{name}</Text>
+          </Column>
           <Text color={Colors.black}>
             <BellIcon
               style={{ marginRight: '8px' }}
-              onClick={() => dispatch(removeAuthUser())}
+              // onClick={() => dispatch(removeAuthUser())}
             />
           </Text>
         </Row>

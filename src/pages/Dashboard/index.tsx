@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaWallet } from 'react-icons/fa';
 
 import { DateTime } from 'luxon';
+import { Link } from 'react-router-dom';
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { Text } from '../../components/UiKit/Text';
@@ -10,12 +11,10 @@ import { SizedBox } from '../../components/UiKit/SizedBox';
 import { Row } from '../../components/UiKit/Row';
 import { TopBar } from '../../components/TopBar';
 import { Avatar } from '../../components/UiKit/Avatar';
-import { Button } from '../../components/UiKit/Button';
 import { useFetch } from '../../hooks/useRequests';
 import { ICustomers } from '../Customer/interface';
 import { Spinner } from '../../components/UiKit/Spinner';
-import { useGlobalStore } from '../../store';
-import { logger } from '../../utils/logger';
+import { Colors } from '../../themes/colors';
 
 export const DashboardPage = () => {
   const [pageNumber] = useState(1);
@@ -24,8 +23,6 @@ export const DashboardPage = () => {
   const { data, loading } = useFetch<ICustomers>(
     `Mobility.OnboardingBackOffice/api/Users/GetUsers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
   );
-
-  const { state } = useGlobalStore();
 
   const {
     data: dailyTotalSignup,
@@ -55,6 +52,13 @@ export const DashboardPage = () => {
     responseCode: number;
     message: 'Successfully Saved';
   }>(`Mobility.OnboardingBackOffice/api/Users/GetSignedUpSourceReport`);
+
+  const getSignupSourceSocial = () =>
+    signupSource
+      ? signupSource.result.facebook +
+        signupSource.result.google +
+        signupSource.result.form
+      : 0;
 
   return (
     <>
@@ -93,7 +97,7 @@ export const DashboardPage = () => {
               <Row justifyContent="space-between" alignItems="center">
                 <Column xs={9}>
                   <Text color="#8181A5" variant="lighter" size={14}>
-                    Logged In User daily
+                    Logged in user daily
                   </Text>
                   <Text size={20} style={{ marginTop: '5px' }}>
                     {loadingUserReport ? '-' : userReport?.result.perDay}
@@ -120,7 +124,7 @@ export const DashboardPage = () => {
               <Row justifyContent="space-between" alignItems="center">
                 <Column xs={9}>
                   <Text color="#8181A5" variant="lighter" size={14}>
-                    Logged In user weekly
+                    Logged in user weekly
                   </Text>
                   <Text size={20} style={{ marginTop: '5px' }}>
                     {loadingUserReport ? '-' : userReport?.result.perWeek}
@@ -147,7 +151,7 @@ export const DashboardPage = () => {
               <Row justifyContent="space-between" alignItems="center">
                 <Column xs={9}>
                   <Text color="#8181A5" variant="lighter" size={14}>
-                    Logged In user monthly
+                    Logged in user monthly
                   </Text>
                   <Text size={20} style={{ marginTop: '5px' }}>
                     {loadingUserReport ? '-' : userReport?.result.perMonth}
@@ -204,10 +208,7 @@ export const DashboardPage = () => {
                     Total signups daily (Social)
                   </Text>
                   <Text size={20} style={{ marginTop: '5px' }}>
-                    {loadingSignupSource
-                      ? '-'
-                      : signupSource?.result?.facebook! +
-                        signupSource?.result?.form!}
+                    {loadingSignupSource ? '-' : getSignupSourceSocial()}
                   </Text>
                 </Column>
                 <Column
@@ -234,7 +235,7 @@ export const DashboardPage = () => {
                     Total signups daily (Form)
                   </Text>
                   <Text size={20} style={{ marginTop: '5px' }}>
-                    {loadingSignupSource ? '-' : signupSource?.result?.form}
+                    {loadingSignupSource ? '-' : signupSource?.result.form || 0}
                   </Text>
                 </Column>
                 <Column
@@ -268,32 +269,36 @@ export const DashboardPage = () => {
               ) : (
                 data?.result.results.map((customer) => (
                   <div key={customer.mobileNumber}>
-                    <Row useAppMargin alignItems="center">
-                      <Column useAppMargin xs={12} lg={2}>
-                        <Avatar
-                          image={customer.imageUrl}
-                          style={{ marginRight: '10px' }}
-                        />
-                      </Column>
-                      <Column useAppMargin xs={12} lg={10}>
+                    <Row alignItems="flex-start">
+                      <Avatar
+                        image={customer.imageUrl}
+                        style={{ marginRight: '10px' }}
+                      />
+                      <div>
                         <Text>
                           {`${customer.firstName} ${customer.lastName}`}
                         </Text>
+                        <SizedBox height={0.005} />
                         <Text size={12} variant="lighter">
                           Registered on{' '}
                           {DateTime.fromISO(
                             customer.dateCreated,
                           ).toLocaleString(DateTime.DATETIME_MED)}
                         </Text>
-                      </Column>
+                      </div>
                     </Row>
-                    <SizedBox height={10} />
+                    <SizedBox height={24} />
                   </div>
                 ))
               )}
+              <SizedBox height={8} />
               {data?.result.nextPageUrl && (
-                <Row justifyContent="center" alignItems="center">
-                  <Button link>View All</Button>
+                <Row justifyContent="center">
+                  <Link to="/customer" style={{ textDecoration: 'none' }}>
+                    <Text color={Colors.darkGreen} size={14}>
+                      View All
+                    </Text>
+                  </Link>
                 </Row>
               )}
             </Card>
