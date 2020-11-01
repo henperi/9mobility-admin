@@ -18,14 +18,7 @@ interface ISimpleTableProps
 }
 
 export const SimpleTable: React.FC<ISimpleTableProps> = (props) => {
-  const {
-    columns,
-    data,
-    loading,
-    onRowClick = () => null,
-    onClick,
-    ...rest
-  } = props;
+  const { columns, data, loading, onRowClick, onClick, ...rest } = props;
 
   const handleRowClick = (i: number) => {
     if (typeof onRowClick === 'object') {
@@ -57,7 +50,11 @@ export const SimpleTable: React.FC<ISimpleTableProps> = (props) => {
       ) : (
         <Tbody>
           {data?.map((row, i) => (
-            <Tr key={generateShortId()} onClick={() => handleRowClick(i)}>
+            <Tr
+              key={generateShortId()}
+              style={{ cursor: onRowClick && 'pointer' }}
+              onClick={() => handleRowClick(i)}
+            >
               {row.map((item) => (
                 <Td key={generateShortId()}>
                   <Text variant="lighter" weight={400} size={14}>

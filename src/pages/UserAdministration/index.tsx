@@ -67,7 +67,7 @@ export const UserAdministration = () => {
       setUsers(result);
 
       const methods = data.result.results.map((r, i) => () =>
-        history.push(`user/${r.id}`),
+        history.push(`user-administration/${r.id}`),
       );
 
       setOnRowClick(methods);

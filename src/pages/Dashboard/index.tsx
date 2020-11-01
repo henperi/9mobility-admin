@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FaWallet } from 'react-icons/fa';
 
 import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
@@ -15,6 +14,11 @@ import { useFetch } from '../../hooks/useRequests';
 import { ICustomers } from '../Customer/interface';
 import { Spinner } from '../../components/UiKit/Spinner';
 import { Colors } from '../../themes/colors';
+
+import wallet from '../../assets/images/Menu/wallet.png';
+import userCheck from '../../assets/images/Menu/user-check-solid.png';
+import userCircle from '../../assets/images/Menu/user-circle.png';
+import user from '../../assets/images/Menu/user.png';
 
 export const DashboardPage = () => {
   const [pageNumber] = useState(1);
@@ -87,7 +91,7 @@ export const DashboardPage = () => {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <FaWallet />
+                  <img src={user} alt="" />
                 </Column>
               </Row>
             </Card>
@@ -114,7 +118,7 @@ export const DashboardPage = () => {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <FaWallet />
+                  <img src={userCircle} alt="" />
                 </Column>
               </Row>
             </Card>
@@ -141,7 +145,7 @@ export const DashboardPage = () => {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <FaWallet />
+                  <img src={userCircle} alt="" />
                 </Column>
               </Row>
             </Card>
@@ -168,7 +172,7 @@ export const DashboardPage = () => {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <FaWallet />
+                  <img src={userCircle} alt="" />
                 </Column>
               </Row>
             </Card>
@@ -195,7 +199,7 @@ export const DashboardPage = () => {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <FaWallet />
+                  <img src={userCheck} alt="" />
                 </Column>
               </Row>
             </Card>
@@ -222,7 +226,7 @@ export const DashboardPage = () => {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <FaWallet />
+                  <img src={userCheck} alt="" />
                 </Column>
               </Row>
             </Card>
@@ -249,7 +253,7 @@ export const DashboardPage = () => {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <FaWallet />
+                  <img src={wallet} alt="" />
                 </Column>
               </Row>
             </Card>

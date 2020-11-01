@@ -25,6 +25,7 @@ import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
 import { Row } from '../UiKit/Row';
 import { Text } from '../UiKit/Text';
 import { useGlobalStore } from '../../store';
+import { useInterceptor } from '../../hooks/useInterceptor';
 
 interface ISidebar extends HtmlHTMLAttributes<HTMLDivElement> {
   showSidebar?: boolean;
@@ -33,6 +34,8 @@ export const SideBar: React.FC<ISidebar> = (props) => {
   const {
     state: { auth },
   } = useGlobalStore();
+
+  useInterceptor();
 
   return (
     <Styles.SideBar {...props}>
