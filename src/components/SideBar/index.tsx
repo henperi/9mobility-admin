@@ -1,5 +1,6 @@
-import React, { HtmlHTMLAttributes } from 'react';
+import React, { HtmlHTMLAttributes, useState } from 'react';
 // import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Styles } from './style';
 import { Column } from '../UiKit/Column';
 import { Colors } from '../../themes/colors';
@@ -26,6 +27,8 @@ import { Row } from '../UiKit/Row';
 import { Text } from '../UiKit/Text';
 import { useGlobalStore } from '../../store';
 import { useInterceptor } from '../../hooks/useInterceptor';
+import { ArrowIcon } from '../UiKit/Pagination';
+import { removeAuthUser } from '../../store/modules/auth/actions';
 
 interface ISidebar extends HtmlHTMLAttributes<HTMLDivElement> {
   showSidebar?: boolean;
@@ -33,9 +36,13 @@ interface ISidebar extends HtmlHTMLAttributes<HTMLDivElement> {
 export const SideBar: React.FC<ISidebar> = (props) => {
   const {
     state: { auth },
+    dispatch,
   } = useGlobalStore();
 
   useInterceptor();
+
+  const [showDropDown, setshowDropDown] = useState(false);
+  const history = useHistory();
 
   return (
     <Styles.SideBar {...props}>
@@ -46,21 +53,52 @@ export const SideBar: React.FC<ISidebar> = (props) => {
         }}
       >
         <Card fullWidth color={convertHexToRGBA(Colors.darkGreen)}>
-          <Row wrap={false}>
+          <Row wrap={false} alignItems="flex-start">
             <Avatar
               style={{ marginRight: '10px' }}
               image={
                 auth.user?.photoUrl === 'string' ? '' : auth.user?.photoUrl
               }
             />
-            <Column>
+            <Column xs={10}>
               <Text size={14} color={Colors.white} weight="400">
                 {auth.user?.name}
               </Text>
-              <Text color={Colors.white} size={12}>
-                {auth.user?.roleName}
+              <Text
+                color={convertHexToRGBA(Colors.white, 0.6)}
+                size={12}
+                variant="lighter"
+              >
+                {auth.user?.roleName || 'Admin'}
               </Text>
+              {showDropDown && (
+                <>
+                  <SizedBox height={10} />
+                  <Text
+                    size={14}
+                    weight="400"
+                    color={convertHexToRGBA(Colors.white, 0.8)}
+                    onClick={() => history.push('/settings')}
+                  >
+                    Profile Settings
+                  </Text>
+                  <SizedBox height={5} />
+                  <Text
+                    size={14}
+                    color={convertHexToRGBA(Colors.white, 0.8)}
+                    weight="400"
+                    onClick={() => dispatch(removeAuthUser())}
+                  >
+                    Log Out
+                  </Text>
+                </>
+              )}
             </Column>
+            <ArrowIcon
+              color={Colors.white}
+              angle={0}
+              onClick={() => setshowDropDown((prev) => !prev)}
+            />
           </Row>
         </Card>
       </Column>

@@ -114,6 +114,7 @@ export const Roaming = () => {
               ]}
               data={roamingRates}
               loading={loading}
+              scrollable
             />
             <SizedBox height={20} />
 

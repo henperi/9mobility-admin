@@ -167,3 +167,48 @@ export function usePost<T>(url: string, payload?: any) {
   const response = { loading, data, error: errorResponse };
   return [callService, response] as const;
 }
+
+/**
+ * This is a custom hook that is used to make a lazy api put request
+ * @param url: the url to post to
+ * @param payload the data to put
+ *
+ * @returns the lazy [method] to call
+ */
+export function usePut<T>(url: string, payload?: any) {
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<T>();
+  const [errorResponse, setErrorResponse] = useState<{
+    responseCode: number;
+    message: string;
+  } | null>(null);
+
+  const callService = async (serviceData = payload) => {
+    setLoading(true);
+    setErrorResponse(null);
+
+    return httpService
+      .put(url, serviceData)
+      .then((result: AxiosResponse<T>) => {
+        setLoading(false);
+        setData(result.data);
+
+        return {
+          loading: false,
+          data: result.data,
+          error: null,
+          config: result.config,
+        };
+      })
+      .catch((error: AxiosError<Error1 | Error2>) => {
+        const errorRes = handleAxiosError(error);
+        setErrorResponse(errorRes);
+        setLoading(false);
+
+        throw errorRes;
+      });
+  };
+
+  const response = { loading, data, error: errorResponse };
+  return [callService, response] as const;
+}

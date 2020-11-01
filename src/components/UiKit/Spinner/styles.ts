@@ -40,7 +40,6 @@ const Spinner = styled.div.attrs({})<{
     position: absolute;
     height: inherit;
     width: inherit;
-    background-color: rgba(0, 0, 0, 0.025);
     z-index: 1;
   }
 
