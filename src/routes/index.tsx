@@ -68,8 +68,6 @@ export const Routes = () => {
           </Switch>
         </CustomerDetails>
       </ProtectedRoute>
-
-      <ProtectedRoute exact path="/user/:id" component={UserDetails} />
       <ProtectedRoute
         exact
         path="/airtime-recharge"
@@ -103,6 +101,11 @@ export const Routes = () => {
         exact
         path="/user-administration"
         component={UserAdministration}
+      />
+      <ProtectedRoute
+        exact
+        path="/user-administration/:id"
+        component={UserDetails}
       />
       <ProtectedRoute exact path="/audit" component={Audit} />
       <ProtectedRoute exact path="/settings" component={Settings} />

@@ -8,7 +8,6 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 import { ScreenSizes } from '../UiKit/Column/styles';
 import { Colors } from '../../themes/colors';
 
-// import { removeAuthUser } from '../../store/modules/auth/actions';
 import { toggleSidebar } from '../../store/modules/sidebar/actions';
 import { useSidebarContext } from '../../store/sidebarStore';
 import { Column } from '../UiKit/Column';

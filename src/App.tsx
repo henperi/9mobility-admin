@@ -7,7 +7,10 @@ import { initialiseStore } from './store/modules/init/actions';
 import { AppContainer } from './components/AppContainer';
 import { Spinner } from './components/UiKit/Spinner';
 import { SidebarProvider } from './store/sidebarStore';
-import { sideBarInitialState, sidebarReducer } from './store/modules/sidebar/reducer';
+import {
+  sideBarInitialState,
+  sidebarReducer,
+} from './store/modules/sidebar/reducer';
 
 /**
  * The App Component
@@ -16,7 +19,10 @@ import { sideBarInitialState, sidebarReducer } from './store/modules/sidebar/red
  */
 export function App() {
   const [state, dispatch] = React.useReducer(rootReducer, initialState);
-  const [sidebarState, sidebarDispatch] = React.useReducer(sidebarReducer, sideBarInitialState);
+  const [sidebarState, sidebarDispatch] = React.useReducer(
+    sidebarReducer,
+    sideBarInitialState,
+  );
 
   useEffect(() => {
     initialiseStore(dispatch);

@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Colors } from '../../themes/colors';
 import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
-import { ScreenSizes } from '../Column/styles';
-// import { rem } from '../../utils/rem';
+import { ScreenSizes } from '../UiKit/Column/styles';
 
 export interface IModalProps {
   padding?: string;
@@ -94,25 +93,17 @@ const Modal = styled.div.attrs({})<IModalProps>`
   }
 
   /* 
-  padding: ${({ padding }) =>
-    padding ||
-    '7%'};
+  padding: ${({ padding }) => padding || '7%'};
   min-height: 2.5rem;
   min-width: 50%;
   border-radius: 4px;
-  background-color: ${({
-    color,
-  }) =>
-    color ||
-    Colors.white};
+  background-color: ${({ color }) => color || Colors.white};
   box-shadow: 0 22px 115px -85px rgba(0, 0, 0, 0.7);
   position: relative;
   overflow: hidden;
   z-index: 1;
   display: flex;
-  height: ${({
-    fullHeight,
-  }) => (fullHeight ? '100%' : 'fit-content')}; 
+  height: ${({ fullHeight }) => (fullHeight ? '100%' : 'fit-content')}; 
   */
 
   /* ${({ fullWidth }) =>

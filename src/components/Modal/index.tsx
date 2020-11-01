@@ -2,12 +2,12 @@ import React, { HtmlHTMLAttributes, useEffect, useState } from 'react';
 
 import { createPortal } from 'react-dom';
 
-import { Button } from '../Button';
-import { Card } from '../Card';
-import { Column } from '../Column';
-import { Row } from '../Row';
-import { SizedBox } from '../SizedBox';
-import { Text } from '../Text';
+import { Button } from '../UiKit/Button';
+import { Card } from '../UiKit/Card';
+import { Column } from '../UiKit/Column';
+import { Row } from '../UiKit/Row';
+import { SizedBox } from '../UiKit/SizedBox';
+import { Text } from '../UiKit/Text';
 import { Styles, IModalProps } from './styles';
 
 const modalRoot = document.getElementById('modal-portal');

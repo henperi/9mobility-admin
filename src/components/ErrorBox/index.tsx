@@ -1,6 +1,6 @@
 import React from 'react';
+import { Text } from '../UiKit/Text';
 import { Styles } from './styles';
-import { Text } from '../Text';
 
 export const ErrorBox: React.FC<
   {
