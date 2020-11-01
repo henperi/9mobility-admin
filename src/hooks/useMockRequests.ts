@@ -195,7 +195,7 @@ export function usePostMock<T>(url: string, payload?: any, mockResult?: T) {
  *
  * @returns the lazy [method] to call
  */
-export function usePut<T>(url: string, payload?: any, mockResult?: T) {
+export function usePutMock<T>(url: string, payload?: any, mockResult?: T) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<T>();
   const [errorResponse, setErrorResponse] = useState<{

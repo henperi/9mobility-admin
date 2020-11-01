@@ -6,6 +6,14 @@ import { Style } from './styles';
 import { ReactComponent as ArrowComponent } from '../../../assets/images/arrowDown.svg';
 import { Colors } from '../../../themes/colors';
 
+export const ArrowIcon = styled(ArrowComponent)<{
+  angle?: number;
+  color?: string;
+}>`
+  transform: ${({ angle }) => `rotate(${angle}deg)`};
+  color: ${(props) => props.color || Colors.darkGreen};
+`;
+
 const Arrow = styled(ArrowComponent)<{
   angle?: number;
 }>`

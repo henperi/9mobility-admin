@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { Column } from '../../components/UiKit/Column';
 import { SizedBox } from '../../components/UiKit/SizedBox';
 import { Row } from '../../components/UiKit/Row';
@@ -12,11 +12,10 @@ import { TextField } from '../../components/UiKit/TextField';
 import { emptyError, IError } from './interface';
 import { Modal } from '../../components/UiKit/Modal';
 import { ErrorBox } from '../../components/UiKit/ErrorBox';
-import { usePost } from '../../hooks/useRequests';
 import { useGlobalStore } from '../../store';
 import { logger } from '../../utils/logger';
 import { getFieldError } from '../../utils/formikHelper';
-import { removeAuthUser } from '../../store/modules/auth/actions';
+import { usePut } from '../../hooks/useRequests';
 
 export const ChangePassword = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -27,15 +26,15 @@ export const ChangePassword = () => {
     state: {
       auth: { user },
     },
-    dispatch,
+    // dispatch,
   } = useGlobalStore();
 
-  const history = useHistory();
+  // const history = useHistory();
 
   const [
-    updateProfile,
-    { error: updateProfileError, loading: updating },
-  ] = usePost<Response>(
+    updatePassword,
+    { error: updatePasswordError, loading: updating },
+  ] = usePut<Response>(
     `Mobility.OnboardingBackOffice/api/Admins/ChangeMyPassword`,
   );
 
@@ -71,15 +70,15 @@ export const ChangePassword = () => {
 
   const handlePasswordChange = async () => {
     try {
-      const response = await updateProfile({
+      const response = await updatePassword({
         ...formik.values,
-        id: user?.userId,
+        userId: user?.userId,
       });
       if (response.data) {
         setShowConfirmationModal(false);
         setShowSuccessModal(true);
         formik.resetForm();
-        dispatch(removeAuthUser());
+        // dispatch(removeAuthUser());
       }
     } catch (errorResp) {
       logger.log(errorResp);
@@ -87,10 +86,10 @@ export const ChangePassword = () => {
   };
 
   useEffect(() => {
-    if (updateProfileError) {
-      setUpdateError(updateProfileError);
+    if (updatePasswordError) {
+      setUpdateError(updatePasswordError);
     }
-  }, [updateProfileError]);
+  }, [updatePasswordError]);
 
   const UpdateError = updateError?.message && (
     <ErrorBox>{updateError?.message}</ErrorBox>
@@ -118,7 +117,7 @@ export const ChangePassword = () => {
           <Row useAppMargin>
             <Column xs={6} useAppMargin>
               <Button
-                onClick={handlePasswordChange}
+                onClick={() => handlePasswordChange()}
                 isLoading={updating}
                 fullWidth
               >
@@ -144,16 +143,16 @@ export const ChangePassword = () => {
 
       <Modal
         isVisible={showSuccessModal}
-        onClose={() => history.push('/login')}
+        // onClose={() => history.push('/login')}
         size="sm"
       >
         <SizedBox height={15} />
         <Column>
           <Text>Hi {user?.name},</Text>
           <SizedBox height={15} />
-          <Text>Your profile was updated successfully</Text>
+          <Text>Your password was changed successfully</Text>
           <SizedBox height={10} />
-          <Button onClick={() => history.push('/login')} fullWidth>
+          <Button onClick={() => setShowSuccessModal(false)} fullWidth>
             Done
           </Button>
         </Column>

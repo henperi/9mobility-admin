@@ -17,6 +17,7 @@ import { logger } from '../../utils/logger';
 import { Modal } from '../../components/UiKit/Modal';
 import { ErrorBox } from '../../components/UiKit/ErrorBox';
 import { getFieldError } from '../../utils/formikHelper';
+import { Spinner } from '../../components/UiKit/Spinner';
 
 export const UpdateProfile = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -53,7 +54,7 @@ export const UpdateProfile = () => {
       lastName: Yup.string().required('This field is required'),
       firstName: Yup.string().required('This field is required'),
     }),
-    onSubmit: (values) => {
+    onSubmit: () => {
       setShowConfirmationModal(true);
     },
   });
@@ -166,55 +167,59 @@ export const UpdateProfile = () => {
         <SizedBox height={10} />
       </Column>
       <Column xs={12} md={8} lg={6}>
-        <Card style={{ padding: '2rem' }} fullWidth>
-          <form onSubmit={formik.handleSubmit}>
-            <Row wrap alignItems="center">
-              <Avatar
-                style={{
-                  width: '100px',
-                  height: '100px',
-                  marginRight: '1rem',
-                }}
+        <Card style={{ padding: '2rem', minHeight: '300px' }} fullWidth>
+          {loadingProfile ? (
+            <Spinner isFixed withLogo />
+          ) : (
+            <form onSubmit={formik.handleSubmit}>
+              <Row wrap alignItems="center">
+                <Avatar
+                  style={{
+                    width: '100px',
+                    height: '100px',
+                    marginRight: '1rem',
+                  }}
+                />
+                <div>
+                  <Button>Change Image</Button>
+                </div>
+              </Row>
+              <SizedBox height={20} />
+              <TextField
+                label="First Name"
+                placeholder="Enter your first name"
+                {...formik.getFieldProps('firstName')}
+                type="text"
+                error={getFieldError(
+                  formik.errors.firstName,
+                  formik.touched.firstName,
+                )}
+                disabled={loadingProfile}
               />
-              <div>
-                <Button>Change Image</Button>
-              </div>
-            </Row>
-            <SizedBox height={20} />
-            <TextField
-              label="First Name"
-              placeholder="Enter your first name"
-              {...formik.getFieldProps('firstName')}
-              type="text"
-              error={getFieldError(
-                formik.errors.firstName,
-                formik.touched.firstName,
-              )}
-              disabled={loadingProfile}
-            />
-            <TextField
-              label="Last Name"
-              placeholder="Enter your last name"
-              {...formik.getFieldProps('lastName')}
-              type="text"
-              error={getFieldError(
-                formik.errors.lastName,
-                formik.touched.lastName,
-              )}
-              disabled={loadingProfile}
-            />
-            {/* <TextField
+              <TextField
+                label="Last Name"
+                placeholder="Enter your last name"
+                {...formik.getFieldProps('lastName')}
+                type="text"
+                error={getFieldError(
+                  formik.errors.lastName,
+                  formik.touched.lastName,
+                )}
+                disabled={loadingProfile}
+              />
+              {/* <TextField
         label="Email address"
         placeholder="Enter your email address"
         readOnly
       /> */}
 
-            <Row justifyContent="flex-end">
-              <Button type="submit" disabled={loadingProfile}>
-                Update Profile
-              </Button>
-            </Row>
-          </form>
+              <Row justifyContent="flex-end">
+                <Button type="submit" disabled={loadingProfile}>
+                  Update Profile
+                </Button>
+              </Row>
+            </form>
+          )}
         </Card>
       </Column>
       {renderModals()}
