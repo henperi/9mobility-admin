@@ -120,7 +120,7 @@ export const CustomerPage = () => {
 
   return (
     <>
-      <TopBar name="Users" />
+      <TopBar name="Customers" />
       <PageBody>
         <Row useAppMargin justifyContent="space-between">
           <Column fullHeight useAppMargin xs={12} md={6}>
@@ -131,7 +131,7 @@ export const CustomerPage = () => {
                 </Button>
               </Column>
               <Column useAppMargin xs={8} md={8}>
-                <TextField placeholder="Search Users" />
+                <TextField placeholder="Search Customers" />
               </Column>
             </Row>
           </Column>
