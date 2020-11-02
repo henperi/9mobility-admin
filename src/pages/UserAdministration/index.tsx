@@ -38,7 +38,8 @@ export const UserAdministration = () => {
           'S/N': `${i + 1}.`,
           Name: `${r.firstName} ${r.lastName}`,
           email: r.email,
-          lastLogin: (
+          lastLogin: r.lastLoginDate || '',
+          status: (
             <Text
               style={{
                 background: r.isActive
@@ -54,8 +55,7 @@ export const UserAdministration = () => {
               {r.isActive ? 'Enabled' : 'Disabled'}
             </Text>
           ),
-          acctID: r.mobileNumber,
-          type: r.mobileNumber,
+          role: r.roleId,
           action: (
             <Button link color={Colors.darkGreen} key={generateShortId()}>
               View

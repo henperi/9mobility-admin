@@ -15,7 +15,6 @@ import { generateShortId } from '../../utils/generateShortId';
 import { Colors } from '../../themes/colors';
 import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
 import { rem } from '../../utils/rem';
-import { ReactComponent as UserImg } from '../../assets/images/users-admin-user.svg';
 import { ToggleSwitch } from '../../components/UiKit/ToggleSwitch';
 import { Button } from '../../components/UiKit/Button';
 import { useFetch } from '../../hooks/useRequests';
@@ -24,6 +23,7 @@ import { Pagination } from '../../components/UiKit/Pagination';
 import { TextField } from '../../components/UiKit/TextField';
 import { paginationLimits } from '../../utils/paginationLimits';
 import { ReactComponent as PasswordResetIcon } from '../../assets/images/password-reset-icon.svg';
+import { Avatar } from '../../components/UiKit/Avatar';
 
 export const UserDetails = () => {
   const [blockUser, setBlockUser] = useState(false);
@@ -86,11 +86,24 @@ export const UserDetails = () => {
         <Row childGap={10}>
           <Column lg={8} md={12}>
             <Card fullWidth style={{ padding: '3%' }}>
-              <Row>
-                <Column xs={12} md={2}>
-                  <UserImg />
+              <Row childGap={10}>
+                <Column xs={12} md={2} alignItems="center">
+                  <Avatar
+                    style={{
+                      borderRadius: `${rem(5)}`,
+                      width: '100%',
+                      height: 'auto',
+                      background: 'none',
+                    }}
+                    image="https://png.pngitem.com/pimgs/s/421-4212341_default-avatar-svg-hd-png-download.png"
+                  />
                 </Column>
-                <Column xs={12} md={10}>
+                <Column
+                  xs={12}
+                  md={10}
+                  style={{ flex: '1' }}
+                  alignItems="center"
+                >
                   <Text>
                     {data?.result?.firstName}&nbsp;{data?.result?.lastName}
                   </Text>

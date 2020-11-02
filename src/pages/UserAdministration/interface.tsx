@@ -7,29 +7,21 @@ export interface IUser {
     totalNumberOfPages: number;
     totalNumberOfRecords: number;
     nextPageUrl: string;
-    prevPageUrl: string;
+    prevPageUrl: null;
     results: [
       {
+        backOfficeUserRoleDetailModels: null;
+        isActive: true;
+        lastLoginDate: null;
         id: number;
         username: string;
         email: string;
         mobileNumber: string;
-        lastName: string;
+        lastName: null;
         firstName: string;
         dateOfBirth: string;
-        photoUrl: string;
+        photoUrl: null;
         roleId: number;
-        backOfficeUserRoleDetailModels: [
-          {
-            userId1: number;
-            roleId: number;
-            id: number;
-            roleName: string;
-            userName: string;
-            isActive: boolean;
-          },
-        ];
-        isActive: boolean;
       },
     ];
   };
