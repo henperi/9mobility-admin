@@ -22,7 +22,7 @@ import { ISingleUser, IUserLogins } from './interface';
 import { Pagination } from '../../components/UiKit/Pagination';
 import { TextField } from '../../components/UiKit/TextField';
 import { paginationLimits } from '../../utils/paginationLimits';
-import { ReactComponent as PasswordResetIcon } from '../../assets/images/password-reset-icon.svg';
+// import { ReactComponent as PasswordResetIcon } from '../../assets/images/password-reset-icon.svg';
 import { Avatar } from '../../components/UiKit/Avatar';
 
 export const UserDetails = () => {
@@ -189,7 +189,7 @@ export const UserDetails = () => {
                 </Column>
               </Column>
               <SizedBox height={5} />
-              <Column
+              {/* <Column
                 style={{
                   backgroundColor: `${convertHexToRGBA(Colors.grey, 0.2)}`,
                   padding: rem(15),
@@ -212,7 +212,7 @@ export const UserDetails = () => {
                   <Text> Reset Password</Text>
                 </Row>
               </Column>
-              <SizedBox height={5} />
+              <SizedBox height={5} /> */}
               <Column
                 style={{
                   backgroundColor: `${convertHexToRGBA(Colors.grey, 0.2)}`,
