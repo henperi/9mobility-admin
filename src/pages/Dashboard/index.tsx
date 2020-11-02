@@ -112,7 +112,7 @@ export const DashboardPage = () => {
                   fullHeight
                   style={{
                     height: '56px',
-                    backgroundColor: '#EFF2FE',
+                    background: '#FEF8EF',
                     borderRadius: '1rem',
                   }}
                   justifyContent="center"
@@ -139,7 +139,7 @@ export const DashboardPage = () => {
                   fullHeight
                   style={{
                     height: '56px',
-                    backgroundColor: '#EFF2FE',
+                    backgroundColor: '#FFF2F3',
                     borderRadius: '1rem',
                   }}
                   justifyContent="center"
@@ -193,7 +193,7 @@ export const DashboardPage = () => {
                   fullHeight
                   style={{
                     height: '56px',
-                    backgroundColor: '#EFF2FE',
+                    backgroundColor: '#FFF2F3',
                     borderRadius: '1rem',
                   }}
                   justifyContent="center"
@@ -220,7 +220,7 @@ export const DashboardPage = () => {
                   fullHeight
                   style={{
                     height: '56px',
-                    backgroundColor: '#EFF2FE',
+                    backgroundColor: '#EDEDED',
                     borderRadius: '1rem',
                   }}
                   justifyContent="center"
@@ -247,7 +247,7 @@ export const DashboardPage = () => {
                   fullHeight
                   style={{
                     height: '56px',
-                    backgroundColor: '#EFF2FE',
+                    backgroundColor: '#F0F3CD',
                     borderRadius: '1rem',
                   }}
                   justifyContent="center"

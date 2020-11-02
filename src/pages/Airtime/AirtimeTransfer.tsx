@@ -34,7 +34,7 @@ export const AirtimeTransfer = () => {
           'S/N': i + 1,
           sourceMobile: r.sourceMobileNumber,
           destination: r.recipientMobileNumber,
-          // amount: r.amount,
+          amount: `NGN${r.amount}`,
           status: r.transactionStatusName,
           type: 'Airtime',
           date: DateTime.fromISO(r.createdDate, {
@@ -87,7 +87,7 @@ export const AirtimeTransfer = () => {
                 'S//N',
                 'Source MSSIDN',
                 'Destination',
-                // 'Amount',
+                'Amount',
                 'Status',
                 'Transfer type',
                 'Transaction date',

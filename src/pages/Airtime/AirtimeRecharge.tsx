@@ -37,11 +37,11 @@ export const AirtimeRechargePage = () => {
           'S/N': i + 1,
           mobile: r.mobileNumber,
           channel: r?.channel || '',
-          // amount: r.amount,
+          amount: r.voucherPIN,
           status: r.transactionStatusName,
           date: DateTime.fromISO(r.createdDate, {
-            locale: 'fr',
-          }).toLocaleString(),
+            locale: 'ng',
+          }).toLocaleString(DateTime.DATETIME_MED),
         }),
       );
 
@@ -92,7 +92,7 @@ export const AirtimeRechargePage = () => {
                 'S/N',
                 'Account ID',
                 'Channel',
-                // 'Amount',
+                'Amount',
                 'Status',
                 'Transaction date',
               ]}
