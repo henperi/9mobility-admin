@@ -16,6 +16,8 @@ import { useFetch } from '../../hooks/useRequests';
 import { Pagination } from '../../components/UiKit/Pagination';
 import { paginationLimits } from '../../utils/paginationLimits';
 import { exportToExcel } from '../../utils/exportToExcel';
+import { Drawer } from '../../components/RightDrawer';
+import { Text } from '../../components/UiKit/Text';
 
 export const AirtimeTransfer = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -26,6 +28,13 @@ export const AirtimeTransfer = () => {
   );
 
   const [purchases, setPurchases] = useState<(string | number)[][]>();
+
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [onRowClick, setOnRowClick] = useState<(() => void)[] | (() => void)>();
+
+  const [drawerData, setDrawerData] = useState<
+    IAirtimeTransfer['result']['results'][0]
+  >();
 
   useEffect(() => {
     if (data?.result.results.length) {
@@ -44,12 +53,58 @@ export const AirtimeTransfer = () => {
       );
 
       setPurchases(result);
+
+      const methods = data.result.results.map((r, i) => () => {
+        setShowDrawer(true);
+        setDrawerData(r);
+      });
+
+      setOnRowClick(methods);
     }
   }, [data?.result.results]);
 
   return (
     <>
       <TopBar name="Airtime Transfer" />
+
+      <Drawer showDrawer={showDrawer} setShowDrawer={setShowDrawer}>
+        {drawerData && (
+          <>
+            <Text>Airtime Transfer Details</Text>
+            <SizedBox height={70} />
+            <Row useAppMargin>
+              <Column useAppMargin xs={6} style={{ marginBottom: '40px' }}>
+                <Text color="#8181A5" size={14} variant="lighter">
+                  Account ID
+                </Text>
+                <Text>{drawerData.recipientMobileNumber}</Text>
+              </Column>
+              <Column useAppMargin xs={6} style={{ marginBottom: '40px' }}>
+                <Text color="#8181A5" size={14} variant="lighter">
+                  Transaction Amount
+                </Text>
+                <Text>{`NGN${drawerData.amount}`}</Text>
+              </Column>
+              <Column useAppMargin xs={6} style={{ marginBottom: '40px' }}>
+                <Text color="#8181A5" size={14} variant="lighter">
+                  Status
+                </Text>
+                <Text>{drawerData.transactionStatusName}</Text>
+              </Column>
+              <Column useAppMargin xs={6} style={{ marginBottom: '40px' }}>
+                <Text color="#8181A5" size={14} variant="lighter">
+                  Transaction Date
+                </Text>
+                <Text>
+                  {DateTime.fromISO(drawerData.createdDate, {
+                    locale: 'ng',
+                  }).toLocaleString(DateTime.DATETIME_MED)}
+                </Text>
+              </Column>
+            </Row>
+          </>
+        )}
+      </Drawer>
       <PageBody>
         <Row useAppMargin justifyContent="space-between">
           <Column fullHeight useAppMargin xs={12} md={6}>
@@ -94,6 +149,7 @@ export const AirtimeTransfer = () => {
               ]}
               data={purchases}
               loading={loading}
+              onRowClick={onRowClick}
             />
             <SizedBox height={20} />
 
