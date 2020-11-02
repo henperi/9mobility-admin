@@ -91,7 +91,7 @@ export const PaymentHistory = () => {
           <Card style={{ padding: '1.5rem' }} fullWidth>
             <SimpleTable
               columns={[
-                'S//N',
+                'S/N',
                 'Transaction Type',
                 'Account ID',
                 'Channel',

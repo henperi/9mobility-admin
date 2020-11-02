@@ -17,6 +17,7 @@ import { Pagination } from '../../components/UiKit/Pagination';
 import { paginationLimits } from '../../utils/paginationLimits';
 import { exportToExcel } from '../../utils/exportToExcel';
 import { Drawer } from '../../components/RightDrawer';
+import { Text } from '../../components/UiKit/Text';
 
 export const AirtimeRechargePage = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -29,6 +30,10 @@ export const AirtimeRechargePage = () => {
 
   const [showDrawer, setShowDrawer] = useState(false);
   const [onRowClick, setOnRowClick] = useState<(() => void)[] | (() => void)>();
+
+  const [drawerData, setDrawerData] = useState<
+    IAirtimePurchase['result']['results'][0]
+  >();
 
   useEffect(() => {
     if (data?.result.results.length) {
@@ -47,9 +52,10 @@ export const AirtimeRechargePage = () => {
 
       setPurchases(result);
 
-      const methods = data.result.results.map((r, i) => () =>
-        setShowDrawer(true),
-      );
+      const methods = data.result.results.map((r, i) => () => {
+        setShowDrawer(true);
+        setDrawerData(r);
+      });
 
       setOnRowClick(methods);
     }
@@ -58,7 +64,45 @@ export const AirtimeRechargePage = () => {
   return (
     <>
       <TopBar name="Airtime Purchase" />
-      <Drawer showDrawer={showDrawer} setShowDrawer={setShowDrawer} />
+      <Drawer showDrawer={showDrawer} setShowDrawer={setShowDrawer}>
+        {drawerData && (
+          <>
+            <Text>Airtime Purchase details</Text>
+            <SizedBox height={70} />
+            <Row useAppMargin>
+              <Column useAppMargin xs={6} style={{ marginBottom: '40px' }}>
+                <Text color="#8181A5" size={14} variant="lighter">
+                  Account ID
+                </Text>
+                <Text>{drawerData.mobileNumber}</Text>
+              </Column>
+              <Column useAppMargin xs={6} style={{ marginBottom: '40px' }}>
+                <Text color="#8181A5" size={14} variant="lighter">
+                  Transaction Amount
+                </Text>
+                <Text>{drawerData.voucherPIN}</Text>
+              </Column>
+              <Column useAppMargin xs={6} style={{ marginBottom: '40px' }}>
+                <Text color="#8181A5" size={14} variant="lighter">
+                  Status
+                </Text>
+                <Text>{drawerData.transactionStatusName}</Text>
+              </Column>
+              <Column useAppMargin xs={6} style={{ marginBottom: '40px' }}>
+                <Text color="#8181A5" size={14} variant="lighter">
+                  Transaction Date
+                </Text>
+                <Text>
+                  {DateTime.fromISO(drawerData.createdDate, {
+                    locale: 'ng',
+                  }).toLocaleString(DateTime.DATETIME_MED)}
+                </Text>
+              </Column>
+            </Row>
+          </>
+        )}
+      </Drawer>
+
       <PageBody>
         <Row useAppMargin justifyContent="space-between">
           <Column fullHeight useAppMargin xs={12} md={6}>
