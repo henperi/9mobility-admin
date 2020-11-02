@@ -36,7 +36,7 @@ export const DataPurchase = () => {
           channel: r?.channel || '',
           amount: r.amount,
           status: r.transactionStatusName,
-          purchaseType: '',
+          // purchaseType: '',
           date: DateTime.fromISO(r.createdDate, {
             locale: 'fr',
           }).toLocaleString(),
@@ -89,7 +89,7 @@ export const DataPurchase = () => {
                 'Channel',
                 'Amount',
                 'Status',
-                'Purchase Type',
+                // 'Purchase Type',
                 'Transaction date',
               ]}
               data={dataPurchase}

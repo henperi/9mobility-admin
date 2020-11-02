@@ -16,6 +16,7 @@ import { useFetch } from '../../hooks/useRequests';
 import { Pagination } from '../../components/UiKit/Pagination';
 import { paginationLimits } from '../../utils/paginationLimits';
 import { exportToExcel } from '../../utils/exportToExcel';
+import { Drawer } from '../../components/RightDrawer';
 
 export const AirtimeRechargePage = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -26,6 +27,9 @@ export const AirtimeRechargePage = () => {
 
   const [purchases, setPurchases] = useState<(string | number)[][]>();
 
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [onRowClick, setOnRowClick] = useState<(() => void)[] | (() => void)>();
+
   useEffect(() => {
     if (data?.result.results.length) {
       const result = data.result.results.map((r, i) =>
@@ -33,7 +37,7 @@ export const AirtimeRechargePage = () => {
           'S/N': i + 1,
           mobile: r.mobileNumber,
           channel: r?.channel || '',
-          amount: r.amount,
+          // amount: r.amount,
           status: r.transactionStatusName,
           date: DateTime.fromISO(r.createdDate, {
             locale: 'fr',
@@ -42,12 +46,19 @@ export const AirtimeRechargePage = () => {
       );
 
       setPurchases(result);
+
+      const methods = data.result.results.map((r, i) => () =>
+        setShowDrawer(true),
+      );
+
+      setOnRowClick(methods);
     }
   }, [data?.result]);
 
   return (
     <>
       <TopBar name="Airtime Purchase" />
+      <Drawer showDrawer={showDrawer} setShowDrawer={setShowDrawer} />
       <PageBody>
         <Row useAppMargin justifyContent="space-between">
           <Column fullHeight useAppMargin xs={12} md={6}>
@@ -81,12 +92,13 @@ export const AirtimeRechargePage = () => {
                 'S/N',
                 'Account ID',
                 'Channel',
-                'Amount',
+                // 'Amount',
                 'Status',
                 'Transaction date',
               ]}
               data={purchases}
               loading={loading}
+              onRowClick={onRowClick}
             />
 
             <SizedBox height={20} />
