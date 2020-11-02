@@ -15,7 +15,7 @@ import { ErrorBox } from '../../components/UiKit/ErrorBox';
 import { useGlobalStore } from '../../store';
 import { logger } from '../../utils/logger';
 import { getFieldError } from '../../utils/formikHelper';
-import { usePut } from '../../hooks/useRequests';
+import { usePost } from '../../hooks/useRequests';
 
 export const ChangePassword = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -34,7 +34,7 @@ export const ChangePassword = () => {
   const [
     updatePassword,
     { error: updatePasswordError, loading: updating },
-  ] = usePut<Response>(
+  ] = usePost<Response>(
     `Mobility.OnboardingBackOffice/api/Admins/ChangeMyPassword`,
   );
 
