@@ -75,3 +75,14 @@ export interface IUserLogins {
     ];
   };
 }
+
+export interface IRole {
+  result: [
+    {
+      id: number;
+      name: string;
+    },
+  ];
+  responseCode: number;
+  message: string;
+}
