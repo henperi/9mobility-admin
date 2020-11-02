@@ -1,7 +1,6 @@
 import React, { HtmlHTMLAttributes } from 'react';
 
 import { Styles } from './style';
-import { Column } from '../UiKit/Column';
 import { Button } from '../UiKit/Button';
 
 interface IDrawer extends HtmlHTMLAttributes<HTMLDivElement> {

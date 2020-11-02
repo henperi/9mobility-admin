@@ -66,10 +66,12 @@ export const CustomerPage = () => {
                 <Avatar />
               </Column>
               <Column useAppMargin xs={12} md={10}>
-                <Text color={Colors.darkGreen}>
+                <Text color={Colors.darkGreen} size={14} weight={700}>
                   {r.firstName} {r.lastName}
                 </Text>
-                <Text>{r.email}</Text>
+                <Text color="#8181A5" size={14}>
+                  {r.email}
+                </Text>
               </Column>
             </Row>
           ),

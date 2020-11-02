@@ -88,7 +88,7 @@ export const DataTransfer = () => {
                 'S//N',
                 'Source MSSIDN',
                 'Destination',
-                'Amount',
+                'Amount(MB)',
                 'Status',
                 'Transfer type',
                 'Transaction date',
