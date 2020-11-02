@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Column } from '../../components/UiKit/Column';
@@ -171,7 +171,7 @@ export const UpdateProfile = () => {
           {loadingProfile ? (
             <Spinner isFixed withLogo />
           ) : (
-            <form onSubmit={formik.handleSubmit}>
+            <Fragment>
               <Row wrap alignItems="center">
                 <Avatar
                   style={{
@@ -185,40 +185,42 @@ export const UpdateProfile = () => {
                 </div>
               </Row>
               <SizedBox height={20} />
-              <TextField
-                label="First Name"
-                placeholder="Enter your first name"
-                {...formik.getFieldProps('firstName')}
-                type="text"
-                error={getFieldError(
-                  formik.errors.firstName,
-                  formik.touched.firstName,
-                )}
-                disabled={loadingProfile}
-              />
-              <TextField
-                label="Last Name"
-                placeholder="Enter your last name"
-                {...formik.getFieldProps('lastName')}
-                type="text"
-                error={getFieldError(
-                  formik.errors.lastName,
-                  formik.touched.lastName,
-                )}
-                disabled={loadingProfile}
-              />
-              {/* <TextField
+              <form onSubmit={formik.handleSubmit}>
+                <TextField
+                  label="First Name"
+                  placeholder="Enter your first name"
+                  {...formik.getFieldProps('firstName')}
+                  type="text"
+                  error={getFieldError(
+                    formik.errors.firstName,
+                    formik.touched.firstName,
+                  )}
+                  disabled={loadingProfile}
+                />
+                <TextField
+                  label="Last Name"
+                  placeholder="Enter your last name"
+                  {...formik.getFieldProps('lastName')}
+                  type="text"
+                  error={getFieldError(
+                    formik.errors.lastName,
+                    formik.touched.lastName,
+                  )}
+                  disabled={loadingProfile}
+                />
+                {/* <TextField
         label="Email address"
         placeholder="Enter your email address"
         readOnly
       /> */}
 
-              <Row justifyContent="flex-end">
-                <Button type="submit" disabled={loadingProfile}>
-                  Update Profile
-                </Button>
-              </Row>
-            </form>
+                <Row justifyContent="flex-end">
+                  <Button type="submit" disabled={loadingProfile}>
+                    Update Profile
+                  </Button>
+                </Row>
+              </form>
+            </Fragment>
           )}
         </Card>
       </Column>
