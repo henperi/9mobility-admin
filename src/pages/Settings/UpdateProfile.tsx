@@ -18,11 +18,19 @@ import { Modal } from '../../components/UiKit/Modal';
 import { ErrorBox } from '../../components/UiKit/ErrorBox';
 import { getFieldError } from '../../utils/formikHelper';
 import { Spinner } from '../../components/UiKit/Spinner';
+import { Colors } from '../../themes/colors';
+
+interface SuccessResp {
+  responseCode: number;
+  message: string;
+}
 
 export const UpdateProfile = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [updateError, setUpdateError] = useState<IError>(emptyError);
+  const [fileError, setFileError] = useState<string>('');
+  const [selectedFile, setSelectedFile] = useState<File>(new File([''], ''));
 
   const {
     state: {
@@ -44,6 +52,10 @@ export const UpdateProfile = () => {
   ] = usePost<Response>(
     `Mobility.OnboardingBackOffice/api/Admins/UpdateProfile/`,
   );
+
+  const [uploadImage, { loading: uploading, data: uploadData }] = usePost<
+    SuccessResp
+  >('Mobility.OnboardingBackOffice/api/Admins/UploadProfileImage');
 
   const formik = useFormik({
     initialValues: {
@@ -89,6 +101,65 @@ export const UpdateProfile = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
+
+  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+
+  const handleClick = () => {
+    if (hiddenFileInput.current !== null) {
+      hiddenFileInput && hiddenFileInput.current.click();
+    }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files instanceof FileList) {
+      if (isFileImage(event.target.files[0])) {
+        const file = event.target.files[0];
+        const fileSize = parseFloat(`${file.size / (1024 * 1024)}`).toFixed(2);
+
+        if (Number(fileSize) > 1) {
+          setFileError('Please select image size less than 1 MB');
+        } else {
+          setFileError('');
+          logger.log('file to upload: ', file);
+
+          setSelectedFile(file);
+        }
+      } else {
+        setFileError('Please select a valid JPEG or PNG file');
+      }
+    } else {
+      setFileError('invalid file selected');
+    }
+  };
+
+  useEffect(() => {
+    if (selectedFile.name !== '') {
+      (async () => {
+        const data = new FormData();
+        data.append('ProfileImage', selectedFile);
+        data.append('Email', user?.email || '');
+        data.append('Id', String(user?.userId) || '');
+        logger.log('data is: ', data);
+        try {
+          const response = await uploadImage(data);
+          if (response.data) {
+            setSelectedFile(new File([''], ''));
+            setFileError('');
+          }
+        } catch (errorResp) {
+          setFileError(errorResp);
+        }
+      })();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFile]);
+
+  const isFileImage = (file: File) => {
+    const acceptedImageTypes = ['image/jpeg', 'image/png'];
+
+    return file && acceptedImageTypes.includes(file.type);
+  };
 
   const UpdateError = updateError?.message && (
     <ErrorBox>{updateError?.message}</ErrorBox>
@@ -172,18 +243,46 @@ export const UpdateProfile = () => {
             <Spinner isFixed withLogo />
           ) : (
             <Fragment>
-              <Row wrap alignItems="center">
+              {uploadData?.responseCode === 0 ? (
+                <Text color={Colors.darkGreen} alignment="center">
+                  Image uploaded successfully
+                </Text>
+              ) : null}
+
+              <Row wrap alignItems="center" childGap={10}>
                 <Avatar
                   style={{
                     width: '100px',
                     height: '100px',
                     marginRight: '1rem',
                   }}
+                  onClick={handleClick}
                 />
-                <div>
-                  <Button>Change Image</Button>
-                </div>
+                <Button disabled={uploading} onClick={handleClick}>
+                  Change Image
+                </Button>
+                <Column justifyContent="flex-start" style={{ flex: '1' }}>
+                  {uploading && <Spinner size={20} />}
+                </Column>
               </Row>
+              <input
+                type="file"
+                ref={hiddenFileInput}
+                onChange={handleChange}
+                style={{ display: 'none' }}
+              />
+
+              {fileError && (
+                <ErrorBox
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'red',
+                  }}
+                >
+                  {fileError}
+                </ErrorBox>
+              )}
               <SizedBox height={20} />
               <form onSubmit={formik.handleSubmit}>
                 <TextField
