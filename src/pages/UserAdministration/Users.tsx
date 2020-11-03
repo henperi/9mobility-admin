@@ -18,15 +18,26 @@ import { Colors } from '../../themes/colors';
 import { Avatar } from '../../components/UiKit/Avatar';
 import { rem } from '../../utils/rem';
 
-export const Users = () => {
+interface IUsers {
+  newUserSuccess: boolean;
+  setShowDrawer: any;
+}
+
+export const Users: React.FC<IUsers> = ({ newUserSuccess, setShowDrawer }) => {
   const history = useHistory();
 
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(25);
 
-  const { data, loading } = useFetch<IUser>(
+  const { data, loading, refetch } = useFetch<IUser>(
     `Mobility.OnboardingBackOffice/api/Admins/GetUsers?pageNumber=${pageNumber}&pageSize=${pageSize}`,
   );
+
+  useEffect(() => {
+    if (newUserSuccess) {
+      refetch();
+    }
+  }, [newUserSuccess, refetch]);
 
   const [users, setUsers] = useState<(string | number | JSX.Element)[][]>();
 
@@ -36,9 +47,13 @@ export const Users = () => {
         Object.values({
           'S/N': `${i + 1}.`,
           Name: (
-            <Row alignItems="center" childGap={10}>
+            <Row
+              alignItems="center"
+              style={{ minWidth: rem(200) }}
+              childGap={10}
+            >
               <Avatar
-                style={{ width: rem(50), height: 'auto' }}
+                style={{ width: rem(50), height: rem(50) }}
                 image={r.photoUrl}
               />
               <Text style={{ flex: '1' }}>
@@ -101,7 +116,9 @@ export const Users = () => {
           </Row>
         </Column>
         <Column xs={12} md={4} lg={2} justifyContent="flex-end">
-          <Button fullWidth>New User</Button>
+          <Button fullWidth onClick={() => setShowDrawer(true)}>
+            New User
+          </Button>
         </Column>
       </Row>
       <SizedBox height={24} />

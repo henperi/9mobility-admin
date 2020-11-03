@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Row } from '../../components/UiKit/Row';
 import { Button } from '../../components/UiKit/Button';
@@ -13,12 +13,32 @@ import { IRole } from './interface';
 import { generateShortId } from '../../utils/generateShortId';
 import { Colors } from '../../themes/colors';
 
-export const Roles = () => {
+interface IRoles {
+  newRoleSuccess: boolean;
+  setShowRoleDrawer: any;
+  setShowViewRoleDrawer: any;
+  setRoleToEdit?: any;
+  setRoleToView?: any;
+}
+
+export const Roles: FC<IRoles> = ({
+  newRoleSuccess,
+  setShowRoleDrawer,
+  setRoleToEdit,
+  setRoleToView,
+  setShowViewRoleDrawer,
+}) => {
   const history = useHistory();
 
-  const { data, loading } = useFetch<IRole>(
+  const { data, loading, refetch } = useFetch<IRole>(
     `Mobility.OnboardingBackOffice/api/Roles/GetNameAndIds`,
   );
+
+  useEffect(() => {
+    if (newRoleSuccess) {
+      refetch();
+    }
+  }, [newRoleSuccess, refetch]);
 
   const [roles, setRoles] = useState<(string | number | JSX.Element)[][]>();
 
@@ -30,11 +50,27 @@ export const Roles = () => {
           Name: <Column justifyContent="flex-start">{r.name}</Column>,
           action: (
             <Row justifyContent="flex-end" childGap={10}>
-              <Button link color={Colors.darkGreen} key={generateShortId()}>
+              <Button
+                onClick={() => {
+                  setRoleToView(r);
+                  setShowViewRoleDrawer(true);
+                }}
+                link
+                color={Colors.darkGreen}
+                key={generateShortId()}
+              >
                 View
               </Button>
 
-              <Button link color={Colors.darkGreen} key={generateShortId()}>
+              <Button
+                onClick={() => {
+                  setRoleToEdit(r);
+                  setShowRoleDrawer(true);
+                }}
+                link
+                color={Colors.darkGreen}
+                key={generateShortId()}
+              >
                 Edit
               </Button>
             </Row>
@@ -43,16 +79,17 @@ export const Roles = () => {
       );
 
       setRoles(result);
-
-      const methods = data.result.map((r, i) => () =>
-        history.push(`user-administration/${r.id}`),
-      );
-
-      setOnRowClick(methods);
     }
-  }, [data?.result, history]);
+  }, [
+    data?.result,
+    history,
+    setRoleToEdit,
+    setRoleToView,
+    setShowRoleDrawer,
+    setShowViewRoleDrawer,
+  ]);
 
-  const [onRowClick, setOnRowClick] = useState<(() => void)[] | (() => void)>();
+  const [onRowClick] = useState<(() => void)[] | (() => void)>();
 
   return (
     <React.Fragment>
@@ -70,7 +107,9 @@ export const Roles = () => {
           </Row>
         </Column>
         <Column xs={12} md={4} lg={2} justifyContent="flex-end">
-          <Button fullWidth>New Role</Button>
+          <Button fullWidth onClick={() => setShowRoleDrawer(true)}>
+            New Role
+          </Button>
         </Column>
       </Row>
       <SizedBox height={24} />
@@ -79,6 +118,7 @@ export const Roles = () => {
         <Card style={{ padding: '1.5rem' }} fullWidth>
           <SimpleTable
             scrollable
+            style={{ display: 'inline-table' }}
             columns={[
               'S//N',
               'Name',
