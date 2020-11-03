@@ -230,7 +230,7 @@ export const NewUser: React.FC<DProps> = ({
           error={getFieldError(formik.errors.username, formik.touched.username)}
         />
         <TextField
-          label="email"
+          label="Email"
           placeholder="Enter email"
           {...formik.getFieldProps('email')}
           type="email"
@@ -305,8 +305,9 @@ export const NewUser: React.FC<DProps> = ({
             formik.touched.confirmPassword,
           )}
         />
+        <SizedBox height={40} />
         <Row justifyContent="flex-end">
-          <Button>Update Password</Button>
+          <Button>Invite User</Button>
         </Row>
       </form>
       {renderModals()}

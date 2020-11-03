@@ -47,8 +47,8 @@ export const AirtimeTransfer = () => {
           status: r.transactionStatusName,
           type: 'Airtime',
           date: DateTime.fromISO(r.createdDate, {
-            locale: 'fr',
-          }).toLocaleString(),
+            locale: 'ng',
+          }).toLocaleString(DateTime.DATETIME_MED),
         }),
       );
 

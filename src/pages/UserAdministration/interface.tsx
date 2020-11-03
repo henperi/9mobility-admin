@@ -39,6 +39,7 @@ export interface ISingleUser {
     dateOfBirth: string;
     photoUrl: string;
     roleId: number;
+    lastLoginDate: string;
     backOfficeUserRoleDetailModels: [
       {
         userId1: number;
