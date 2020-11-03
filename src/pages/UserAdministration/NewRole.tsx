@@ -79,6 +79,8 @@ export const NewRole: React.FC<RProps> = ({
   useEffect(() => {
     if (roleToEdit) {
       formik.setFieldValue('name', roleToEdit.name);
+    } else {
+      formik.setFieldValue('name', '');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleToEdit]);
@@ -198,7 +200,6 @@ export const NewRole: React.FC<RProps> = ({
   return (
     <Drawer showDrawer={showRoleDrawer} setShowDrawer={setShowRoleDrawer}>
       <Text weight={600}>{roleToEdit ? 'Update' : 'New'} Role</Text>
-
       <form onSubmit={formik.handleSubmit}>
         <TextField
           label="name"
