@@ -67,7 +67,6 @@ export const UserDetails = () => {
 
   useEffect(() => {
     if (data) {
-      logger.log('here: ', data.result.isActive);
       setActiveUser(data.result.isActive);
     }
   }, [data]);
