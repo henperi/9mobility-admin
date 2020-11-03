@@ -17,16 +17,18 @@ import { convertHexToRGBA } from '../../utils/convertHexToRGBA';
 import { rem } from '../../utils/rem';
 import { ToggleSwitch } from '../../components/UiKit/ToggleSwitch';
 import { Button } from '../../components/UiKit/Button';
-import { useFetch } from '../../hooks/useRequests';
+import { useFetch, usePost } from '../../hooks/useRequests';
 import { ISingleUser, IUserLogins } from './interface';
 import { Pagination } from '../../components/UiKit/Pagination';
 import { TextField } from '../../components/UiKit/TextField';
 import { paginationLimits } from '../../utils/paginationLimits';
 // import { ReactComponent as PasswordResetIcon } from '../../assets/images/password-reset-icon.svg';
 import { Avatar } from '../../components/UiKit/Avatar';
+import { Spinner } from '../../components/UiKit/Spinner';
+import { logger } from '../../utils/logger';
 
 export const UserDetails = () => {
-  const [blockUser, setBlockUser] = useState(false);
+  const [activeUser, setActiveUser] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(25);
 
@@ -36,6 +38,10 @@ export const UserDetails = () => {
     `Mobility.OnboardingBackOffice/api/Admins/GetUser?id=${id}`,
   );
 
+  const [toggleUserStatus, { loading: toggling }] = usePost<ISingleUser>(
+    `Mobility.OnboardingBackOffice/api/Admins/ToggleActive?id=${id}`,
+  );
+
   const { data: loginData, loading: loginLoading } = useFetch<IUserLogins>(
     `Mobility.OnboardingBackOffice/api/Admins/GetBackOfficeUserLogins?userId=${id}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
   );
@@ -43,6 +49,27 @@ export const UserDetails = () => {
   const [activities, setActivities] = useState<
     (string | number | JSX.Element)[][]
   >();
+
+  const processToggle = async () => {
+    try {
+      const response = await toggleUserStatus();
+      if (response.data) {
+        if (response?.data?.result?.isActive) {
+          setActiveUser(true);
+        } else {
+          setActiveUser(false);
+        }
+      }
+    } catch (errorResp) {
+      logger.log(errorResp);
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      setActiveUser(data.result.isActive);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (loginData?.result) {
@@ -109,9 +136,7 @@ export const UserDetails = () => {
                   </Text>
                   <Text color={Colors.blackGrey}>{data?.result?.email}</Text>
                   <SizedBox height={20} />
-                  <Text color={Colors.blackGrey}>
-                    Last login: Aug 19, 2019. 18:45Pm
-                  </Text>
+                  <Text color={Colors.blackGrey}>Last login:</Text>
                 </Column>
               </Row>
             </Card>
@@ -223,9 +248,12 @@ export const UserDetails = () => {
                   <Text>Block User</Text>
                   <ToggleSwitch
                     id="block_User"
-                    onChange={() => setBlockUser(!blockUser)}
-                    checked={blockUser}
+                    onChange={processToggle}
+                    checked={activeUser}
                   />
+                </Row>
+                <Row justifyContent="center">
+                  {toggling && <Spinner size={20} />}
                 </Row>
               </Column>
             </Card>
