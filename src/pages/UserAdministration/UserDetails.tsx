@@ -53,13 +53,11 @@ export const UserDetails = () => {
 
   const processToggle = async () => {
     try {
+      if (toggling) return;
+
       const response = await toggleUserStatus();
       if (response.data) {
-        if (response?.data?.result?.isActive) {
-          setActiveUser(true);
-        } else {
-          setActiveUser(false);
-        }
+        setActiveUser((prev) => !prev);
       }
     } catch (errorResp) {
       logger.log(errorResp);
@@ -259,7 +257,7 @@ export const UserDetails = () => {
                   <ToggleSwitch
                     id="block_User"
                     onChange={processToggle}
-                    checked={activeUser}
+                    checked={!activeUser}
                   />
                 </Row>
                 <Row justifyContent="center">
