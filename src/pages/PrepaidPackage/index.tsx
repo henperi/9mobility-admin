@@ -36,9 +36,9 @@ export const PrepaidPackage = () => {
         Object.values({
           planeName: (
             <Row useAppMargin key={generateShortId()} alignItems="center">
-              <Column useAppMargin xs={4} md={2}>
+              {/* <Column useAppMargin xs={4} md={2}>
                 <Card color={Colors.lightBlue} fullWidth />
-              </Column>
+              </Column> */}
               <Column useAppMargin xs={8} md={10}>
                 <Text color={Colors.lightGreen}>{r.name}</Text>
                 <Text>{r.description}</Text>
@@ -48,11 +48,11 @@ export const PrepaidPackage = () => {
           lastUpdated: DateTime.fromMillis(Date.now(), {
             locale: 'fr',
           }).toLocaleString(),
-          view: (
-            <Button size="small" outline key={generateShortId()}>
-              View
-            </Button>
-          ),
+          // view: (
+          //   <Button size="small" outline key={generateShortId()}>
+          //     View
+          //   </Button>
+          // ),
         }),
       );
 
