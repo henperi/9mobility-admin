@@ -90,7 +90,7 @@ export const DropDownStack = styled(StackStyles.Stack)`
 export const DropDownContainer = styled(StackStyles.StackChild)`
   position: absolute;
   top: calc(100%);
-  z-index: 1;
+  z-index: 11;
   height: fit-content;
   background: #ffffff;
   border: 1px solid #efefef;

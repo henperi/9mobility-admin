@@ -184,13 +184,15 @@ export const SideBar: React.FC<ISidebar> = (props) => {
           <SubscribedIcon />
           Postpaid package
         </Styles.SideBarLink> */}
-        <Styles.SideBarLink
-          activeClassName="active-sidebar-link"
-          to="/user-administration"
-        >
-          <UserCogIcon />
-          User administration
-        </Styles.SideBarLink>
+        {auth?.user?.roleName === 'SuperAdmin' && (
+          <Styles.SideBarLink
+            activeClassName="active-sidebar-link"
+            to="/user-administration"
+          >
+            <UserCogIcon />
+            User administration
+          </Styles.SideBarLink>
+        )}
         {/* <Styles.SideBarLink activeClassName="active-sidebar-link" to="/audit">
           <AuditIcon />
           Audit
