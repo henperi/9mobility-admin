@@ -107,7 +107,13 @@ export const Roles: FC<IRoles> = ({
           </Row>
         </Column>
         <Column xs={12} md={4} lg={2} justifyContent="flex-end">
-          <Button fullWidth onClick={() => setShowRoleDrawer(true)}>
+          <Button
+            fullWidth
+            onClick={() => {
+              setShowRoleDrawer(true);
+              setRoleToEdit();
+            }}
+          >
             New Role
           </Button>
         </Column>
