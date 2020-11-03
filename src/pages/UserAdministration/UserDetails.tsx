@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import { FaWallet } from 'react-icons/fa';
 
 import { useRouteMatch } from 'react-router-dom';
+import { DateTime } from 'luxon';
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { Text } from '../../components/UiKit/Text';
@@ -112,33 +113,42 @@ export const UserDetails = () => {
       <PageBody>
         <Row childGap={10}>
           <Column lg={8} md={12}>
-            <Card fullWidth style={{ padding: '3%' }}>
-              <Row childGap={10}>
-                <Column xs={12} md={2} alignItems="center">
-                  <Avatar
-                    style={{
-                      borderRadius: `${rem(5)}`,
-                      width: '100%',
-                      height: 'auto',
-                      background: 'none',
-                    }}
-                    image="https://png.pngitem.com/pimgs/s/421-4212341_default-avatar-svg-hd-png-download.png"
-                  />
-                </Column>
-                <Column
-                  xs={12}
-                  md={10}
-                  style={{ flex: '1' }}
-                  alignItems="center"
-                >
-                  <Text>
-                    {data?.result?.firstName}&nbsp;{data?.result?.lastName}
-                  </Text>
-                  <Text color={Colors.blackGrey}>{data?.result?.email}</Text>
-                  <SizedBox height={20} />
-                  <Text color={Colors.blackGrey}>Last login:</Text>
-                </Column>
-              </Row>
+            <Card fullWidth style={{ padding: '3%', minHeight: '100px' }}>
+              {data?.result ? (
+                <Row childGap={10}>
+                  <Column xs={12} md={2} alignItems="center">
+                    <Avatar
+                      style={{
+                        borderRadius: `${rem(5)}`,
+                        width: '100%',
+                        height: 'auto',
+                        background: 'none',
+                      }}
+                      image="https://png.pngitem.com/pimgs/s/421-4212341_default-avatar-svg-hd-png-download.png"
+                    />
+                  </Column>
+                  <Column
+                    xs={12}
+                    md={10}
+                    style={{ flex: '1' }}
+                    alignItems="center"
+                  >
+                    <Text>
+                      {data?.result?.firstName}&nbsp;{data?.result?.lastName}
+                    </Text>
+                    <Text color={Colors.blackGrey}>{data?.result?.email}</Text>
+                    <SizedBox height={20} />
+                    <Text color={Colors.blackGrey}>
+                      Last login:{' '}
+                      {DateTime.fromISO(
+                        data.result.lastLoginDate,
+                      ).toLocaleString(DateTime.DATETIME_MED)}
+                    </Text>
+                  </Column>
+                </Row>
+              ) : (
+                <Spinner isFixed />
+              )}
             </Card>
 
             <SizedBox height={20} />
@@ -200,7 +210,7 @@ export const UserDetails = () => {
               >
                 <Row justifyContent="space-between">
                   <Text>Details</Text>
-                  <Text>Edit</Text>
+                  {/* <Text>Edit</Text> */}
                 </Row>
                 <SizedBox height={20} />
                 <Column>

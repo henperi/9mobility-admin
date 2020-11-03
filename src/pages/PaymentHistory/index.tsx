@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+// import { DateTime } from 'luxon';
 import { Card } from '../../components/UiKit/Card';
 import { PageBody } from '../../components/UiKit/PageBody';
 import { Column } from '../../components/UiKit/Column';
@@ -44,8 +45,11 @@ export const PaymentHistory = () => {
           status: r.status,
           date: (
             <div>
-              {r.dateCreated}{' '}
-              <span style={{ whiteSpace: 'nowrap' }}>{r.timeCreated}</span>
+              {/* {DateTime.fromRFC2822(r.dateCreated).toLocaleString(
+                DateTime.DATE_MED,
+              )}{' '} */}
+              {`${r.dateCreated} `}
+              <span style={{ whiteSpace: 'nowrap' }}>at {r.timeCreated}</span>
             </div>
           ),
         }),

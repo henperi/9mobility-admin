@@ -63,7 +63,7 @@ export const AirtimeRechargePage = () => {
 
   return (
     <>
-      <TopBar name="Airtime Purchase" />
+      <TopBar name="Airtime Recharge" />
       <Drawer showDrawer={showDrawer} setShowDrawer={setShowDrawer}>
         {drawerData && (
           <>
@@ -78,7 +78,8 @@ export const AirtimeRechargePage = () => {
               </Column>
               <Column useAppMargin xs={6} style={{ marginBottom: '40px' }}>
                 <Text color="#8181A5" size={14} variant="lighter">
-                  Transaction Amount
+                  {/* Transaction Amount */}
+                  Voucher
                 </Text>
                 <Text>{drawerData.voucherPIN}</Text>
               </Column>
@@ -136,7 +137,7 @@ export const AirtimeRechargePage = () => {
                 'S/N',
                 'Account ID',
                 'Channel',
-                'Amount',
+                /* 'Amount' */ 'Voucher',
                 'Status',
                 'Transaction date',
               ]}

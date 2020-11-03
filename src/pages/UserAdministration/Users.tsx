@@ -76,7 +76,7 @@ export const Users: React.FC<IUsers> = ({ newUserSuccess, setShowDrawer }) => {
               weight="bold"
               color={r.isActive ? Colors.darkGreen : '#6A0000'}
             >
-              {r.isActive ? 'Enabled' : 'Disabled'}
+              {r.isActive ? 'Active' : 'Disabled'}
             </Text>
           ),
           role: r.roleId,
@@ -128,7 +128,7 @@ export const Users: React.FC<IUsers> = ({ newUserSuccess, setShowDrawer }) => {
           <SimpleTable
             scrollable
             columns={[
-              'S//N',
+              'S/N',
               'Name',
               'Email',
               'Last Login',

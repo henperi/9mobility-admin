@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Colors } from '../../themes/colors';
+import { ScreenSizes } from '../UiKit/Column/styles';
 
 const Drawer = styled.div<{ showDrawer?: boolean }>`
   height: 100vh;
@@ -18,6 +19,21 @@ const Drawer = styled.div<{ showDrawer?: boolean }>`
     showDrawer ? `translateX(0px)` : `translateX(424px)`};
 
   transition: transform 600ms ease-in-out;
+
+  @media (max-width: ${ScreenSizes.sm - 0.1}px) {
+    max-width: 90%;
+    min-width: 90%;
+    /* transform: ${({ showDrawer }) =>
+      showDrawer ? `translateX(0px)` : `translateX(300px)`}; */
+  }
+
+  @media (min-width: ${ScreenSizes.sm}px) and (max-width: ${ScreenSizes.md -
+    0.1}px) {
+    max-width: 350px;
+    min-width: 350px;
+    transform: ${({ showDrawer }) =>
+      showDrawer ? `translateX(0px)` : `translateX(350px)`};
+  }
 
   .x-close {
     all: unset;
